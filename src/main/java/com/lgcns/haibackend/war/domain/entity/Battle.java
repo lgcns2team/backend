@@ -15,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,9 +49,9 @@ public class Battle {
 
     private LocalDate battleDate;
 
-    @OneToMany(mappedBy = "battle", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<BattleRoute> battleRoutes = new ArrayList<>();
+    // 이동 경로 (지도에서 사용할 좌표)
+    @Column(name = "markerRoute", columnDefinition = "jsonb")
+    private String markerRoute;
 
     // 전쟁 FK
     @ManyToOne(fetch = FetchType.LAZY)

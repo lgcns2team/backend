@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,12 +57,12 @@ public class War {
     @JsonManagedReference
     private List<Battle> battles = new ArrayList<>();
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "attackCountryId", nullable = false)
-    // private Country attackCountry;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attackCountryId", nullable = false)
+    private CountryEntity attackCountry;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "defenceCountryId", nullable = false)
-    // private Country defenceCountry;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "defenceCountryId", nullable = false)
+    private CountryEntity defenceCountry;
 
 }
