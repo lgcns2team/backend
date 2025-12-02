@@ -3,7 +3,7 @@ package com.lgcns.haibackend.country.ctrl.domain.entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.lgcns.haibackend.war.domain.entity.War;
+import com.lgcns.haibackend.war.domain.entity.WarEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -32,11 +32,15 @@ public class CountryEntity {
 
     @OneToMany(mappedBy = "attackCountry", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<War> attackWars;
+    private List<WarEntity> attackWars;
 
     @OneToMany(mappedBy = "defenceCountry", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<War> defenceWars;
+    private List<WarEntity> defenceWars;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<KingEntity> kings;
 
     // public CountryEntity(String countryName, Double longitude, Double latitude, Integer foundationYear) {
     //     this.countryName = countryName;

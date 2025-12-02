@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,7 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,39 +29,35 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-// @ToString(exclude = {"attackCountry", "defenceCountry"})
-@ToString
-
-public class War {
-    
+@ToString(exclude = "war")
+@Table(name = "battle")
+public class BattleEntity {
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "warId")
+    @Column(name = "battleId")
     private Long id;
 
-    private String name;
+    private String battleName;
 
     @Column(columnDefinition = "TEXT")
     private String details;
 
-    private LocalDate warStartDate;
-    private LocalDate warEndDate;
+    private Double latitude;
+    private Double longitude;
 
-    private String result;
+    private String winnerGeneral;
+    private String loserGeneral;
 
-    @Column(columnDefinition = "TEXT")
-    private String summary;
+    private LocalDate battleDate;
 
-    @OneToMany(mappedBy = "war", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Battle> battles = new ArrayList<>();
+    // 이동 경로 (지도에서 사용할 좌표)
+    @Column(name = "markerRoute", columnDefinition = "jsonb")
+    private String markerRoute;
 
+    // 전쟁 FK
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attackCountryId", nullable = false)
-    private CountryEntity attackCountry;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "defenceCountryId", nullable = false)
-    private CountryEntity defenceCountry;
+    @JoinColumn(name = "war_id", nullable = false)
+    private WarEntity war;
 
 }
