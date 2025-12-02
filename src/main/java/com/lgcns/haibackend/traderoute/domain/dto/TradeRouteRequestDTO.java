@@ -22,7 +22,6 @@ public class TradeRouteRequestDTO {
     public TradeRouteEntity toEntity(TradeEntity trade) {
         return TradeRouteEntity.builder()
             .trade(trade)
-            .tags(this.tags)
             .path(convertPathToJson(path))
             .build();
     }

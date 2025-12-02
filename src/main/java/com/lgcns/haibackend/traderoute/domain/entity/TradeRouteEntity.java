@@ -30,8 +30,6 @@ public class TradeRouteEntity {
     @JoinColumn(name = "trade_id")
     private TradeEntity trade;
 
-    private Integer tags; // 0=육상, 1=해상
-
     @Column(columnDefinition = "jsonb")
     private String path; // db에는 json 문자열로 저장
 }

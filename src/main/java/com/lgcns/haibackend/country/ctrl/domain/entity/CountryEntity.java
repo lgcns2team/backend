@@ -2,6 +2,9 @@ package com.lgcns.haibackend.country.ctrl.domain.entity;
 
 import java.util.List;
 
+import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
+import com.lgcns.haibackend.mainevent.domain.entity.MainEventEntity;
+import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lgcns.haibackend.war.domain.entity.WarEntity;
 
@@ -30,6 +33,18 @@ public class CountryEntity {
     private Integer foundationYear;
     private Integer endedYear;
 
+    @OneToMany(mappedBy = "country", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<CapitalEntity> capitals;
+
+    @OneToMany(mappedBy = "country", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<MainEventEntity> events;
+
+    @OneToMany(mappedBy = "startCountry", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<TradeEntity> startTrades;
+  
+    @OneToMany(mappedBy = "endCountry", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<TradeEntity> endTrades;
+    
     @OneToMany(mappedBy = "attackCountry", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<WarEntity> attackWars;
@@ -41,29 +56,5 @@ public class CountryEntity {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<KingEntity> kings;
-
-    // public CountryEntity(String countryName, Double longitude, Double latitude, Integer foundationYear) {
-    //     this.countryName = countryName;
-    //     this.longitude = longitude;
-    //     this.latitude = latitude;
-    //     this.foundationYear = foundationYear;
-    // }
-
-    // getter
-    // public Long getCountryId() {
-    //     return countryId;
-    // }
-    // public String getCountryName() {
-    //     return countryName;
-    // }
-    // public Double getLongitude() {
-    //     return longitude;
-    // }
-    // public Double getLatitude() {
-    //     return latitude;
-    // }
-    // public Integer getFoundationYear() {
-    //     return foundationYear;
-    // }
 
 }
