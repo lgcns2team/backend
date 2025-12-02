@@ -17,5 +17,5 @@ public class HaibackendApplication {
         );
         SpringApplication.run(HaibackendApplication.class, args);
     }
-
 }
+
