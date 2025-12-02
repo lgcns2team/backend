@@ -25,13 +25,9 @@ dependencies {
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'org.postgresql:postgresql'
-	
-	// lombok
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
-	// com.vladmihalcea:hibernate-types-52 for JSON mapping
-	//implementation 'com.vladmihalcea:hibernate-types-52:2.21.1'
-	//implementation 'com.vladmihalcea:hibernate-types-60:2.21.1'
-
 }
 
 tasks.named('test') {
