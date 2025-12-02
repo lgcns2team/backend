@@ -5,6 +5,8 @@ import java.util.List;
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.mainevent.domain.entity.MainEventEntity;
 import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.lgcns.haibackend.war.domain.entity.WarEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -39,7 +41,20 @@ public class CountryEntity {
 
     @OneToMany(mappedBy = "startCountry", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<TradeEntity> startTrades;
-
+  
     @OneToMany(mappedBy = "endCountry", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<TradeEntity> endTrades;
+    
+    @OneToMany(mappedBy = "attackCountry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<WarEntity> attackWars;
+
+    @OneToMany(mappedBy = "defenceCountry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<WarEntity> defenceWars;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<KingEntity> kings;
+
 }
