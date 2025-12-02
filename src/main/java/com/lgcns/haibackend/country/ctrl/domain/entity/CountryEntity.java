@@ -1,7 +1,14 @@
 package com.lgcns.haibackend.country.ctrl.domain.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.lgcns.haibackend.war.domain.entity.War;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +29,14 @@ public class CountryEntity {
     private String countryName;
     private Integer foundationYear;
     private Integer endedYear;
+
+    @OneToMany(mappedBy = "attackCountry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<War> attackWars;
+
+    @OneToMany(mappedBy = "defenceCountry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<War> defenceWars;
 
     // public CountryEntity(String countryName, Double longitude, Double latitude, Integer foundationYear) {
     //     this.countryName = countryName;
