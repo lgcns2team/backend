@@ -1,6 +1,4 @@
-package com.lgcns.haibackend.capital.domain.entity;
-
-import java.util.Date;
+package com.lgcns.haibackend.mainevent.domain.entity;
 
 import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
 
@@ -10,23 +8,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(name = "Capital")
-public class CapitalEntity {
+@Table(name = "mainEvent")
+@Getter
+@Setter
+@Builder
+public class MainEventEntity {
     
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long capitalId;
+    private Long eventId;
 
-    private String capitalName;
-    private Date startedDate;
-    private Date endedDate;
+    private Integer year;
+    private String era;
+    private String description;
 
-    // 국가 fk 매핑
     @ManyToOne
     @JoinColumn(name = "country_id")
     private CountryEntity country;
-
 
 }

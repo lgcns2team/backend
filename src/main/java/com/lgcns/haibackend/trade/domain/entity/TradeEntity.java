@@ -1,13 +1,18 @@
 package com.lgcns.haibackend.trade.domain.entity;
 
-import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
+import java.util.List;
 
+import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
+import com.lgcns.haibackend.traderoute.domain.entity.TradeRouteEntity;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,13 +35,16 @@ public class TradeEntity {
 
     @ManyToOne
     @JoinColumn(name = "start_country_id")
-    private CountryEntity startCountryId;
+    private CountryEntity startCountry;
 
     @ManyToOne
     @JoinColumn(name = "end_country_id")
-    private CountryEntity endCountryId;
+    private CountryEntity endCountry;
 
     private Integer tradeYear;
     private String product;
+
+    @OneToMany(mappedBy = "trade", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<TradeRouteEntity> routes;
     
 }

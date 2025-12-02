@@ -26,8 +26,8 @@ public class TradeRequestDTO {
         CountryEntity end = new CountryEntity();
         end.setCountryId(endCountryId);
 
-        trade.setStartCountryId(start);
-        trade.setEndCountryId(end);
+        trade.setStartCountry(start);
+        trade.setEndCountry(end);
         trade.setTradeYear(tradeYear);
         trade.setProduct(product);
 

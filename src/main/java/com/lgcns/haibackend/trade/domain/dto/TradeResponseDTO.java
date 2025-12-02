@@ -19,8 +19,8 @@ public class TradeResponseDTO {
     public static TradeResponseDTO fromEntity(TradeEntity trade) {
         return TradeResponseDTO.builder()
             .tradeId(trade.getTradeId())
-            .startCountryId(trade.getStartCountryId().getCountryId())
-            .endCountryId(trade.getEndCountryId().getCountryId())
+            .startCountryId(trade.getStartCountry().getCountryId())
+            .endCountryId(trade.getEndCountry().getCountryId())
             .tradeYear(trade.getTradeYear())
             .product(trade.getProduct())
             .build();

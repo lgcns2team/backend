@@ -17,14 +17,12 @@ public class TradeRouteResponseDTO {
     
     private Long routeId;
     private Long tradeId;
-    private Integer tags; // 0=육상, 1=해상
     private List<MarkerDTO> path; 
 
     public static TradeRouteResponseDTO fromEntity(TradeRouteEntity entity) {
         return new TradeRouteResponseDTO(
             entity.getRouteId(),
             entity.getTrade().getTradeId(),
-            entity.getTags(),
             fromJson(entity.getPath())
         );
     }
