@@ -2,3 +2,9 @@
 
 ALTER TABLE country
     ALTER COLUMN country_id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE war
+    ALTER COLUMN war_id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE battle
+    ALTER COLUMN battle_id SET DEFAULT gen_random_uuid();
