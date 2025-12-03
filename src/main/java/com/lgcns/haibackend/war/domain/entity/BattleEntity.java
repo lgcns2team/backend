@@ -31,7 +31,7 @@ public class BattleEntity {
    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "battle_id")
+    @Column(updatable = false, nullable = false)
     private UUID battleId;
 
     private String battleName;

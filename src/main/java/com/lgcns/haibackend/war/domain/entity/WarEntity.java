@@ -41,7 +41,7 @@ public class WarEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "war_id")
+    @Column(updatable = false, nullable = false)
     private UUID warId;
 
     @Column(nullable = false)
