@@ -1,4 +1,4 @@
-package com.lgcns.haibackend.country.ctrl.domain.entity;
+package com.lgcns.haibackend.country.domain.entity;
 
 import java.util.List;
 
