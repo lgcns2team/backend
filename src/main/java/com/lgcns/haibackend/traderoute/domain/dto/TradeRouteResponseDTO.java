@@ -1,6 +1,7 @@
 package com.lgcns.haibackend.traderoute.domain.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,8 +16,8 @@ import lombok.Setter;
 @Builder
 public class TradeRouteResponseDTO {
     
-    private Long routeId;
-    private Long tradeId;
+    private UUID routeId;
+    private UUID tradeId;
     private List<MarkerDTO> path; 
 
     public static TradeRouteResponseDTO fromEntity(TradeRouteEntity entity) {

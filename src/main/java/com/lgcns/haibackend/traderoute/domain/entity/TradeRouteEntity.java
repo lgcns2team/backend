@@ -1,5 +1,7 @@
 package com.lgcns.haibackend.traderoute.domain.entity;
 
+import java.util.UUID;
+
 import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
 
 import jakarta.persistence.Column;
@@ -23,8 +25,9 @@ import lombok.Setter;
 public class TradeRouteEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long routeId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID routeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trade_id")

@@ -1,11 +1,13 @@
 package com.lgcns.haibackend.trade.domain.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.traderoute.domain.entity.TradeRouteEntity;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,8 +32,9 @@ import lombok.Setter;
 public class TradeEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tradeId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID tradeId;
 
     @ManyToOne
     @JoinColumn(name = "start_country_id")

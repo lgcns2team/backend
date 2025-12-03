@@ -1,6 +1,7 @@
 package com.lgcns.haibackend.country.domain.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.mainevent.domain.entity.MainEventEntity;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lgcns.haibackend.war.domain.entity.WarEntity;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -26,8 +28,9 @@ import jakarta.persistence.GenerationType;
 public class CountryEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto incerment
-    private Long countryId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID countryId;
 
     private String countryName;
     private Integer foundationYear;

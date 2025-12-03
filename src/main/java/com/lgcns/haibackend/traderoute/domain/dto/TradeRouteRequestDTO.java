@@ -1,6 +1,7 @@
 package com.lgcns.haibackend.traderoute.domain.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Builder
 public class TradeRouteRequestDTO {
     
-    private Long tradeId;
+    private UUID tradeId;
     private Integer tags; // 0=육상, 1=해상
     private List<MarkerDTO> path; // marker + route 구조
 
