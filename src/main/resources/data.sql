@@ -1,3 +1,6 @@
+-- 초기 데이터 추가 시 schema.sql에서 id 기본값 설정 필요
+
+-- 국가 초기 데이터
 INSERT INTO country (country_name, foundation_year, ended_year) VALUES
     -- 한국사 주요 국가 (780년 이전 건국)
     ('통일 신라', 668, 935),
