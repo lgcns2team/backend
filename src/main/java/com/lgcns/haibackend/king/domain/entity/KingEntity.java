@@ -1,12 +1,10 @@
-package com.lgcns.haibackend.capital.domain.entity;
+package com.lgcns.haibackend.king.domain.entity;
 
 import java.util.Date;
 
 import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,22 +15,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "Capital")
-public class CapitalEntity {
+@Table(name = "King")
+public class KingEntity {
     
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long capitalId;
+    private String kingId;
 
-    private String capitalName;
+    private String kingName;
+    private String regnalName;
     private Date startedDate;
     private Date endedDate;
-    
-    private Double longitude;
-    private Double latitude;
-    
-    @Column(length = 1000)
-    private String description;
 
     // 국가 fk 매핑
     @ManyToOne
