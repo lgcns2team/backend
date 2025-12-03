@@ -5,16 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +35,7 @@ import lombok.ToString;
 // @ToString(exclude = {"attackCountry", "defenceCountry"})
 @ToString
 
+@Table(name = "war")
 public class WarEntity {
     
     @Id
@@ -38,6 +43,7 @@ public class WarEntity {
     @Column(name = "warId")
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @Column(columnDefinition = "TEXT")
@@ -55,12 +61,12 @@ public class WarEntity {
     @JsonManagedReference
     private List<BattleEntity> battles = new ArrayList<>();
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "attackCountryId", nullable = false)
-    // private Country attackCountry;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attack_country_id", nullable = false)
+    private CountryEntity attackCountry;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "defenceCountryId", nullable = false)
-    // private Country defenceCountry;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "defence_country_id", nullable = false)
+    private CountryEntity defenceCountry;
 
 }
