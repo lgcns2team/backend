@@ -120,7 +120,7 @@ INSERT INTO war (
 -- 전투 초기 데이터
 INSERT INTO battle (
     battle_name, details, latitude, longitude,
-    winner_general, loser_general, battle_date, war_id
+    winner_general, loser_general, battle_date, war_id, markerRoute
 ) VALUES
 -- 1 공산 전투
 ('공산 전투',
@@ -128,7 +128,8 @@ INSERT INTO battle (
  35.98, 128.69,
  '견훤', '왕건',
  DATE '0927-11-01',
- (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁')
+ (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁'),
+ NULL
 ),
 
 -- 2 고창 전투
@@ -137,7 +138,8 @@ INSERT INTO battle (
  36.5683, 128.7297,
  '왕건', '견훤',
  DATE '0930-01-01',
- (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁')
+ (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁'),
+ NULL
 ),
 
 -- 3 일리천 전투
@@ -146,7 +148,8 @@ INSERT INTO battle (
  36.22, 128.36,
  '왕건', '신검',
  DATE '0936-09-01',
- (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁')
+ (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁'),
+ NULL
 ),
 
 -- 4 안융진 전투 (서희 담판)
@@ -155,7 +158,8 @@ INSERT INTO battle (
  39.61, 125.66,
  '서희', '소손녕',
  DATE '0993-10-01',
- (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)')
+ (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)'),
+ NULL
 ),
 
 -- 5 흥화진 전투
@@ -164,7 +168,8 @@ INSERT INTO battle (
  40.19, 124.53,
  '양규', '야율융서',
  DATE '1010-11-16',
- (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)')
+ (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)'),
+ NULL
 ),
 
 -- 6 귀주 대첩
@@ -173,7 +178,8 @@ INSERT INTO battle (
  39.97, 125.24,
  '강감찬', '소배압',
  DATE '1019-02-01',
- (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)')
+ (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)'),
+ NULL
 ),
 
 -- 7 여진 정벌 (석성)
@@ -182,7 +188,8 @@ INSERT INTO battle (
  40.25, 127.5,
  '윤관', '여진족',
  DATE '1107-12-01',
- (SELECT war_id FROM war WHERE name = '여진 정벌')
+ (SELECT war_id FROM war WHERE name = '여진 정벌'),
+ NULL
 ),
 
 -- 8 귀주성 전투
@@ -191,7 +198,8 @@ INSERT INTO battle (
  39.97, 125.24,
  '박서', '살리타',
  DATE '1231-09-01',
- (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)'),
+ NULL
 ),
 
 -- 9 처인성 전투
@@ -200,7 +208,8 @@ INSERT INTO battle (
  37.15, 127.2,
  '김윤후', '살리타',
  DATE '1232-12-16',
- (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)'),
+ NULL
 ),
 
 -- 10 죽주성 전투
@@ -209,7 +218,8 @@ INSERT INTO battle (
  37.08, 127.42,
  '송문주', '몽골 장수',
  DATE '1236-09-01',
- (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)'),
+ NULL
 ),
 
 -- 11 충주성 전투
@@ -218,7 +228,8 @@ INSERT INTO battle (
  36.97, 127.93,
  '김윤후', '몽골 장수',
  DATE '1253-01-01',
- (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)'),
+ NULL
 ),
 
 -- 12 삼별초의 항쟁
@@ -227,7 +238,8 @@ INSERT INTO battle (
  34.48, 126.26,
  '여몽연합군', '배중손',
  DATE '1270-06-01',
- (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)'),
+ NULL
 ),
 
 -- 13 개경 탈환전
@@ -236,7 +248,8 @@ INSERT INTO battle (
  37.96, 126.55,
  '이성계', '사유',
  DATE '1362-01-17',
- (SELECT war_id FROM war WHERE name = '홍건적의 난')
+ (SELECT war_id FROM war WHERE name = '홍건적의 난'),
+ NULL
 ),
 
 -- 14 황산 대첩
@@ -245,7 +258,8 @@ INSERT INTO battle (
  35.45, 127.5,
  '이성계', '아지발도',
  DATE '1380-09-01',
- (SELECT war_id FROM war WHERE name = '여일전쟁(왜구 토벌)')
+ (SELECT war_id FROM war WHERE name = '여일전쟁(왜구 토벌)'),
+ NULL
 ),
 
 -- 15 진포 대첩
@@ -254,5 +268,6 @@ INSERT INTO battle (
  36, 126.7,
  '최무선', '왜구 장수',
  DATE '1380-08-01',
- (SELECT war_id FROM war WHERE name = '여일전쟁(왜구 토벌)')
+ (SELECT war_id FROM war WHERE name = '여일전쟁(왜구 토벌)'),
+ NULL
 );
