@@ -26,6 +26,7 @@ public class TradeRouteEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
     private UUID routeId;
 
     @ManyToOne(fetch = FetchType.LAZY)

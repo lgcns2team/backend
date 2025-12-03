@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +19,8 @@ import jakarta.persistence.Table;
 public class CapitalEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // auto incerment
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
     private UUID capitalId;
 
     private String capitalName;

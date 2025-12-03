@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class MainEventEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
     private UUID eventId;
 
     private String eventName;
