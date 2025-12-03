@@ -29,6 +29,7 @@ INSERT INTO country (country_name, foundation_year, ended_year) VALUES
     ('홍건적', 1350, 1370),
     ('왜구', 1350, 1392);
 
+-- ##################################################
 -- 전쟁 초기 데이터
 -- 후삼국 통일 전쟁 (WAR_TK)
 INSERT INTO war (
@@ -44,7 +45,6 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '고려'),
     (SELECT country_id FROM country WHERE country_name = '후백제')
 );
-
 -- 여요전쟁 (거란 침입, WAR_KH)
 INSERT INTO war (
     name, details, war_start_date, war_end_date, result, summary,
@@ -59,7 +59,6 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '거란(요나라 이전)'),
     (SELECT country_id FROM country WHERE country_name = '고려')
 );
-
 -- 여진 정벌 (WAR_JR)
 INSERT INTO war (
     name, details, war_start_date, war_end_date, result, summary,
@@ -74,7 +73,6 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '고려'),
     (SELECT country_id FROM country WHERE country_name = '여진')
 );
-
 -- 여몽전쟁(대몽항쟁, WAR_MG)
 INSERT INTO war (
     name, details, war_start_date, war_end_date, result, summary,
@@ -89,7 +87,6 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '몽골 제국'),
     (SELECT country_id FROM country WHERE country_name = '고려')
 );
-
 -- 홍건적의 난 (WAR_RB)
 INSERT INTO war (
     name, details, war_start_date, war_end_date, result, summary,
@@ -104,7 +101,6 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '홍건적'),
     (SELECT country_id FROM country WHERE country_name = '고려')
 );
-
 -- 여일전쟁(왜구 토벌, WAR_JP)
 INSERT INTO war (
     name, details, war_start_date, war_end_date, result, summary,
@@ -118,4 +114,145 @@ INSERT INTO war (
     '진포 대첩에서 화포를 사용해 왜선을 격침하고, 황산 대첩 등에서 왜구 주력을 크게 격파하여 해상 방어력을 강화함.',
     (SELECT country_id FROM country WHERE country_name = '왜구'),
     (SELECT country_id FROM country WHERE country_name = '고려')
+);
+
+-- ##################################################
+-- 전투 초기 데이터
+INSERT INTO battle (
+    battle_name, details, latitude, longitude,
+    winner_general, loser_general, battle_date, war_id
+) VALUES
+-- 1 공산 전투
+('공산 전투',
+ '후백제 견훤이 신라를 공격하자 왕건이 구원하러 갔으나 대구 팔공산에서 포위되어 대패함.',
+ 35.98, 128.69,
+ '견훤', '왕건',
+ DATE '0927-11-01',
+ (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁')
+),
+
+-- 2 고창 전투
+('고창 전투',
+ '왕건이 안동(고창)에서 후백제군을 대파하여 후삼국 통일의 주도권을 잡은 결정적 전투.',
+ 36.5683, 128.7297,
+ '왕건', '견훤',
+ DATE '0930-01-01',
+ (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁')
+),
+
+-- 3 일리천 전투
+('일리천 전투',
+ '고려가 구미 선산에서 후백제 신검의 군대를 격파하고 후삼국을 통일한 마지막 전투.',
+ 36.22, 128.36,
+ '왕건', '신검',
+ DATE '0936-09-01',
+ (SELECT war_id FROM war WHERE name = '후삼국 통일 전쟁')
+),
+
+-- 4 안융진 전투 (서희 담판)
+('안융진 전투 (서희 담판)',
+ '거란 소손녕의 침입을 막고 서희가 외교 담판을 벌여 강동 6주를 확보함.',
+ 39.61, 125.66,
+ '서희', '소손녕',
+ DATE '0993-10-01',
+ (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)')
+),
+
+-- 5 흥화진 전투
+('흥화진 전투',
+ '양규가 거란 성종의 40만 대군을 7일간 막아내며 거란군의 남하를 지연시킴.',
+ 40.19, 124.53,
+ '양규', '야율융서',
+ DATE '1010-11-16',
+ (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)')
+),
+
+-- 6 귀주 대첩
+('귀주 대첩',
+ '강감찬이 퇴각하는 소배압의 10만 거란군을 귀주에서 맞이하여 크게 물리침.',
+ 39.97, 125.24,
+ '강감찬', '소배압',
+ DATE '1019-02-01',
+ (SELECT war_id FROM war WHERE name = '여요전쟁(거란 침입)')
+),
+
+-- 7 여진 정벌 (석성)
+('여진 정벌 (석성)',
+ '윤관이 별무반을 이끌고 여진을 정벌하여 동북 9성을 쌓음.',
+ 40.25, 127.5,
+ '윤관', '여진족',
+ DATE '1107-12-01',
+ (SELECT war_id FROM war WHERE name = '여진 정벌')
+),
+
+-- 8 귀주성 전투
+('귀주성 전투',
+ '몽골 1차 침입 당시 박서가 몽골군의 온갖 공격을 막아내고 성을 끝까지 사수함.',
+ 39.97, 125.24,
+ '박서', '살리타',
+ DATE '1231-09-01',
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+),
+
+-- 9 처인성 전투
+('처인성 전투',
+ '승려 김윤후가 처인 부곡민과 함께 몽골군 사령관 살리타를 사살하여 물리침.',
+ 37.15, 127.2,
+ '김윤후', '살리타',
+ DATE '1232-12-16',
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+),
+
+-- 10 죽주성 전투
+('죽주성 전투',
+ '방호별감 송문주가 몽골군의 포 공격과 화공을 막아내고 반격하여 승리함.',
+ 37.08, 127.42,
+ '송문주', '몽골 장수',
+ DATE '1236-09-01',
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+),
+
+-- 11 충주성 전투
+('충주성 전투',
+ '김윤후가 노비 문서를 불태우며 관노비들을 격려하여 몽골군을 격퇴함.',
+ 36.97, 127.93,
+ '김윤후', '몽골 장수',
+ DATE '1253-01-01',
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+),
+
+-- 12 삼별초의 항쟁
+('삼별초의 항쟁',
+ '개경 환도에 반대하여 진도와 제주도로 이동하며 벌인 최후의 항전.',
+ 34.48, 126.26,
+ '여몽연합군', '배중손',
+ DATE '1270-06-01',
+ (SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)')
+),
+
+-- 13 개경 탈환전
+('개경 탈환전',
+ '홍건적에게 점령당한 수도 개경을 이성계, 정세운, 최영 등이 탈환함.',
+ 37.96, 126.55,
+ '이성계', '사유',
+ DATE '1362-01-17',
+ (SELECT war_id FROM war WHERE name = '홍건적의 난')
+),
+
+-- 14 황산 대첩
+('황산 대첩',
+ '이성계가 남원 운봉에서 아지발도가 이끄는 왜구 대군을 섬멸함.',
+ 35.45, 127.5,
+ '이성계', '아지발도',
+ DATE '1380-09-01',
+ (SELECT war_id FROM war WHERE name = '여일전쟁(왜구 토벌)')
+),
+
+-- 15 진포 대첩
+('진포 대첩',
+ '최무선이 화포를 사용하여 왜선 500척을 소각시킴.',
+ 36, 126.7,
+ '최무선', '왜구 장수',
+ DATE '1380-08-01',
+ (SELECT war_id FROM war WHERE name = '여일전쟁(왜구 토벌)')
 );
