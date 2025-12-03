@@ -60,6 +60,7 @@ public class WarEntity {
 
     @OneToMany(mappedBy = "war", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @Builder.Default
     private List<BattleEntity> battles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
