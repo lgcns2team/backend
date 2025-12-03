@@ -1,5 +1,6 @@
 package com.lgcns.haibackend.country.domain.entity;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.UUID;
 
@@ -40,10 +41,10 @@ public class KingEntity {
     private String regnalName; // 연호
 
     @Column(nullable = false)
-    private YearMonth startedDate; // 재위 시작 년, 월
+    private LocalDate startedDate; // 재위 시작 년, 월
 
     @Column(nullable = false)
-    private YearMonth endedDate;   // 재위 종료 년, 월
+    private LocalDate endedDate;   // 재위 종료 년, 월
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = false)

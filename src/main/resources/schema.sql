@@ -8,3 +8,9 @@ ALTER TABLE war
 
 ALTER TABLE battle
     ALTER COLUMN battle_id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE king
+    ALTER COLUMN king_id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE capital
+    ALTER COLUMN capital_id SET DEFAULT gen_random_uuid();
