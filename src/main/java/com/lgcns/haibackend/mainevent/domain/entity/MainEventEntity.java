@@ -1,9 +1,12 @@
 package com.lgcns.haibackend.mainevent.domain.entity;
 
-import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
+import java.util.UUID;
+
+import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,9 +23,10 @@ import lombok.Setter;
 public class MainEventEntity {
     
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long eventId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID eventId;
 
+    private String eventName;
     private Integer year;
     private String era;
     private String description;

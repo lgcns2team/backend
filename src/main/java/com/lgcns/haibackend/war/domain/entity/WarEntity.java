@@ -6,15 +6,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import com.lgcns.haibackend.country.domain.entity.CountryEntity;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,34 +28,39 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "war")
-public class Battle {
-   
+// @ToString(exclude = {"attackCountry", "defenceCountry"})
+@ToString
+
+public class WarEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "battleId")
+    @Column(name = "warId")
     private Long id;
 
-    private String battleName;
+    private String name;
 
     @Column(columnDefinition = "TEXT")
     private String details;
 
-    private Double latitude;
-    private Double longitude;
+    private LocalDate warStartDate;
+    private LocalDate warEndDate;
 
-    private String winnerGeneral;
-    private String loserGeneral;
+    private String result;
 
-    private LocalDate battleDate;
+    @Column(columnDefinition = "TEXT")
+    private String summary;
 
-    @OneToMany(mappedBy = "battle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "war", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<BattleRoute> battleRoutes = new ArrayList<>();
+    private List<BattleEntity> battles = new ArrayList<>();
 
-    // 전쟁 FK
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "warId", nullable = false)
-    private War war;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "attackCountryId", nullable = false)
+    // private Country attackCountry;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "defenceCountryId", nullable = false)
+    // private Country defenceCountry;
 
 }

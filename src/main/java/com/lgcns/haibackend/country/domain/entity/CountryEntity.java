@@ -1,6 +1,9 @@
-package com.lgcns.haibackend.country.ctrl.domain.entity;
+package com.lgcns.haibackend.country.domain.entity;
 
 import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.id.uuid.LocalObjectUuidHelper;
 
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.mainevent.domain.entity.MainEventEntity;
@@ -24,8 +27,8 @@ import jakarta.persistence.GenerationType;
 public class CountryEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto incerment
-    private Long countryId;
+    @GeneratedValue(strategy = GenerationType.UUID) // auto incerment
+    private UUID countryId;
 
     private String countryName;
     private Integer foundationYear;

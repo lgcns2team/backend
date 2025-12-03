@@ -1,5 +1,7 @@
 package com.lgcns.haibackend.trade.domain.dto;
 
+import java.util.UUID;
+
 import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
 
 import lombok.Builder;
@@ -10,9 +12,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class TradeResponseDTO {
-    private Long tradeId;
-    private Long startCountryId;
-    private Long endCountryId;
+    private UUID tradeId;
+    private UUID startCountryId;
+    private UUID endCountryId;
     private Integer tradeYear;
     private String product;
 

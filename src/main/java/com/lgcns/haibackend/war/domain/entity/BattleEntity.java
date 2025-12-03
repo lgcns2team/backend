@@ -9,9 +9,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,39 +29,34 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-// @ToString(exclude = {"attackCountry", "defenceCountry"})
-@ToString
-
-public class War {
-    
+@ToString(exclude = "war")
+public class BattleEntity {
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "warId")
+    @Column(name = "battleId")
     private Long id;
 
-    private String name;
+    private String battleName;
 
     @Column(columnDefinition = "TEXT")
     private String details;
 
-    private LocalDate warStartDate;
-    private LocalDate warEndDate;
+    private Double latitude;
+    private Double longitude;
 
-    private String result;
+    private String winnerGeneral;
+    private String loserGeneral;
 
-    @Column(columnDefinition = "TEXT")
-    private String summary;
+    private LocalDate battleDate;
 
-    @OneToMany(mappedBy = "war", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "battle", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Battle> battles = new ArrayList<>();
+    private List<BattleRoute> battleRoutes = new ArrayList<>();
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "attackCountryId", nullable = false)
-    // private Country attackCountry;
-
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "defenceCountryId", nullable = false)
-    // private Country defenceCountry;
+    // 전쟁 FK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "warId", nullable = false)
+    private WarEntity war;
 
 }
