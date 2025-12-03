@@ -3,6 +3,7 @@ package com.lgcns.haibackend.war.domain.entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
@@ -39,9 +40,9 @@ import lombok.ToString;
 public class WarEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "warId")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "war_id")
+    private UUID warId;
 
     @Column(nullable = false)
     private String name;

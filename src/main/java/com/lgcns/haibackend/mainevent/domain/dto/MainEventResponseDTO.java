@@ -2,8 +2,6 @@ package com.lgcns.haibackend.mainevent.domain.dto;
 
 import java.util.UUID;
 
-import org.jboss.jandex.Main;
-
 import com.lgcns.haibackend.mainevent.domain.entity.MainEventEntity;
 
 import lombok.Builder;

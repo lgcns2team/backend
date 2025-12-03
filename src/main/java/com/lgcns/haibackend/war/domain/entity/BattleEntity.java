@@ -1,6 +1,8 @@
 package com.lgcns.haibackend.war.domain.entity;
 
 import java.time.LocalDate;
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,9 +30,9 @@ import lombok.ToString;
 public class BattleEntity {
    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "battleId")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "battle_id")
+    private UUID battleId;
 
     private String battleName;
 

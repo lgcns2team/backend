@@ -2,3 +2,6 @@
 
 ALTER TABLE country
     ALTER COLUMN country_id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE main_event
+    ALTER COLUMN event_id SET DEFAULT gen_random_uuid();
