@@ -28,6 +28,7 @@ public class MainEventEntity {
     @Column(updatable = false, nullable = false)
     private UUID eventId;
 
+    private String eventName;
     private Integer year;
     private String era;
     private String description;

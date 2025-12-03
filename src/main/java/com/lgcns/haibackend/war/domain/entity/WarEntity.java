@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +35,7 @@ import lombok.ToString;
 @AllArgsConstructor
 // @ToString(exclude = {"attackCountry", "defenceCountry"})
 @ToString
+
 @Table(name = "war")
 public class WarEntity {
     
