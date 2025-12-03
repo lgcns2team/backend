@@ -2,7 +2,7 @@ package com.lgcns.haibackend.capital.domain.entity;
 
 import java.util.Date;
 
-import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
+import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

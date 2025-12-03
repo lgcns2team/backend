@@ -1,6 +1,6 @@
 package com.lgcns.haibackend.trade.domain.dto;
 
-import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
+import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
 
 import lombok.Builder;

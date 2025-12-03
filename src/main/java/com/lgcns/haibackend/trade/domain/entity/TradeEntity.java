@@ -2,7 +2,7 @@ package com.lgcns.haibackend.trade.domain.entity;
 
 import java.util.List;
 
-import com.lgcns.haibackend.country.ctrl.domain.entity.CountryEntity;
+import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.traderoute.domain.entity.TradeRouteEntity;
 
 import jakarta.persistence.CascadeType;
