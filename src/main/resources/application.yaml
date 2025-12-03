@@ -10,8 +10,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-      defer-datasource-initialization: true
+      ddl-auto: create
+    defer-datasource-initialization: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -22,3 +22,9 @@ spring:
     init:
       mode: always
       encoding: utf-8
+
+logging:
+  level:
+    org.springframework.jdbc.datasource.init: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
