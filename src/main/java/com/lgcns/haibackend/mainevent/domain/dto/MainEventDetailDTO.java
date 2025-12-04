@@ -11,31 +11,23 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class MainEventResponseDTO {
-    
+public class MainEventDetailDTO {
+
     private UUID eventId;
     private String eventName;
     private Integer year;
     private String era;
     private String description;
-
-    private UUID countryId;
     private String countryName;
 
-    // entity -> dto
-    public static MainEventResponseDTO fromEntity(MainEventEntity entity) {
-        if (entity == null) return null;
-
-        return MainEventResponseDTO.builder()
+    public static MainEventDetailDTO fromEntity(MainEventEntity entity) {
+        return MainEventDetailDTO.builder()
             .eventId(entity.getEventId())
             .eventName(entity.getEventName())
             .year(entity.getYear())
             .era(entity.getEra())
             .description(entity.getDescription())
-            .countryId(entity.getCountry().getCountryId())
             .countryName(entity.getCountry().getCountryName())
             .build();
     }
-
-    
 }

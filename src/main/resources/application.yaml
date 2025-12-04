@@ -7,6 +7,9 @@ spring:
       timeline-export:
         - default
 
+  server:
+    port: ${SERVER_PORT}
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
