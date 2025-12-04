@@ -16,3 +16,6 @@ ALTER TABLE king
 
 ALTER TABLE capital
     ALTER COLUMN capital_id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE trade
+    ALTER COLUMN trade_id SET DEFAULT gen_random_uuid();

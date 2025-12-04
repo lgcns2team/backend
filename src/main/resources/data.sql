@@ -219,7 +219,7 @@ INSERT INTO war (
 -- 전투 초기 데이터
 INSERT INTO battle (
     battle_name, details, latitude, longitude,
-    winner_general, loser_general, battle_date, war_id, markerRoute
+    winner_general, loser_general, battle_date, war_id, marker_route
 ) VALUES
 -- 1 공산 전투
 ('공산 전투',
@@ -499,4 +499,124 @@ VALUES (
     37.746,
     '몽골 침입 시기 최우가 천도한 임시 수도(1232~1270).',
     (SELECT country_id FROM country WHERE country_name = '고려')
+);
+
+-- ##################################################
+-- 무역 초기 데이터
+INSERT INTO trade (trade_id, start_country_id, end_country_id, trade_year, product)
+VALUES
+/* ========================================================================= */
+/* 1. 통일 신라의 대외 교류 (8세기~10세기 초) */
+/* ========================================================================= */
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    (SELECT country_id FROM country WHERE country_name = '일본'),
+    800,
+    '고급 직물, 유기그릇, 향료(당에서 수입 후 일본에 판매)'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    800,
+    '비단, 향료 (중계 무역을 위한 수입)'
+),
+
+
+-- ------------------------------------------------------------------------
+-- 2. 발해의 대외 교류 (8세기~10세기 초)
+-- ------------------------------------------------------------------------
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    900,
+    '담비·호랑이 가죽, 인삼, 약재 수출'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    900,
+    '각종 비단, 금은그릇 수입'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '일본'),
+    900,
+    '담비 가죽, 인삼 수출'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '일본'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    900,
+    '각종 비단'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    910,
+    '사신 및 문물 교류 (신라도)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    910,
+    '사신 및 문물 교류 (신라도)'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '거란(요나라 이전)'), /* 거란/유목 민족 */
+    900,
+    '모피 교역 (담비 가죽 등)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '거란(요나라 이전)'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    900,
+    '유목 민족 물품 (소그드 은화 등)'
+),
+
+/* ========================================================================= */
+/* 3. 고려의 대외 교류 (10세기~11세기) */
+/* ========================================================================= */
+
+-- 고려 <-> 송 (청자, 서적, 약재 등 문물 교류 활발)
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '송'),
+    1000,
+    '고려청자, 서적, 약재 등 수출'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '송'),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    1000,
+    '비단, 서적, 차 등 수입'
+),
+
+-- 고려 <-> 거란(요나라이전) (강동 6주 확보 후 교류 시작)
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '거란(요나라 이전)'),
+    1020,
+    '사신 왕래 및 물품 교역 (귀주대첩 이후)'
 );
