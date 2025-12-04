@@ -1,0 +1,23 @@
+package com.lgcns.haibackend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import io.github.cdimascio.dotenv.Dotenv;
+
+@SpringBootApplication
+@EnableJpaAuditing
+@EnableCaching
+public class HaibackendApplication {
+
+	public static void main(String[] args) {
+        Dotenv env = Dotenv.configure().ignoreIfMissing().load();
+        env.entries().forEach(entry ->
+            System.setProperty(entry.getKey(), entry.getValue())
+        );
+        SpringApplication.run(HaibackendApplication.class, args);
+    }
+}
+
