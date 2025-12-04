@@ -120,21 +120,36 @@ src/main/java/com/lgcns/haibackend/
 │       └── dto/
 ├── country/
 │   ├── controller/
+│   │   └── CountryController.java
+│   ├── ctrl/
+│   │   ├── CountryController.java
+│   │   └── TimelineController.java    ← 타임라인 API
 │   ├── service/
+│   │   └── CountryService.java
 │   ├── repository/
+│   │   └── CountryRepository.java
 │   └── domain/
 │       ├── entity/
 │       └── dto/
-├── mainevent/
+│           ├── CountryRequestDTO.java
+│           └── CountryResponseDTO.java
+│
+├── mainevent/                    ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
 │   └── domain/
 │       └── entity/
-├── capital/
+│           └── MainEventEntity.java
+│
+├── capital/                      ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
 │   └── domain/
 │       └── entity/
-├── trade/  
+│           └── CapitalEntity.java
+│
+├── trade/                        ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
 │   └── domain/
 │       └── entity/
-├── traderoute/
+│           └── TradeEntity.java
+│
+├── traderoute/                   ⚠️ DTO만 존재 (Controller, Service, Repository 미구현)
 │   └── domain/
 │       ├── entity/
 │       └── dto/
@@ -167,6 +182,9 @@ src/main/java/com/lgcns/haibackend/
 - `POST /api/countries` - 국가 생성
 - `PUT /api/countries/{id}` - 국가 수정
 - `DELETE /api/countries/{id}` - 국가 삭제
+
+### 4. Timeline API (타임라인)
+- `GET /api/timeline/events` - 전체 타임라인 이벤트 조회 (국가, 왕, 수도, 주요사건 통합)
 
 ## 설치 및 실행
 
@@ -259,20 +277,26 @@ SQL 파일들이 Spring Boot 시작 시 자동 실행됩니다.
 ## 추가 개발 필요 항목
 
 ### 1. MainEvent (주요사건)
-- Controller, Service, Repository, DTO 구현 필요
-- API: `/api/events`
+- ✅ Entity, DTO 완료
+- ❌ Controller, Service, Repository 미구현
+- API: `/api/events` (예정)
 
 ### 2. Capital (수도)
-- Controller, Service, Repository, DTO 구현 필요
-- API: `/api/capitals`
+- ✅ Entity, Repository 완료
+- ❌ Controller, Service, DTO 미구현
+- API: `/api/capitals` (예정)
+- 참고: TimelineService에서 Capital 데이터 조회 가능
 
 ### 3. King (왕)
-- Controller, Service, Repository, DTO 구현 필요
-- API: `/api/kings`
+- ✅ Entity, Repository 완료
+- ❌ Controller, Service, DTO 미구현
+- API: `/api/kings` (예정)
+- 참고: TimelineService에서 King 데이터 조회 가능
 
 ### 4. Trade & TradeRoute (무역/무역경로)
-- Controller, Service, Repository 구현 필요
-- API: `/api/trades`, `/api/trade-routes`
+- ✅ Entity, DTO 완료
+- ❌ Controller, Service, Repository 미구현
+- API: `/api/trades`, `/api/trade-routes` (예정)
 
 ### 5. Alliance (동맹)
 - 현재 주석 처리됨 - 사용 여부 결정 필요
@@ -283,18 +307,23 @@ SQL 파일들이 Spring Boot 시작 시 자동 실행됩니다.
 - [README_GeoJSON.md](./README_GeoJSON.md) - GeoJSON 데이터 구조 설명
 - [PROJECT_SETUP.md](./PROJECT_SETUP.md) - 프로젝트 완료 보고서
 
-## 기여 가이드
+## 🤝 기여
 
-[기여 가이드](https://github.com/lgcns2team/backend/wiki/Branch-%EC%A0%84%EB%9E%B5-%EB%B0%8F-Commit-Convention)
+프로젝트에 기여하시려면:
+1. develop 브랜치에서 작업
+2. 미완성 API 구현 (mainevent, capital, trade, king)
+3. 테스트 코드 작성
+4. Pull Request 생성
 
-## 라이선스
+## 📄 라이선스
 
 This project is licensed under the MIT License.
 
 ## 팀
 
 - Repository: [lgcns2team/backend](https://github.com/lgcns2team/backend)
-- Branch: develop
+- Branch: war (현재 작업 브랜치)
+- Main Branch: develop
 
 ---
 
