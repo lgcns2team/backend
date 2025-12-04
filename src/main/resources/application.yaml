@@ -1,6 +1,11 @@
 spring:
   application:
     name: haibackend
+  
+  profiles:
+    group:
+      timeline-export:
+        - default
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}
@@ -22,6 +27,8 @@ spring:
     init:
       mode: always
       encoding: utf-8
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql, classpath:update_battles.sql
 
 logging:
   level:
