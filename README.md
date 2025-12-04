@@ -3,12 +3,12 @@
 > **Spring Boot 기반 한국사 전쟁·전투 데이터 REST API**  
 > GeoJSON 이동경로 데이터를 활용한 역사 시각화 프로젝트
 
-## 📋 프로젝트 개요
+## 프로젝트 개요
 
 780년~1392년 한국사의 주요 국가, 전쟁, 전투, 주요사건, 무역, 수도 등의 데이터를 제공하는 REST API입니다.
 전투 이동 경로는 GeoJSON LineString/MultiLineString 형식으로 PostgreSQL JSONB에 저장됩니다.
 
-## 🏗️ 기술 스택
+## 기술 스택
 
 - **Java 17**
 - **Spring Boot 3.4.12**
@@ -17,7 +17,7 @@
 - **Lombok**
 - **Gradle 8.14.3**
 
-## 📊 데이터베이스 구조
+## 데이터베이스 구조
 
 ### 핵심 엔티티
 
@@ -52,7 +52,7 @@
 - winner_general (String)
 - loser_general (String)
 - battle_date (LocalDate)
-- markerRoute (String/JSONB) ← GeoJSON 경로
+- marker_route (String/JSONB) ← GeoJSON 경로
 - war_id (UUID, FK → War)
 ```
 
@@ -105,78 +105,45 @@
 - trade_id (UUID, FK → Trade)
 ```
 
-## 📁 프로젝트 구조
+## 프로젝트 구조
 
 ```
 src/main/java/com/lgcns/haibackend/
 ├── HaibackendApplication.java
 │
-├── war/                          ✅ 완료 (Controller, Service, Repository, DTO)
+├── war/ 
 │   ├── controller/
-│   │   ├── WarController.java
-│   │   └── BattleController.java
 │   ├── service/
-│   │   ├── WarService.java
-│   │   └── BattleService.java
 │   ├── repository/
-│   │   ├── WarRepository.java
-│   │   └── BattleRepository.java
 │   └── domain/
 │       ├── entity/
-│       │   ├── WarEntity.java
-│       │   └── BattleEntity.java
 │       └── dto/
-│           ├── WarRequestDTO.java
-│           ├── WarResponseDTO.java
-│           ├── BattleRequestDTO.java
-│           └── BattleResponseDTO.java
-│
-├── country/                      ✅ 완료 (Controller, Service, Repository, DTO)
+├── country/
 │   ├── controller/
-│   │   └── CountryController.java
 │   ├── service/
-│   │   └── CountryService.java
 │   ├── repository/
-│   │   └── CountryRepository.java
 │   └── domain/
 │       ├── entity/
-│       │   ├── CountryEntity.java
-│       │   └── KingEntity.java
 │       └── dto/
-│           ├── CountryRequestDTO.java
-│           └── CountryResponseDTO.java
-│
-├── mainevent/                    ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
+├── mainevent/
 │   └── domain/
 │       └── entity/
-│           └── MainEventEntity.java
-│
-├── capital/                      ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
+├── capital/
 │   └── domain/
 │       └── entity/
-│           └── CapitalEntity.java
-│
-├── trade/                        ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
+├── trade/  
 │   └── domain/
 │       └── entity/
-│           └── TradeEntity.java
-│
-├── traderoute/                   ⚠️ DTO만 존재 (Controller, Service, Repository 미구현)
+├── traderoute/
 │   └── domain/
 │       ├── entity/
-│       │   └── TradeRouteEntity.java
 │       └── dto/
-│           ├── TradeRouteRequestDTO.java
-│           ├── TradeRouteResponseDTO.java
-│           └── MarkerDTO.java
-│
-└── alliance/                     ⚠️ Entity 주석 처리됨 (미사용)
+└── alliance/
     └── domain/
         └── entity/
-            └── AllianceEntity.java (commented out)
 ```
 
-## 🚀 구현 완료 API
+## 구현 완료 API
 
 ### 1. War API (전쟁)
 - `GET /api/wars` - 전쟁 목록 조회
@@ -201,7 +168,7 @@ src/main/java/com/lgcns/haibackend/
 - `PUT /api/countries/{id}` - 국가 수정
 - `DELETE /api/countries/{id}` - 국가 삭제
 
-## 📦 설치 및 실행
+## 설치 및 실행
 
 ### 1. 환경 변수 설정 (.env 파일)
 ```env
@@ -215,7 +182,7 @@ SPRING_DATASOURCE_PASSWORD=your_password
 CREATE DATABASE your_db;
 ```
 
-### 3. 프로젝트 실행
+### 3. 프로젝트 기본 실행
 ```bash
 # Gradle 빌드
 ./gradlew clean build
@@ -224,12 +191,19 @@ CREATE DATABASE your_db;
 ./gradlew bootRun
 ```
 
-### 4. 초기 데이터 자동 로드
-- `schema.sql`: UUID 기본값 설정
-- `data.sql`: 국가, 주요사건, 왕, 전쟁, 전투 초기 데이터
+### 4. 타임라인 JSON 자동 생성
+실행 후 프로젝트 루트에 export/history-timeline.json 자동 생성
+```bash
+gradlew bootRun --args='--spring.profiles.active=timeline-export'
+```
+
+### 5. 초기 데이터 자동 로드
+SQL 파일들이 Spring Boot 시작 시 자동 실행됩니다.
+- `schema.sql`: UUID 기본값 및 스키마 생성
+- `data.sql`: 국가, 주요사건, 왕, 전쟁, 전투 초기 데이터 삽입
 - `update_battles.sql`: 전투 GeoJSON 경로 업데이트
 
-## 🗺️ GeoJSON 데이터 형식
+## GeoJSON 데이터 형식
 
 ### LineString (단일 경로)
 ```json
@@ -254,7 +228,7 @@ CREATE DATABASE your_db;
 }
 ```
 
-## 📝 주요 데이터 (780-1392년)
+## 주요 데이터 (780-1392년)
 
 ### 국가
 - 통일신라 (668-935)
@@ -282,7 +256,7 @@ CREATE DATABASE your_db;
 - 황산대첩 (1380) - 최무선의 화포 활용
 - 진포대첩 (1380) - 최무선 vs 왜구
 
-## 🔧 추가 개발 필요 항목
+## 추가 개발 필요 항목
 
 ### 1. MainEvent (주요사건)
 - Controller, Service, Repository, DTO 구현 필요
@@ -303,25 +277,21 @@ CREATE DATABASE your_db;
 ### 5. Alliance (동맹)
 - 현재 주석 처리됨 - 사용 여부 결정 필요
 
-## 📖 참고 문서
+## 참고 문서
 
 - [API_GUIDE.md](./API_GUIDE.md) - REST API 상세 가이드 (curl 예제 포함)
 - [README_GeoJSON.md](./README_GeoJSON.md) - GeoJSON 데이터 구조 설명
 - [PROJECT_SETUP.md](./PROJECT_SETUP.md) - 프로젝트 완료 보고서
 
-## 🤝 기여
+## 기여 가이드
 
-프로젝트에 기여하시려면:
-1. develop 브랜치에서 작업
-2. 미완성 API 구현 (mainevent, capital, trade, king)
-3. 테스트 코드 작성
-4. Pull Request 생성
+[기여 가이드](https://github.com/lgcns2team/backend/wiki/Branch-%EC%A0%84%EB%9E%B5-%EB%B0%8F-Commit-Convention)
 
-## 📄 라이선스
+## 라이선스
 
 This project is licensed under the MIT License.
 
-## 👥 팀
+## 팀
 
 - Repository: [lgcns2team/backend](https://github.com/lgcns2team/backend)
 - Branch: develop
