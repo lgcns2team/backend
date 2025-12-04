@@ -412,6 +412,52 @@ INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
 VALUES ('왕전', '공민왕', '1351-12-01', '1374-10-22',
         (SELECT country_id FROM country WHERE country_name = '고려'));
 
+-- 추가 데이터
+-- 통일 신라 (668년 이후)
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('김법민', '문무왕', '0661-07-01', '0681-07-01', 
+        (SELECT country_id FROM country WHERE country_name = '통일 신라')); -- 신라 통일 완수 (676년)
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('김정명', '신문왕', '0681-07-01', '0692-08-01', 
+        (SELECT country_id FROM country WHERE country_name = '통일 신라')); -- 통치 체제 정비
+
+-- 발해 (698년 이후)
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('대조영', '고왕', '0698-01-01', '0719-06-01', 
+        (SELECT country_id FROM country WHERE country_name = '발해')); -- 발해 건국
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('대무예', '무왕', '0719-06-01', '0737-05-01', 
+        (SELECT country_id FROM country WHERE country_name = '발해')); -- 장문휴를 보내 등주 공격
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('대흠무', '문왕', '0737-05-01', '0793-06-01', 
+        (SELECT country_id FROM country WHERE country_name = '발해')); -- 중흥기, 상경 용천부 천도 (785년경)
+
+-- 고려 (왕건 이후)
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕무', '혜종', '0943-07-04', '0945-09-29', 
+        (SELECT country_id FROM country WHERE country_name = '고려'));
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕요', '정종', '0945-09-30', '0949-04-13', 
+        (SELECT country_id FROM country WHERE country_name = '고려'));
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕치', '목종', '0997-11-29', '1009-03-02', 
+        (SELECT country_id FROM country WHERE country_name = '고려'));
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕흠', '문종', '1046-09-02', '1083-09-02', 
+        (SELECT country_id FROM country WHERE country_name = '고려'));
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕서', '의종', '1146-04-10', '1170-09-01', 
+        (SELECT country_id FROM country WHERE country_name = '고려')); -- 무신정변으로 폐위
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕강', '우왕', '1374-10-23', '1388-11-28', 
+        (SELECT country_id FROM country WHERE country_name = '고려')); -- 최영, 이성계의 활동 시기
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕창', '창왕', '1388-11-28', '1389-12-12', 
+        (SELECT country_id FROM country WHERE country_name = '고려'));
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
+VALUES ('왕요', '공양왕', '1389-12-12', '1392-07-17', 
+        (SELECT country_id FROM country WHERE country_name = '고려')); -- 고려의 마지막 왕
+
 -- ##################################################
 -- 수도 초기 데이터
 -- 금성(경주) - 통일 신라
@@ -484,4 +530,76 @@ VALUES (
     37.746,
     '몽골 침입 시기 최우가 천도한 임시 수도(1232~1270).',
     (SELECT country_id FROM country WHERE country_name = '고려')
+);
+
+-- 추가 데이터
+-- 발해의 수도 (중경 현덕부)
+INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+VALUES (
+    '중경 현덕부',
+    '0742-01-01', -- 무왕 천도 시점(대략)
+    '0785-01-01', -- 문왕의 상경 천도 전
+    128.800,
+    43.800,
+    '발해 무왕 때 천도한 수도.',
+    (SELECT country_id FROM country WHERE country_name = '발해')
+);
+
+-- 후고구려(태봉)의 초기 수도
+INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+VALUES (
+    '송악(개성)',
+    '0901-01-01', -- 궁예 건국 시점
+    '0905-01-01', -- 궁예의 철원 천도 시점
+    126.560,
+    37.970,
+    '궁예가 후고구려를 건국하고 초기에 도읍으로 삼았던 곳.',
+    (SELECT country_id FROM country WHERE country_name = '후고구려(태봉)')
+);
+
+-- 왜구 (수도 개념이 아닌 근거지/활동 지역으로 설정)
+INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+VALUES (
+    '쓰시마(대마도)',
+    '1350-01-01', -- 왜구 활동 시기 시작
+    '1392-12-31', -- 왜구 활동 시기 끝
+    129.400,
+    34.400,
+    '주요 왜구 근거지 중 하나로, 고려와 조선을 빈번히 침탈한 중심지.',
+    (SELECT country_id FROM country WHERE country_name = '왜구')
+);
+INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+VALUES (
+    '이키(일기도)',
+    '1350-01-01', -- 왜구 활동 시기 시작
+    '1392-12-31', -- 왜구 활동 시기 끝
+    129.900,
+    33.800,
+    '규슈 북부와 한반도 사이의 왜구 주요 근거지.',
+    (SELECT country_id FROM country WHERE country_name = '왜구')
+);
+
+-- 당(唐)의 수도
+INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+VALUES (
+    '장안(長安)',
+    '0618-01-01', -- 당 건국 시점
+    '0907-05-12', -- 당 멸망 시점
+    108.940, -- 시안(西安) 대략적 경도
+    34.260,  -- 시안(西安) 대략적 위도
+    '당나라의 수도. 세계적인 국제 도시였음.',
+    (SELECT country_id FROM country WHERE country_name = '당')
+);
+
+-- 후백제(後百濟) 초기 수도 (건국 시점)
+-- 892년 건국 당시 거점이었던 무진주(광주)를 초기 수도로 설정하고, 900년 완산주(전주) 천도 직전까지의 기간을 설정합니다.
+INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+VALUES (
+    '무진주(광주)',
+    '0892-01-01', -- 후백제 건국 시점
+    '0899-12-31', -- 완산주 천도 직전
+    126.850, 
+    35.150, 
+    '견훤이 후백제 건국 초기 거점으로 삼았던 곳.',
+    (SELECT country_id FROM country WHERE country_name = '후백제')
 );
