@@ -1,6 +1,11 @@
 spring:
   application:
     name: haibackend
+  
+  profiles:
+    group:
+      timeline-export:
+        - default
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}
