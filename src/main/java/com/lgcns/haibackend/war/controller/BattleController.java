@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/battles")
 @RequiredArgsConstructor
 public class BattleController {
-    
+
     private final BattleService battleService;
 
     // 모든 전투 조회
