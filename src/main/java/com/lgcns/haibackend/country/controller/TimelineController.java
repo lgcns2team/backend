@@ -1,4 +1,4 @@
-package com.lgcns.haibackend.country.ctrl;
+package com.lgcns.haibackend.country.controller;
 
 import java.util.List;
 

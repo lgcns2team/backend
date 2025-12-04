@@ -219,7 +219,7 @@ INSERT INTO war (
 -- 전투 초기 데이터
 INSERT INTO battle (
     battle_name, details, latitude, longitude,
-    winner_general, loser_general, battle_date, war_id, markerRoute
+    winner_general, loser_general, battle_date, war_id, marker_route
 ) VALUES
 -- 1 공산 전투
 ('공산 전투',
