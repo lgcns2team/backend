@@ -1,7 +1,6 @@
 package com.lgcns.haibackend.country.domain.entity;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
