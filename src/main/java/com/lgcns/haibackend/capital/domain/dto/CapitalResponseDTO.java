@@ -18,6 +18,7 @@ public class CapitalResponseDTO {
     private Double latitude;
     private Double longitude;
     private String description;
+    private String summary;
     private UUID countryId;
     private String countryName;
 

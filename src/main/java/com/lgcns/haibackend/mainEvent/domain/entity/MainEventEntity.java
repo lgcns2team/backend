@@ -22,9 +22,9 @@ import lombok.Setter;
 @Table(name = "mainEvent")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class MainEventEntity {
     
     @Id
@@ -36,6 +36,7 @@ public class MainEventEntity {
     private Integer year;
     private String era;
     private String description;
+    private String summary;
 
     @ManyToOne
     @JoinColumn(name = "country_id")

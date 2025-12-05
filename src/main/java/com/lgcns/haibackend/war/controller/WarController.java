@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/wars")
 @RequiredArgsConstructor
 public class WarController {
-    
+
     private final WarService warService;
 
     // 모든 전쟁 조회
@@ -34,11 +34,11 @@ public class WarController {
         return ResponseEntity.ok(wars);
     }
 
-    // 전쟁 상세 조회
-    @GetMapping("/{warId}")
-    public ResponseEntity<WarResponseDTO> getWarById(@PathVariable UUID warId) {
-        WarResponseDTO war = warService.getWarById(warId);
-        return ResponseEntity.ok(war);
+    // 연도별 전쟁 조회
+    @GetMapping("/{year}")
+    public ResponseEntity<List<WarResponseDTO>> getWarsByYear(@PathVariable int year) {
+        List<WarResponseDTO> wars = warService.getWarsByYear(year);
+        return ResponseEntity.ok(wars);
     }
 
     // 전쟁 생성
