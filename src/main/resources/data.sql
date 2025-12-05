@@ -777,6 +777,52 @@ VALUES
     '각종 비단'
 ),
 
+-- 통일 신라 <-> 발해 교류 (8세기~10세기 초)
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    800,
+    '사신 및 문물 교류 (신라도)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    800,
+    '사신 및 문물 교류 (신라도)'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    850,
+    '사신 및 문물 교류 (신라도)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    850,
+    '사신 및 문물 교류 (신라도)'
+),
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    900,
+    '사신 및 문물 교류 (신라도)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '통일 신라'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    900,
+    '사신 및 문물 교류 (신라도)'
+),
+
 (
     gen_random_uuid(),
     (SELECT country_id FROM country WHERE country_name = '발해'),
@@ -880,33 +926,72 @@ VALUES
 -- =========================================================================
 
 -- 통일 신라 교역로 (초록색 #22c55e)
+-- 신라 -> 일본
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[129.224, 35.856], [135.520, 34.686]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[129.1286872236279,36.189910984225456],[130.6001761729678,35.08255242902931],[130.55625112970392,33.70437995522579],[129.1286872236279,36.189910984225456]]}'::jsonb,
     '#22c55e'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '일본')
   AND t.trade_year = 800;
 
+-- 당 -> 신라
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[108.940, 34.260], [129.224, 35.856]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[120.49554362433871,37.647031342443796],[122.03292013857435,38.08077837506512],[124.40487247482366,37.28071441167715],[126.73289976780912,37.21073643300401],[120.49554362433871,37.647031342443796]]}'::jsonb,
     '#22c55e'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '당')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
   AND t.trade_year = 800;
 
+-- 신라 -> 발해 (800년)
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[129.224, 35.856], [129.150, 44.120]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[129.08476218036407,35.95899581025994],[128.90906200730856,37.43904061708303],[127.26187288491319,38.97585898089492],[128.0085986203991,40.14488015694201],[129.39223748321118,41.836737100500656],[129.08476218036407,35.95899581025994]]}'::jsonb,
+    '#22c55e'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
+  AND t.trade_year = 800;
+
+-- 신라 -> 발해 (850년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[129.08476218036407,35.95899581025994],[128.90906200730856,37.43904061708303],[127.26187288491319,38.97585898089492],[128.0085986203991,40.14488015694201],[129.39223748321118,41.836737100500656],[129.08476218036407,35.95899581025994]]}'::jsonb,
+    '#22c55e'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
+  AND t.trade_year = 850;
+
+-- 신라 -> 발해 (900년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[129.08476218036407,35.95899581025994],[128.90906200730856,37.43904061708303],[127.26187288491319,38.97585898089492],[128.0085986203991,40.14488015694201],[129.39223748321118,41.836737100500656],[129.08476218036407,35.95899581025994]]}'::jsonb,
+    '#22c55e'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
+  AND t.trade_year = 900;
+
+-- 신라 -> 발해 (910년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[129.08476218036407,35.95899581025994],[128.90906200730856,37.43904061708303],[127.26187288491319,38.97585898089492],[128.0085986203991,40.14488015694201],[129.39223748321118,41.836737100500656],[129.08476218036407,35.95899581025994]]}'::jsonb,
     '#22c55e'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
@@ -914,77 +999,120 @@ WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = 
   AND t.trade_year = 910;
 
 -- 발해 교역로 (파란색 #3b82f6)
+-- 발해 -> 당
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[129.150, 44.120], [108.940, 34.260]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[127.76513828451019,41.65532509123914],[124.16328473687231,39.85761454320746],[120.53946866760258,37.52512515508885],[127.76513828451019,41.65532509123914]]}'::jsonb,
     '#3b82f6'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '당')
   AND t.trade_year = 900;
 
+-- 당 -> 발해
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[108.940, 34.260], [129.150, 44.120]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[120.51750614597064,37.54255254627726],[124.1852472585043,39.958761016899935],[127.17215020044785,41.44151089428502],[120.51750614597064,37.54255254627726]]}'::jsonb,
     '#3b82f6'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '당')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
   AND t.trade_year = 900;
 
+-- 발해 -> 일본
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[129.150, 44.120], [139.692, 35.686]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[130.53241601013434,42.649149815868775],[132.8604433031198,39.28163410580962],[136.79173467523668,36.77190412676978],[130.53241601013434,42.649149815868775]]}'::jsonb,
     '#3b82f6'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '일본')
   AND t.trade_year = 900;
 
+-- 일본 -> 발해
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[139.692, 35.686], [129.150, 44.120]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[136.79046784797896,36.70128399331513],[132.50777612975102,39.14524797772245],[130.5750742261405,43.06784240053568],[136.79046784797896,36.70128399331513]]}'::jsonb,
     '#3b82f6'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '일본')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
   AND t.trade_year = 900;
 
+-- 발해 -> 통일신라 (800년)
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[129.150, 44.120], [129.224, 35.856]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[128.90718940937094,40.779190862048594],[126.73289976780912,39.57022244509562],[127.10626263555206,38.5463520708126],[129.1048521040584,36.277413318559375],[128.90718940937094,40.779190862048594]]}'::jsonb,
+    '#3b82f6'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
+  AND t.trade_year = 800;
+
+-- 발해 -> 통일신라 (850년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[128.90718940937094,40.779190862048594],[126.73289976780912,39.57022244509562],[127.10626263555206,38.5463520708126],[129.1048521040584,36.277413318559375],[128.90718940937094,40.779190862048594]]}'::jsonb,
+    '#3b82f6'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
+  AND t.trade_year = 850;
+
+-- 발해 -> 통일신라 (900년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[128.90718940937094,40.779190862048594],[126.73289976780912,39.57022244509562],[127.10626263555206,38.5463520708126],[129.1048521040584,36.277413318559375],[128.90718940937094,40.779190862048594]]}'::jsonb,
+    '#3b82f6'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
+  AND t.trade_year = 900;
+
+-- 발해 -> 통일신라 (910년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[128.90718940937094,40.779190862048594],[126.73289976780912,39.57022244509562],[127.10626263555206,38.5463520708126],[129.1048521040584,36.277413318559375],[128.90718940937094,40.779190862048594]]}'::jsonb,
     '#3b82f6'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '통일 신라')
   AND t.trade_year = 910;
 
+-- 발해 -> 거란(요나라 이전)
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[129.150, 44.120], [122.000, 43.000]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[119.68293032395698,41.34258898946489],[124.1852472585043,41.21045902267935],[127.19411272207978,42.22746076439319],[129.30251479874585,43.595522021421075],[119.68293032395698,41.34258898946489]]}'::jsonb,
     '#3b82f6'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '발해')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '거란(요나라 이전)')
   AND t.trade_year = 900;
 
+-- 거란(요나라 이전) -> 발해
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
 SELECT 
     gen_random_uuid(),
     t.trade_id,
-    '{"type":"LineString","coordinates":[[122.000, 43.000], [129.150, 44.120]]}'::jsonb,
+    '{"type":"LineString","coordinates":[[118.95816711010303,41.22698989464572],[123.13104622017127,41.21045902267935],[125.78851133763578,41.42503436409593],[129.50017749343326,43.6114360154971],[118.95816711010303,41.22698989464572]]}'::jsonb,
     '#3b82f6'
 FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '거란(요나라 이전)')
