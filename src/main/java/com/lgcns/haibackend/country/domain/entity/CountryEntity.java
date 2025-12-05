@@ -5,7 +5,7 @@ import java.util.UUID;
 
 
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
-import com.lgcns.haibackend.mainevent.domain.entity.MainEventEntity;
+import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
 import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lgcns.haibackend.war.domain.entity.WarEntity;

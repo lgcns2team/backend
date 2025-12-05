@@ -1,4 +1,4 @@
-package com.lgcns.haibackend.mainevent.domain.dto;
+package com.lgcns.haibackend.mainEvent.domain.dto;
 
 import java.util.UUID;
 
