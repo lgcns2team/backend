@@ -21,6 +21,7 @@ public class MainEventRequestDTO {
    private String era;
 
    private String description;
+   private String summary;
 
    public MainEventEntity toEntity(CountryEntity countryEntity) {
       if (countryEntity == null) {
@@ -34,6 +35,7 @@ public class MainEventRequestDTO {
             .year(this.year)
             .era(this.era)
             .description(this.description)
+            .summary(this.summary)
             .country(countryEntity)
             .build();
    }

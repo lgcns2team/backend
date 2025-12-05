@@ -49,7 +49,7 @@ public class WarService {
 
         WarEntity war = WarEntity.builder()
                 .name(requestDTO.getName())
-                .details(requestDTO.getDetails())
+                .description(requestDTO.getDescription())
                 .warStartDate(requestDTO.getWarStartDate())
                 .warEndDate(requestDTO.getWarEndDate())
                 .result(requestDTO.getResult())
@@ -71,8 +71,8 @@ public class WarService {
         if (requestDTO.getName() != null) {
             war.setName(requestDTO.getName());
         }
-        if (requestDTO.getDetails() != null) {
-            war.setDetails(requestDTO.getDetails());
+        if (requestDTO.getDescription() != null) {
+            war.setDescription(requestDTO.getDescription());
         }
         if (requestDTO.getWarStartDate() != null) {
             war.setWarStartDate(requestDTO.getWarStartDate());

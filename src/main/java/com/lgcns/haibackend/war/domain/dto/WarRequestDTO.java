@@ -19,7 +19,7 @@ import lombok.Setter;
 public class WarRequestDTO {
     
     private String name;
-    private String details;
+    private String description;
     private LocalDate warStartDate;
     private LocalDate warEndDate;
     private String result;

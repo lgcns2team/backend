@@ -22,7 +22,7 @@ public class WarResponseDTO {
     
     private UUID warId;
     private String name;
-    private String details;
+    private String description;
     private LocalDate warStartDate;
     private LocalDate warEndDate;
     private String result;
@@ -43,7 +43,7 @@ public class WarResponseDTO {
         return WarResponseDTO.builder()
             .warId(entity.getWarId())
             .name(entity.getName())
-            .details(entity.getDetails())
+            .description(entity.getDescription())
             .warStartDate(entity.getWarStartDate())
             .warEndDate(entity.getWarEndDate())
             .result(entity.getResult())
@@ -66,7 +66,7 @@ public class WarResponseDTO {
         return WarResponseDTO.builder()
             .warId(entity.getWarId())
             .name(entity.getName())
-            .details(entity.getDetails())
+            .description(entity.getDescription())
             .warStartDate(entity.getWarStartDate())
             .warEndDate(entity.getWarEndDate())
             .result(entity.getResult())

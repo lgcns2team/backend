@@ -18,6 +18,7 @@ public class MainEventDetailDTO {
     private Integer year;
     private String era;
     private String description;
+    private String summary;
     private String countryName;
 
     public static MainEventDetailDTO fromEntity(MainEventEntity entity) {
@@ -27,6 +28,7 @@ public class MainEventDetailDTO {
             .year(entity.getYear())
             .era(entity.getEra())
             .description(entity.getDescription())
+            .summary(entity.getSummary())
             .countryName(entity.getCountry().getCountryName())
             .build();
     }

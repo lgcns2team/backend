@@ -36,6 +36,7 @@ public class MainEventEntity {
     private Integer year;
     private String era;
     private String description;
+    private String summary;
 
     @ManyToOne
     @JoinColumn(name = "country_id")

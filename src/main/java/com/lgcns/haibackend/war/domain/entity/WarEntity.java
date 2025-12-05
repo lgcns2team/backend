@@ -48,7 +48,7 @@ public class WarEntity {
     private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String details;
+    private String description;
 
     private LocalDate warStartDate;
     private LocalDate warEndDate;
