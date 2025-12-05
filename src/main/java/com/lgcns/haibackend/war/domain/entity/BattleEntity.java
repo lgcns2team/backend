@@ -51,6 +51,10 @@ public class BattleEntity {
     @Column(name = "markerRoute", columnDefinition = "jsonb")
     private String markerRoute;
 
+    // 경로 색상 (hex 코드, 예: #3b82f6)
+    @Column(name = "route_color", length = 7)
+    private String routeColor;
+
     // 전쟁 FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "war_id", nullable = false)

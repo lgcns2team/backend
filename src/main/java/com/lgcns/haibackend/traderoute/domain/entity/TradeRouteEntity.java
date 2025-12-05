@@ -13,13 +13,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "tradeRoute")
 public class TradeRouteEntity {
@@ -35,4 +39,7 @@ public class TradeRouteEntity {
 
     @Column(columnDefinition = "jsonb")
     private String path; // db에는 json 문자열로 저장
+
+    @Column(name = "route_color", length = 7)
+    private String routeColor; // 경로 색상 (hex code, e.g., #3b82f6)
 }
