@@ -547,8 +547,6 @@ VALUES ('왕요', '공양왕', '1389-12-12', '1392-07-17',
 -- ##################################################
 -- 수도 초기 데이터
 -- 금성(경주) - 통일 신라
--- 수도 초기 데이터
--- 금성(경주) - 통일 신라
 INSERT INTO capital (
     capital_name, started_date, ended_date, longitude, latitude,
     title, description, summary, country_id

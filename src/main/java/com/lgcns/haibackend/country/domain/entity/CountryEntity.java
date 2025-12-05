@@ -41,6 +41,7 @@ public class CountryEntity {
 
     private String summary;
 
+
     @Column(columnDefinition = "TEXT")
     private String description;
 

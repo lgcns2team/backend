@@ -21,6 +21,7 @@ public class CountryResponseDTO {
     private String countryName;
     private Integer foundationYear;
     private Integer endedYear;
+    private String era;
 
     // Entity -> DTO
     public static CountryResponseDTO fromEntity(CountryEntity entity) {
