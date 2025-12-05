@@ -37,6 +37,13 @@ public class CountryEntity {
     private Integer foundationYear;
     private Integer endedYear;
 
+    private String title;
+
+    private String summary;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @OneToMany(mappedBy = "country", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<CapitalEntity> capitals;
 

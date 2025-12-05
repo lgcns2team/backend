@@ -41,6 +41,10 @@ public class CapitalEntity {
     private Double latitude;
     private Double longitude;
 
+    private String title;
+
+    private String summary;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
