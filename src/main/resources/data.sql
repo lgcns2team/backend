@@ -477,6 +477,7 @@ INSERT INTO battle (
  37.15, 127.2,
  '김윤후', '살리타',
  DATE '1232-12-16',
+(SELECT war_id FROM war WHERE name = '여몽전쟁(대몽항쟁)'),
 '{"type":"LineString","coordinates":[[126.972839,37.556397],[127.192503,37.151373]]}'::jsonb, 
  NULL
 ),
