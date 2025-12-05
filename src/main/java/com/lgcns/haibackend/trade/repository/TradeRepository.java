@@ -13,12 +13,11 @@ import com.lgcns.haibackend.trade.domain.entity.TradeEntity;
 @Repository
 public interface TradeRepository extends JpaRepository<TradeEntity, UUID> {
 
-    // 특정 국가의 특정 연도에 활성화된 무역 조회 (국가의 존속기간 내)
+    // 특정 국가의 무역 조회 (국가의 존속기간만 필터링, 무역 연도는 무시)
     @Query("""
         SELECT DISTINCT t FROM TradeEntity t
         LEFT JOIN FETCH t.routes
         WHERE (t.startCountry.countryId = :countryId OR t.endCountry.countryId = :countryId)
-        AND t.tradeYear <= :year
         AND t.startCountry.foundationYear <= :year
         AND (t.startCountry.endedYear IS NULL OR t.startCountry.endedYear >= :year)
         AND t.endCountry.foundationYear <= :year
