@@ -40,6 +40,7 @@ public class CapitalEntity {
     private LocalDate endedDate;
     private Double latitude;
     private Double longitude;
+    private String summary;
 
     @Column(columnDefinition = "TEXT")
     private String description;

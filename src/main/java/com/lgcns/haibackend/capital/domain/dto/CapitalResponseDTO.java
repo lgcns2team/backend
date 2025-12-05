@@ -18,6 +18,7 @@ public class CapitalResponseDTO {
     private Double latitude;
     private Double longitude;
     private String description;
+    private String summary;
     private UUID countryId;
     private String countryName;
 
@@ -30,6 +31,7 @@ public class CapitalResponseDTO {
                 .latitude(entity.getLatitude())
                 .longitude(entity.getLongitude())
                 .description(entity.getDescription())
+                .summary(entity.getSummary())
                 .countryId(entity.getCountry() != null ? entity.getCountry().getCountryId() : null)
                 .countryName(entity.getCountry() != null ? entity.getCountry().getCountryName() : null)
                 .build();

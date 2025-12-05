@@ -1,4 +1,4 @@
-package com.lgcns.haibackend.mainevent.domain.entity;
+package com.lgcns.haibackend.mainEvent.domain.entity;
 
 import java.util.UUID;
 

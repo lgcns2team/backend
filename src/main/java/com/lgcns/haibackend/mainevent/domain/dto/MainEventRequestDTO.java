@@ -1,9 +1,9 @@
-package com.lgcns.haibackend.mainevent.domain.dto;
+package com.lgcns.haibackend.mainEvent.domain.dto;
 
 import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
-import com.lgcns.haibackend.mainevent.domain.entity.MainEventEntity;
+import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
 
 import lombok.Builder;
 import lombok.Data;

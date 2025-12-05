@@ -484,6 +484,7 @@ VALUES (
     129.224,
     35.856,
     '신라의 천년 고도. 혜공왕 피살 이후 왕위 다툼이 치열했던 곳.',
+    'null',
     (SELECT country_id FROM country WHERE country_name = '통일 신라')
 );
 
