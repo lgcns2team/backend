@@ -12,7 +12,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 중앙집권 체제를 정비하고 불교와 예술, 과학 기술을 발전시키며 통일 왕조의 문화를 꽃피운다.
 그러나 진골 귀족의 권력 다툼과 각지에서 일어나는 반란과 농민 봉기를 겪으며 점차 정치적 안정성을 잃어 간다.
 결국 지방 호족 세력의 성장과 후삼국 성립 속에서 힘을 잃고 935년에 고려에 나라를 넘기게 된다.',
-        '삼국 통일 이후 중앙집권과 불교 문화를 발전시키지만 내부 모순과 지방 세력 성장으로 고려에 계승된 국가임.'
+        '삼국 통일 이후 중앙집권과 불교 문화를 발전시키지만 내부 모순과 지방 세력 성장으로 고려에 계승된 국가.'
     ),
     (
         '발해',
@@ -23,7 +23,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 한반도 북부와 만주 일대를 아우르며 해상 교역과 육상 교통로를 활용하여 동아시아의 중요한 세력으로 성장한다.
 당과 일본 등과의 외교 관계를 통해 국제적 위상을 높이고 고구려 계승 국가로서의 문화를 발전시키며 해동성국으로 불린다.
 그러나 귀족 세력의 갈등과 외부 세력의 압박 속에서 국력이 약화되어 926년에 멸망하게 된다.',
-        '고구려를 계승하여 만주와 한반도 북부에서 번영하다가 내부·외부 요인으로 10세기 초에 멸망한 국가임.'
+        '고구려를 계승하여 만주와 한반도 북부에서 번영하다가 내부·외부 요인으로 10세기 초에 멸망한 국가.'
     ),
 
     -- 후삼국 및 고려
@@ -36,7 +36,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 완산주를 도읍으로 삼고 군사력과 해상 교역을 바탕으로 후삼국의 한 축을 담당하며 고려와 신라를 압박한다.
 그러나 왕권 내부의 갈등과 후계자 분쟁, 견훤과 아들 신검 사이의 대립으로 정치적 불안이 심화된다.
 결국 견훤의 고려 귀부와 왕건의 공세가 맞물리며 936년에 멸망하게 된다.',
-        '전라도 지역을 기반으로 후삼국의 한 축을 이루었으나 내분과 고려의 공세로 멸망한 국가임.'
+        '전라도 지역을 기반으로 후삼국의 한 축을 이루었으나 내분과 고려의 공세로 멸망한 국가.'
     ),
     (
         '후고구려(태봉)',
@@ -47,7 +47,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 처음에는 후백제와 함께 통일 신라를 압박하며 후삼국 시대의 주도권을 다투는 세력으로 성장한다.
 그러나 궁예의 폭정과 심한 의심으로 인해 신료와 백성의 지지가 약해지고 내부 불만이 크게 쌓인다.
 결국 왕건을 중심으로 한 세력이 궁예를 몰아내고 918년 고려를 세우면서 후고구려(태봉)는 역사 속에서 사라진다.',
-        '고구려 계승을 표방하며 후삼국의 한 축을 이루었으나 궁예의 폭정과 왕건의 집권으로 소멸한 국가임.'
+        '고구려 계승을 표방하며 후삼국의 한 축을 이루었으나 궁예의 폭정과 왕건의 집권으로 소멸한 국가.'
     ),
     (
         '고려',
@@ -58,7 +58,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 후삼국을 통일한 뒤 문벌 귀족 사회와 불교 문화를 중심으로 한 중세 국가 체제를 발전시키며 동아시아 질서 속에 자리 잡는다.
 거란과 여진, 몽골 등과의 전쟁과 외교를 거치며 대외적으로는 자주성을 지키려 노력하고 내부적으로는 개혁과 혼란을 반복한다.
 원 간섭기와 권문세족의 부패, 신흥 무인과 신진 사대부 세력의 대두 속에서 점차 쇠퇴하고 1392년 조선의 건국과 함께 막을 내린다.',
-        '후삼국을 통일해 중세 한반도를 통치했으나 외침과 내부 모순 속에서 조선으로 교체된 국가임.'
+        '후삼국을 통일해 중세 한반도를 통치했으나 외침과 내부 모순 속에서 조선으로 교체된 국가.'
     ),
 
     -- 중국 왕조 및 기타 세력
@@ -525,148 +525,226 @@ VALUES ('왕요', '공양왕', '1389-12-12', '1392-07-17',
 -- ##################################################
 -- 수도 초기 데이터
 -- 금성(경주) - 통일 신라
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+-- 수도 초기 데이터
+-- 금성(경주) - 통일 신라
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '금성(경주)',
     '0676-01-01', -- 삼국통일 시점
     '0935-11-01', -- 신라 멸망 시점
     129.224,
     35.856,
-    '신라의 천년 고도. 혜공왕 피살 이후 왕위 다툼이 치열했던 곳.',
+    NULL,
+    NULL,
+    '신라의 천년 고도로 혜공왕 피살 이후 왕위 다툼이 치열하게 이어졌던 곳.',
     (SELECT country_id FROM country WHERE country_name = '통일 신라')
 );
 
--- 상경 용천부 - 발해
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+-- 상경 용천부 - 발해 (천도)
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '상경 용천부',
     '0785-01-01', -- 문왕 천도 시점(대략)
     '0926-01-14', -- 발해 멸망 시점
     129.150,
     44.120,
-    '발해 문왕 때 천도한 수도. 당의 장안성을 본떠 건설됨.',
+    '발해 상경 용천부 천도',
+    '발해 문왕이 중경에서 상경 용천부로 천도하여 새로운 정치 중심지를 마련한다.
+당의 장안성을 본떠 도성을 계획적으로 건설하며 왕권과 중앙집권 체제를 강화한다.
+해상과 육상 교통로를 연결하는 거점으로 활용하여 교역과 외교를 적극적으로 전개한다.
+상경의 발전을 통해 발해는 해동성국으로 불릴 만큼 국력을 과시하는 기반을 갖추게 된다.',
+    '발해 문왕이 천도하여 당의 장안성을 본떠 건설한 핵심 수도.',
     (SELECT country_id FROM country WHERE country_name = '발해')
 );
 
 -- 완산주(전주) - 후백제
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '완산주(전주)',
     '0900-01-01', -- 후백제 건국 시점
     '0936-09-01', -- 후백제 멸망 시점
     127.148,
     35.824,
-    '견훤이 900년에 건국하여 도읍으로 삼은 곳.',
+    NULL,
+    NULL,
+    '견훤이 900년에 후백제를 세우고 도읍으로 삼은 곳.',
     (SELECT country_id FROM country WHERE country_name = '후백제')
 );
 
--- 송악(개성) - 고려
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+-- 송악(개성) - 고려 (천도)
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '송악(개성)',
     '0919-01-01', -- 왕건이 철원에서 송악으로 천도한 시점
     '1392-07-28', -- 고려 멸망 시점
     126.560,
     37.970,
-    '고려의 수도. 왕건이 철원에서 이곳으로 천도함.',
+    '고려 송악 천도',
+    '왕건이 철원에서 송악으로 천도하여 새로운 왕조의 정치적 중심을 확립한다.
+해상 교통과 내륙 교통이 만나는 거점으로 삼아 상업과 교역 기반을 강화한다.
+주변 호족 세력과의 연계를 통해 북방과 서해 연안까지 포괄하는 통치 기반을 다진다.
+송악을 수도로 삼으면서 고려는 통일 국가로 성장할 발판을 마련하게 된다.',
+    '왕건이 철원에서 천도하여 고려의 수도로 삼은 도시.',
     (SELECT country_id FROM country WHERE country_name = '고려')
 );
 
--- 철원 - 후고구려(태봉)
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+-- 철원 - 후고구려(태봉) (천도)
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '철원',
     '0905-01-01', -- 궁예의 철원 천도 시점(대략)
     '0918-06-15', -- 궁예 축출 및 고려 건국 시점
     127.200,
     38.270,
-    '궁예가 송악에서 천도하여 태봉이라는 국호를 사용했던 도읍.',
+    '태봉 철원 천도',
+    '궁예가 송악에서 철원으로 천도하여 왕권을 강화할 새로운 거점을 마련한다.
+철원의 지형적 이점을 활용하여 방어에 유리한 수도 체계를 구축하려 한다.
+천도 이후 궁예는 국호를 태봉으로 바꾸며 독자적인 왕조 체제를 강화하려 시도한다.
+그러나 폭정과 의심이 심화되면서 지지 기반이 약해지고 결국 왕건 세력에 의해 축출되는 계기를 맞게 된다.',
+    '궁예가 송악에서 천도하여 태봉의 도읍으로 삼았던 지역.',
     (SELECT country_id FROM country WHERE country_name = '후고구려(태봉)')
 );
 
--- 강화도 - 고려 임시 수도
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+-- 강화도 - 고려 임시 수도 (천도)
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '강화도',
     '1232-07-01', -- 최우가 몽골 침입에 대비해 천도한 시점
     '1270-05-01', -- 개경 환도 시점
     126.485,
     37.746,
-    '몽골 침입 시기 최우가 천도한 임시 수도(1232~1270).',
+    '강화도 천도',
+    '최우가 몽골의 침입에 대응하기 위해 개경에서 강화도로 천도하여 장기 항전을 준비한다.
+강화도는 바다로 둘러싸인 지형을 바탕으로 방어에 유리한 임시 수도 역할을 수행한다.
+조정은 이곳에서 대몽 항쟁을 지속하며 국왕과 중앙 기구를 유지하려 노력한다.
+그러나 장기전이 이어지면서 백성의 고통이 심화되고, 결국 원과의 화의를 모색하는 흐름으로 이어진다.',
+    '몽골 침입기에 최우가 개경에서 천도하여 임시 수도로 삼은 지역.',
     (SELECT country_id FROM country WHERE country_name = '고려')
 );
 
 -- 추가 데이터
--- 발해의 수도 (중경 현덕부)
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+-- 발해의 수도 (중경 현덕부) (천도)
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '중경 현덕부',
     '0742-01-01', -- 무왕 천도 시점(대략)
     '0785-01-01', -- 문왕의 상경 천도 전
     128.800,
     43.800,
-    '발해 무왕 때 천도한 수도.',
+    '발해 중경 현덕부 천도',
+    '발해 무왕이 기존 수도에서 중경 현덕부로 천도하여 북방 경영의 거점을 강화한다.
+새로운 수도를 통해 군사적·행정적 중심을 재편하며 국력 신장에 박차를 가한다.
+중경 일대는 주변 지역 통제와 대외 진출을 위한 전략적 교두보 역할을 수행한다.
+이후 문왕 때 상경으로 다시 천도되기 전까지 발해의 정치와 군사가 집중되는 핵심 공간이 된다.',
+    '발해 무왕이 천도하여 북방 경영과 국력 강화를 도모한 수도.',
     (SELECT country_id FROM country WHERE country_name = '발해')
 );
 
--- 후고구려(태봉)의 초기 수도
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+-- 후고구려(태봉)의 초기 수도 (건국 수도, 천도 아님)
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '송악(개성)',
     '0901-01-01', -- 궁예 건국 시점
     '0905-01-01', -- 궁예의 철원 천도 시점
     126.560,
     37.970,
-    '궁예가 후고구려를 건국하고 초기에 도읍으로 삼았던 곳.',
+    NULL,
+    NULL,
+    '궁예가 후고구려를 세우고 초기에 도읍으로 삼았던 곳.',
     (SELECT country_id FROM country WHERE country_name = '후고구려(태봉)')
 );
 
 -- 왜구 (수도 개념이 아닌 근거지/활동 지역으로 설정)
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '쓰시마(대마도)',
     '1350-01-01', -- 왜구 활동 시기 시작
     '1392-12-31', -- 왜구 활동 시기 끝
     129.400,
     34.400,
-    '주요 왜구 근거지 중 하나로, 고려와 조선을 빈번히 침탈한 중심지.',
+    NULL,
+    NULL,
+    '왜구가 고려와 조선을 침입할 때 주요 근거지로 활용했던 섬 지역.',
     (SELECT country_id FROM country WHERE country_name = '왜구')
 );
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '이키(일기도)',
     '1350-01-01', -- 왜구 활동 시기 시작
     '1392-12-31', -- 왜구 활동 시기 끝
     129.900,
     33.800,
-    '규슈 북부와 한반도 사이의 왜구 주요 근거지.',
+    NULL,
+    NULL,
+    '규슈 북부와 한반도 사이에서 왜구의 활동 거점으로 기능했던 섬 지역.',
     (SELECT country_id FROM country WHERE country_name = '왜구')
 );
 
 -- 당(唐)의 수도
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '장안(長安)',
     '0618-01-01', -- 당 건국 시점
     '0907-05-12', -- 당 멸망 시점
     108.940, -- 시안(西安) 대략적 경도
     34.260,  -- 시안(西安) 대략적 위도
-    '당나라의 수도. 세계적인 국제 도시였음.',
+    NULL,
+    NULL,
+    '당나라의 수도로 국제 교역과 문화 교류가 활발히 이루어졌던 도시.',
     (SELECT country_id FROM country WHERE country_name = '당')
 );
 
 -- 후백제(後百濟) 초기 수도 (건국 시점)
--- 892년 건국 당시 거점이었던 무진주(광주)를 초기 수도로 설정하고, 900년 완산주(전주) 천도 직전까지의 기간을 설정합니다.
-INSERT INTO capital (capital_name, started_date, ended_date, longitude, latitude, description, country_id) 
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+) 
 VALUES (
     '무진주(광주)',
     '0892-01-01', -- 후백제 건국 시점
     '0899-12-31', -- 완산주 천도 직전
     126.850, 
     35.150, 
-    '견훤이 후백제 건국 초기 거점으로 삼았던 곳.',
+    NULL,
+    NULL,
+    '견훤이 후백제 건국 초기 거점으로 삼았던 지역.',
     (SELECT country_id FROM country WHERE country_name = '후백제')
 );
+
 -- ##################################################
 -- 무역 초기 데이터
 INSERT INTO trade (trade_id, start_country_id, end_country_id, trade_year, product)
