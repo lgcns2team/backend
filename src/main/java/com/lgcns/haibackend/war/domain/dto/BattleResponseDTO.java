@@ -29,6 +29,7 @@ public class BattleResponseDTO {
     private String loserGeneral;
     private LocalDate battleDate;
     private JsonNode markerRoute;  // JSON object
+    private String routeColor;  // Route color (hex code)
     
     private UUID warId;
     private String warName;
@@ -57,6 +58,7 @@ public class BattleResponseDTO {
             .loserGeneral(entity.getLoserGeneral())
             .battleDate(entity.getBattleDate())
             .markerRoute(routeJson)
+            .routeColor(entity.getRouteColor())
             .warId(entity.getWar().getWarId())
             .warName(entity.getWar().getName())
             .build();
@@ -86,6 +88,7 @@ public class BattleResponseDTO {
             .loserGeneral(entity.getLoserGeneral())
             .battleDate(entity.getBattleDate())
             .markerRoute(routeJson)
+            .routeColor(entity.getRouteColor())
             .build();
     }
 }
