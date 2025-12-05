@@ -42,6 +42,7 @@ public class CountryService {
         country.setCountryName(requestDTO.getCountryName());
         country.setFoundationYear(requestDTO.getFoundationYear());
         country.setEndedYear(requestDTO.getEndedYear());
+        country.setEra(requestDTO.getEra());
 
         CountryEntity savedCountry = countryRepository.save(country);
         return CountryResponseDTO.fromEntity(savedCountry);
