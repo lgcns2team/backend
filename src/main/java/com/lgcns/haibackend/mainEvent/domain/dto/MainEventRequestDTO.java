@@ -3,6 +3,7 @@ package com.lgcns.haibackend.mainEvent.domain.dto;
 import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
+import com.lgcns.haibackend.global.enums.EraType;
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
 
 import lombok.Builder;
@@ -14,15 +15,15 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+
 public class MainEventRequestDTO {
    private UUID countryId;
    private String eventName;
    private Integer year;
-   private String era;
 
    private String description;
    private String summary;
-
+   private EraType era;
    public MainEventEntity toEntity(CountryEntity countryEntity) {
       if (countryEntity == null) {
          // Country Entity가 없는 경우 유효성 검사

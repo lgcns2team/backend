@@ -1,7 +1,7 @@
 -- 초기 데이터 추가 시 schema.sql에서 id 기본값 설정 필요
 
 -- 국가 초기 데이터
-INSERT INTO country (country_name, foundation_year, ended_year, title, description, summary) VALUES
+INSERT INTO country (country_name, foundation_year, ended_year, title, description, summary, era) VALUES
     -- 한국사 주요 국가 (780년 이전 건국)
     (
         '통일 신라',
@@ -12,7 +12,8 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 중앙집권 체제를 정비하고 불교와 예술, 과학 기술을 발전시키며 통일 왕조의 문화를 꽃피운다.
 그러나 진골 귀족의 권력 다툼과 각지에서 일어나는 반란과 농민 봉기를 겪으며 점차 정치적 안정성을 잃어 간다.
 결국 지방 호족 세력의 성장과 후삼국 성립 속에서 힘을 잃고 935년에 고려에 나라를 넘기게 된다.',
-        '삼국 통일 이후 중앙집권과 불교 문화를 발전시키지만 내부 모순과 지방 세력 성장으로 고려에 계승된 국가.'
+        '삼국 통일 이후 중앙집권과 불교 문화를 발전시키지만 내부 모순과 지방 세력 성장으로 고려에 계승된 국가.',
+        'NAMBUKGOOK'
     ),
     (
         '발해',
@@ -23,7 +24,8 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 한반도 북부와 만주 일대를 아우르며 해상 교역과 육상 교통로를 활용하여 동아시아의 중요한 세력으로 성장한다.
 당과 일본 등과의 외교 관계를 통해 국제적 위상을 높이고 고구려 계승 국가로서의 문화를 발전시키며 해동성국으로 불린다.
 그러나 귀족 세력의 갈등과 외부 세력의 압박 속에서 국력이 약화되어 926년에 멸망하게 된다.',
-        '고구려를 계승하여 만주와 한반도 북부에서 번영하다가 내부·외부 요인으로 10세기 초에 멸망한 국가.'
+        '고구려를 계승하여 만주와 한반도 북부에서 번영하다가 내부·외부 요인으로 10세기 초에 멸망한 국가.',
+        'NAMBUKGOOK'    
     ),
 
     -- 후삼국 및 고려
@@ -36,7 +38,8 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 완산주를 도읍으로 삼고 군사력과 해상 교역을 바탕으로 후삼국의 한 축을 담당하며 고려와 신라를 압박한다.
 그러나 왕권 내부의 갈등과 후계자 분쟁, 견훤과 아들 신검 사이의 대립으로 정치적 불안이 심화된다.
 결국 견훤의 고려 귀부와 왕건의 공세가 맞물리며 936년에 멸망하게 된다.',
-        '전라도 지역을 기반으로 후삼국의 한 축을 이루었으나 내분과 고려의 공세로 멸망한 국가.'
+        '전라도 지역을 기반으로 후삼국의 한 축을 이루었으나 내분과 고려의 공세로 멸망한 국가.',
+        'HOOSAMGOOK'
     ),
     (
         '후고구려(태봉)',
@@ -47,7 +50,8 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 처음에는 후백제와 함께 통일 신라를 압박하며 후삼국 시대의 주도권을 다투는 세력으로 성장한다.
 그러나 궁예의 폭정과 심한 의심으로 인해 신료와 백성의 지지가 약해지고 내부 불만이 크게 쌓인다.
 결국 왕건을 중심으로 한 세력이 궁예를 몰아내고 918년 고려를 세우면서 후고구려(태봉)는 역사 속에서 사라진다.',
-        '고구려 계승을 표방하며 후삼국의 한 축을 이루었으나 궁예의 폭정과 왕건의 집권으로 소멸한 국가.'
+        '고구려 계승을 표방하며 후삼국의 한 축을 이루었으나 궁예의 폭정과 왕건의 집권으로 소멸한 국가.',
+        'HOOSAMGOOK'
     ),
     (
         '고려',
@@ -58,25 +62,26 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
 후삼국을 통일한 뒤 문벌 귀족 사회와 불교 문화를 중심으로 한 중세 국가 체제를 발전시키며 동아시아 질서 속에 자리 잡는다.
 거란과 여진, 몽골 등과의 전쟁과 외교를 거치며 대외적으로는 자주성을 지키려 노력하고 내부적으로는 개혁과 혼란을 반복한다.
 원 간섭기와 권문세족의 부패, 신흥 무인과 신진 사대부 세력의 대두 속에서 점차 쇠퇴하고 1392년 조선의 건국과 함께 막을 내린다.',
-        '후삼국을 통일해 중세 한반도를 통치했으나 외침과 내부 모순 속에서 조선으로 교체된 국가.'
+        '후삼국을 통일해 중세 한반도를 통치했으나 외침과 내부 모순 속에서 조선으로 교체된 국가.',
+        'GORYEO_EARLY'
     ),
 
     -- 중국 왕조 및 기타 세력
-    ('당', 618, 907, NULL, NULL, NULL),
-    ('거란(요나라 이전)', 780, 916, NULL, NULL, NULL),
-    ('요(거란)', 916, 1125, NULL, NULL, NULL),
-    ('송', 960, 1279, NULL, NULL, NULL),
-    ('서하', 1038, 1227, NULL, NULL, NULL),
-    ('금', 1115, 1234, NULL, NULL, NULL),
-    ('몽골 제국', 1206, 1271, NULL, NULL, NULL),
-    ('원', 1271, 1368, NULL, NULL, NULL),
-    ('명', 1368, 1392, NULL, NULL, NULL),
+    ('당', 618, 907, NULL, NULL, NULL, NULL),
+    ('거란(요나라 이전)', 780, 916, NULL, NULL, NULL, NULL),
+    ('요(거란)', 916, 1125, NULL, NULL, NULL, NULL),
+    ('송', 960, 1279, NULL, NULL, NULL, NULL),
+    ('서하', 1038, 1227, NULL, NULL, NULL, NULL),
+    ('금', 1115, 1234, NULL, NULL, NULL, NULL),
+    ('몽골 제국', 1206, 1271, NULL, NULL, NULL, NULL),
+    ('원', 1271, 1368, NULL, NULL, NULL, NULL),
+    ('명', 1368, 1392, NULL, NULL, NULL, NULL),
 
     -- 주변국
-    ('일본', 780, 1392, NULL, NULL, NULL),
-    ('여진', 1100, 1234, NULL, NULL, NULL),
-    ('홍건적', 1350, 1370, NULL, NULL, NULL),
-    ('왜구', 1350, 1392, NULL, NULL, NULL);
+    ('일본', 780, 1392, NULL, NULL, NULL, NULL),
+    ('여진', 1100, 1234, NULL, NULL, NULL, NULL),
+    ('홍건적', 1350, 1370, NULL, NULL, NULL, NULL),
+    ('왜구', 1350, 1392, NULL, NULL, NULL, NULL);
 
 -- ##################################################
 -- 주요사건 데이터
@@ -89,7 +94,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '통일 신라'),
         '혜공왕 피살 및 왕위 다툼 심화',
         780,
-        '신라 말',
+        'NAMBUKGOOK',
         '진골 귀족들이 반란을 일으켜 혜공왕을 살해한다.
 이 사건으로 무열왕계의 왕위 세습이 단절되면서 왕위 계승 질서가 크게 흔들린다.
 이후 중앙 귀족들 사이에서 왕위를 둘러싼 치열한 쟁탈전이 이어진다.
@@ -101,7 +106,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '통일 신라'),
         '장보고, 청해진 설치',
         828,
-        '신라 말',
+        'NAMBUKGOOK',
         '당나라에서 활동하던 장보고가 흥덕왕에게 건의하여 완도에 해상 거점인 청해진을 설치한다.
 그는 청해진을 근거지로 신라·당·일본을 잇는 해상 무역로를 장악한다.
 장보고는 해적 세력을 소탕하여 동아시아 해상 무역의 안전을 확보하고 막대한 무역 이익을 축적한다.
@@ -113,7 +118,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '통일 신라'),
         '김헌창의 난',
         822,
-        '신라 말',
+        'NAMBUKGOOK',
         '웅주 도독 김헌창이 부친이 왕이 되지 못한 것에 불만을 품고 반란을 일으킨다.
 그는 국호를 장안이라 칭하고 스스로 왕을 자처하며 지방 군사력을 동원한다.
 이 반란은 지방 세력이 중앙 정부의 통제를 벗어나 독자적인 정치 세력을 형성했음을 보여준다.
@@ -125,7 +130,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '통일 신라'),
         '원종·애노의 난',
         889,
-        '신라 말',
+        'NAMBUKGOOK',
         '진성 여왕 시기 중앙 정부가 재정 확보를 위해 지방에 가혹한 세금을 부과한다.
 이에 사벌주(상주)에서 원종과 애노가 주도하여 대규모 농민 봉기가 일어난다.
 봉기는 전국 각지로 빠르게 확산되며 신라 사회의 혼란을 더욱 심화시킨다.
@@ -139,7 +144,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '신라 경순왕, 고려에 항복',
         935,
-        '후삼국 통일',
+        'HOOSAMGOOK',
         '신라의 마지막 왕 경순왕이 더 이상 나라를 유지하기 어렵다고 판단한다.
 그는 전쟁을 통한 소모를 피하기 위해 고려 태조 왕건에게 나라를 스스로 넘기기로 결심한다.
 왕건은 경순왕을 예우하고 신라 유민과 귀족들을 포용하는 정책을 펼친다.
@@ -151,7 +156,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '고려, 후삼국 통일 완성',
         936,
-        '후삼국 통일',
+        'HOOSAMGOOK',
         '신라 항복 이후 왕건은 견훤의 귀부를 받아들이고 후백제와 최후의 결전을 준비한다.
 일리천 전투에서 고려 군대가 후백제 군대를 크게 격파한다.
 이 승리로 후백제가 멸망하고 후삼국의 분열 상태가 종식된다.
@@ -165,7 +170,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '광종, 노비안검법 실시',
         956,
-        '고려 초기',
+        'GORYEO_EARLY',
         '광종이 왕권 강화를 위해 불법적으로 노비가 된 사람들을 조사하는 노비안검법을 실시한다.
 이 법을 통해 권세가와 호족들이 사적으로 확보한 노비와 토지를 국가 통제 아래 두려 한다.
 노비 신분에서 양인으로 해방된 이들이 늘어나면서 국가의 조세와 군역 기반이 넓어진다.
@@ -177,7 +182,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '광종, 과거제 실시',
         958,
-        '고려 초기',
+        'GORYEO_EARLY',
         '광종이 쌍기의 건의를 받아들여 유교적 소양을 갖춘 인재를 뽑기 위한 과거제를 시행한다.
 과거제는 혈통보다는 능력과 학문을 기준으로 관리를 선발하는 제도로 설계된다.
 이를 통해 신진 관료층이 대거 등용되고 기존 호족 세력의 정치적 영향력이 견제된다.
@@ -191,7 +196,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '서희, 외교 담판 및 강동 6주 확보',
         993,
-        '고려 전기',
+        'GORYEO_EARLY',
         '거란이 1차 침입을 감행했을 때 서희가 거란 장수 소손녕과 단독으로 외교 담판을 벌인다.
 서희는 고려가 고구려 계승 국가임을 내세우며 거란의 공격 명분을 약화시킨다.
 그는 송과의 외교 단절을 약속하는 대신 여진이 차지하던 압록강 하류의 영토를 요구한다.
@@ -203,7 +208,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '강감찬, 귀주대첩 승리',
         1019,
-        '고려 전기',
+        'GORYEO_EARLY',
         '거란의 3차 침입 때 강감찬이 고려군의 총지휘관이 되어 방어 작전을 지휘한다.
 그는 흥화진에서 거란군을 기습하여 큰 타격을 입힌 뒤 후퇴하는 적을 계속 추격한다.
 귀주에서 벌어진 결전에서 고려군은 거란 주력군을 포위 섬멸하는 대승을 거둔다.
@@ -215,7 +220,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '윤관, 동북 9성 축조',
         1108,
-        '고려 전기',
+        'GORYEO_EARLY',
         '여진족이 북방에서 세력을 키우며 국경을 침범하자 윤관은 별무반을 조직해 정벌을 추진한다.
 별무반은 기병 중심의 특수 부대로 편성되어 여진에 대한 대대적인 공격을 수행한다.
 윤관은 여진을 몰아내고 동북 지역에 9개의 성을 쌓아 고려의 북방 영토 확장을 시도한다.
@@ -229,7 +234,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '이자겸의 난',
         1126,
-        '고려 전기',
+        'GORYEO_EARLY',
         '경원 이씨 가문의 최고 권력자 이자겸이 외척 세력을 바탕으로 권력을 독점한다.
 그는 외손자인 인종을 압박하고 왕궁에 불을 지르는 등 극단적인 전횡을 일삼는다.
 인종이 쿠데타를 시도하지만 처음에는 실패하고 오히려 이자겸이 정국을 장악한다.
@@ -241,7 +246,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '묘청의 서경 천도 운동',
         1135,
-        '고려 전기',
+        'GORYEO_EARLY',
         '풍수지리설을 내세운 묘청과 서경 세력이 개경의 문벌 귀족 세력을 견제하려 한다.
 그들은 서경(평양)으로의 천도와 함께 금나라 정벌을 주장하며 자주적인 개혁 노선을 제시한다.
 그러나 김부식을 비롯한 보수적인 개경파가 이를 강하게 반대한다.
@@ -255,7 +260,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '무신정변 발생',
         1170,
-        '무신 정권',
+        'GORYEO_EARLY',
         '문신 중심의 정치 구조 속에서 오랫동안 차별받던 무신들의 불만이 극도로 쌓인다.
 의종의 문신 편중 인사와 향락적인 생활이 계속되자 정중부·이의방 등이 무신정변을 일으킨다.
 이들은 궁궐에 난입해 다수의 문신을 살해하고 정권을 장악한다.
@@ -267,7 +272,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '망이·망소이의 난',
         1176,
-        '무신 정권',
+        'GORYEO_MIDDLE_MILITARY',
         '무신 정권의 가혹한 수탈과 지방 차별에 시달리던 공주 명학소 주민들이 봉기를 일으킨다.
 망이와 망소이가 중심이 되어 지방 행정 기구에 저항하며 세력을 확대한다.
 이들은 일시적으로 공주를 점령하는 등 무신 정권에 큰 위협을 가한다.
@@ -279,7 +284,7 @@ INSERT INTO main_event (
         (SELECT country_id FROM country WHERE country_name = '고려'),
         '만적의 봉기 계획',
         1198,
-        '무신 정권',
+        'GORYEO_MIDDLE_MILITARY',
         '최충헌의 사노비였던 만적이 노비 해방과 정권 전복을 목표로 봉기를 준비한다.
 그는 "장군·재상에 어찌 씨가 따로 있겠느냐"라는 말로 신분 차별에 대한 문제 의식을 드러낸다.
 만적은 노비와 천민들을 규합해 대규모 봉기를 모의하지만 계획이 사전에 발각된다.

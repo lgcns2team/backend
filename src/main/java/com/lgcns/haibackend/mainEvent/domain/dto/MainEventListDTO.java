@@ -2,6 +2,7 @@ package com.lgcns.haibackend.mainEvent.domain.dto;
 
 import java.util.UUID;
 
+import com.lgcns.haibackend.global.enums.EraType;
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
 
 import lombok.Builder;
@@ -16,9 +17,8 @@ public class MainEventListDTO {
     private UUID eventId;
     private String eventName;
     private Integer year;
-    private String era;
     private String countryName;
-
+    private EraType era;
     // entity -> dto
     public static MainEventListDTO fromEntity(MainEventEntity entity) {
         if (entity == null) return null;
