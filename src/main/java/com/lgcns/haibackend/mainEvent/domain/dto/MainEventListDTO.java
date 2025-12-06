@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
+import com.lgcns.haibackend.global.enums.EraType;
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
@@ -21,8 +22,9 @@ public class MainEventListDTO {
     private UUID eventId;
     private String eventName;
     private Integer year;
-    private String era;
     private String countryName;
+    private EraType era;
+    
     private String summary;
     private String type;
 
