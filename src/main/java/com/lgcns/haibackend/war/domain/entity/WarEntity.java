@@ -71,4 +71,12 @@ public class WarEntity {
     @JoinColumn(name = "defence_country_id", nullable = false)
     private CountryEntity defenceCountry;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "winner_country_id")
+    private CountryEntity winnerCountry;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loser_country_id")
+    private CountryEntity loserCountry;
+
 }
