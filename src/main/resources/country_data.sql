@@ -1,5 +1,5 @@
 -- 국가 초기 데이터
-INSERT INTO country (country_code, country_name, country_en_name, country_code, foundation_year, ended_year, title, description, summary) VALUES
+INSERT INTO country (country_code, country_name, country_en_name, foundation_year, ended_year, title, description, summary) VALUES
     -- 한국사 주요 국가 (780년 이전 건국)
     (
         1,
