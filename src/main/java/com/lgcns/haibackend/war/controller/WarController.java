@@ -48,6 +48,10 @@ public class WarController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdWar);
     }
 
+    // // 국가별 전쟁 조회
+    // @GetMapping("/country/{countryName}")
+    // public ResponseEntity<List<WarResponseDTO>> getWarByCountryName
+
     // 전쟁 수정
     @PutMapping("/{warId}")
     public ResponseEntity<WarResponseDTO> updateWar(

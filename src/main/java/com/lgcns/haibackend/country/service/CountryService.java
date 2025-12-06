@@ -28,10 +28,10 @@ public class CountryService {
             .collect(Collectors.toList());
     }
 
-    // 국가 상세 조회
-    public CountryResponseDTO getCountryById(UUID countryId) {
-        CountryEntity country = countryRepository.findById(countryId)
-            .orElseThrow(() -> new RuntimeException("Country not found with id: " + countryId));
+    // 국가 코드로 국가 상세 조회
+    public CountryResponseDTO getCountryByCode(Integer countryCode) {
+        CountryEntity country = countryRepository.findByCountryCode(countryCode)
+            .orElseThrow(() -> new RuntimeException("Country not found with code: " + countryCode));
         return CountryResponseDTO.fromEntity(country);
     }
 
@@ -42,7 +42,7 @@ public class CountryService {
         country.setCountryName(requestDTO.getCountryName());
         country.setFoundationYear(requestDTO.getFoundationYear());
         country.setEndedYear(requestDTO.getEndedYear());
-        country.setEra(requestDTO.getEra());
+        country.setCountryCode(requestDTO.getCountryCode());
 
         CountryEntity savedCountry = countryRepository.save(country);
         return CountryResponseDTO.fromEntity(savedCountry);

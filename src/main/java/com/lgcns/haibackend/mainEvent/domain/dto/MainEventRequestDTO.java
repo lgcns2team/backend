@@ -3,7 +3,6 @@ package com.lgcns.haibackend.mainEvent.domain.dto;
 import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
-import com.lgcns.haibackend.global.enums.EraType;
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
 
 import lombok.Builder;
@@ -23,7 +22,6 @@ public class MainEventRequestDTO {
 
    private String description;
    private String summary;
-   private EraType era;
    public MainEventEntity toEntity(CountryEntity countryEntity) {
       if (countryEntity == null) {
          // Country Entity가 없는 경우 유효성 검사
@@ -34,7 +32,6 @@ public class MainEventRequestDTO {
       return MainEventEntity.builder()
             .eventName(this.eventName)
             .year(this.year)
-            .era(this.era)
             .description(this.description)
             .summary(this.summary)
             .country(countryEntity)

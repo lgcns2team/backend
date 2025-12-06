@@ -33,7 +33,6 @@ public class WarResponseDTO {
     
     private UUID defenceCountryId;
     private String defenceCountryName;
-    
     private List<BattleResponseDTO> battles;
 
     // Entity -> DTO

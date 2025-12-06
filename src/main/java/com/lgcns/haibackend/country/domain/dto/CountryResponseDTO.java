@@ -3,7 +3,6 @@ package com.lgcns.haibackend.country.domain.dto;
 import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
-import com.lgcns.haibackend.global.enums.EraType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +21,7 @@ public class CountryResponseDTO {
     private String countryName;
     private Integer foundationYear;
     private Integer endedYear;
-    private EraType era;
+    private Integer countryCode;
 
     // Entity -> DTO
     public static CountryResponseDTO fromEntity(CountryEntity entity) {
@@ -33,7 +32,7 @@ public class CountryResponseDTO {
             .countryName(entity.getCountryName())
             .foundationYear(entity.getFoundationYear())
             .endedYear(entity.getEndedYear())
-            .era(entity.getEra())
+            .countryCode(entity.getCountryCode())
             .build();
     }
 }

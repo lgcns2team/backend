@@ -1,7 +1,5 @@
 package com.lgcns.haibackend.country.domain.dto;
 
-import com.lgcns.haibackend.global.enums.EraType;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,5 +18,5 @@ public class CountryRequestDTO {
     private String countryName;
     private Integer foundationYear;
     private Integer endedYear;
-    private EraType era;
+    private Integer countryCode;
 }
