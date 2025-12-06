@@ -75,6 +75,7 @@ INSERT INTO country (country_code, country_name, country_en_name, foundation_yea
         null,
         null,
         null,
+        null,
         null
     ),
 
