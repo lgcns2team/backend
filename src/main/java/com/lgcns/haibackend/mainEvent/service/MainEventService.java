@@ -90,7 +90,6 @@ public class MainEventService {
         MainEventEntity entity = MainEventEntity.builder()
             .eventName(requestDTO.getEventName())
             .year(requestDTO.getYear())
-            .era(requestDTO.getEra())
             .description(requestDTO.getDescription())
             .country(country)
             .build();
@@ -121,9 +120,6 @@ public class MainEventService {
         }
         if (requestDTO.getYear() != null) {
             entity.setYear(requestDTO.getYear());
-        }
-        if (requestDTO.getEra() != null) {
-            entity.setEra(requestDTO.getEra());
         }
         if (requestDTO.getDescription() != null) {
             entity.setDescription(requestDTO.getDescription());

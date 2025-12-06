@@ -3,7 +3,6 @@ package com.lgcns.haibackend.mainEvent.domain.entity;
 import java.util.UUID;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
-import com.lgcns.haibackend.global.enums.EraType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,9 +38,6 @@ public class MainEventEntity {
     private Integer year;
     private String description;
     private String summary;
-
-    @Enumerated(EnumType.STRING)
-    private EraType era;
 
     @ManyToOne
     @JoinColumn(name = "country_id")

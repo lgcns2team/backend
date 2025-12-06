@@ -3,7 +3,6 @@ package com.lgcns.haibackend.mainEvent.domain.dto;
 import java.util.UUID;
 
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
-import com.lgcns.haibackend.global.enums.EraType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +16,6 @@ public class MainEventDetailDTO {
     private UUID eventId;
     private String eventName;
     private Integer year;
-    private EraType era;
     private String description;
     private String summary;
     private String countryName;
@@ -27,7 +25,6 @@ public class MainEventDetailDTO {
             .eventId(entity.getEventId())
             .eventName(entity.getEventName())
             .year(entity.getYear())
-            .era(entity.getEra())
             .description(entity.getDescription())
             .summary(entity.getSummary())
             .countryName(entity.getCountry().getCountryName())
