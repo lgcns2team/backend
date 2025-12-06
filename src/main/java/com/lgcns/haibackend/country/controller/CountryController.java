@@ -34,10 +34,10 @@ public class CountryController {
         return ResponseEntity.ok(countries);
     }
 
-    // 국가 상세 조회
-    @GetMapping("/{countryId}")
-    public ResponseEntity<CountryResponseDTO> getCountryById(@PathVariable UUID countryId) {
-        CountryResponseDTO country = countryService.getCountryById(countryId);
+    // 국가 코드로 국가 상세 조회
+    @GetMapping("/{countryCode}")
+    public ResponseEntity<CountryResponseDTO> getCountryByCode(@PathVariable Integer countryCode) {
+        CountryResponseDTO country = countryService.getCountryByCode(countryCode);
         return ResponseEntity.ok(country);
     }
 

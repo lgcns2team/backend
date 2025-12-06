@@ -41,12 +41,20 @@ public class WarController {
         return ResponseEntity.ok(wars);
     }
 
+    // 국가별 전쟁 히스토리 조회
+    @GetMapping("/history/{countryCode}")
+    public ResponseEntity<?> getWarHistoryByCountryCode(@PathVariable Integer countryCode) {
+        return ResponseEntity.ok(warService.getWarHistoryByCountryCode(countryCode));
+    }
+
+    // 추가 확장 가능성
     // 전쟁 생성
     @PostMapping
     public ResponseEntity<WarResponseDTO> createWar(@RequestBody WarRequestDTO requestDTO) {
         WarResponseDTO createdWar = warService.createWar(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdWar);
     }
+
 
     // 전쟁 수정
     @PutMapping("/{warId}")

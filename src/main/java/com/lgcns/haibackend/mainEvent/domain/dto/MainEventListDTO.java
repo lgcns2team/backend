@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-import com.lgcns.haibackend.global.enums.EraType;
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
@@ -23,7 +22,6 @@ public class MainEventListDTO {
     private String eventName;
     private Integer year;
     private String countryName;
-    private EraType era;
     
     private String summary;
     private String type;
@@ -48,7 +46,6 @@ public class MainEventListDTO {
             .eventId(entity.getEventId())
             .eventName(entity.getEventName())
             .year(entity.getYear())
-            .era(entity.getEra())
             .countryName(entity.getCountry().getCountryName())
             .summary(entity.getSummary())
             .type("MAIN_EVENT")
@@ -67,7 +64,6 @@ public class MainEventListDTO {
             .eventId(country.getCountryId())
             .eventName(country.getTitle())
             .year(country.getFoundationYear())
-            .era(null)               
             .countryName(country.getCountryName())
             .summary(country.getSummary())
             .type("COUNTRY")
@@ -91,7 +87,6 @@ public class MainEventListDTO {
             .eventId(capital.getCapitalId())
             .eventName(capital.getTitle())                         
             .year(year)
-            .era(null)
             .countryName(capital.getCountry().getCountryName())
             .summary(capital.getSummary())
             .type("CAPITAL")
@@ -113,14 +108,13 @@ public class MainEventListDTO {
             .eventId(war.getWarId())
             .eventName(war.getName())
             .year(year)
-            .era(null)
             .countryName(countryName)
             .summary(war.getSummary())
             .type("WAR")
             .build();
     }
 
-    private static String resolveWarCountryName(WarEntity war) {
+    public static String resolveWarCountryName(WarEntity war) {
         CountryEntity attack  = war.getAttackCountry();
         CountryEntity defence = war.getDefenceCountry();
         CountryEntity winner  = war.getWinnerCountry();
