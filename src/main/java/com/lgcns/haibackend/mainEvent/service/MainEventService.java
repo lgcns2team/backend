@@ -9,17 +9,17 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.capital.repository.CapitalRepository;
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.country.repository.CountryRepository;
 import com.lgcns.haibackend.mainEvent.domain.dto.MainEventDetailDTO;
 import com.lgcns.haibackend.mainEvent.domain.dto.MainEventListDTO;
-import com.lgcns.haibackend.mainEvent.domain.dto.MainEventRequestDTO;
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
 import com.lgcns.haibackend.mainEvent.repository.MainEventRepository;
+import com.lgcns.haibackend.war.domain.entity.WarEntity;
 import com.lgcns.haibackend.war.repository.WarRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -73,67 +73,35 @@ public class MainEventService {
 
     }
 
-    public MainEventDetailDTO getMainEventDetail(UUID eventId) {
-        MainEventEntity entity = mainEventRepository.findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("MainEvent not found: " + eventId));
+    public MainEventDetailDTO getDetail(String type, UUID eventId) {
 
-        return MainEventDetailDTO.fromEntity(entity);
-    }
+        return switch (type) {
+            case "MAIN_EVENT" -> {
+                MainEventEntity entity = mainEventRepository.findById(eventId)
+                    .orElseThrow(() -> new IllegalArgumentException("MainEvent not found: " + eventId));
+                yield MainEventDetailDTO.fromMainEvent(entity);
+            }
 
-    @Transactional
-    public MainEventDetailDTO createMainEvent(MainEventRequestDTO requestDTO) {
-        CountryEntity country = countryRepository.findById(requestDTO.getCountryId())
-            .orElseThrow(() -> new EntityNotFoundException(
-                "Country not found: " + requestDTO.getCountryId()
-            ));
+            case "COUNTRY" -> {
+                CountryEntity entity = countryRepository.findById(eventId)
+                    .orElseThrow(() -> new IllegalArgumentException("Country not found: " + eventId));
+                yield MainEventDetailDTO.fromCountry(entity);
+            }
 
-        MainEventEntity entity = MainEventEntity.builder()
-            .eventName(requestDTO.getEventName())
-            .year(requestDTO.getYear())
-            .description(requestDTO.getDescription())
-            .country(country)
-            .build();
+            case "CAPITAL" -> {
+                CapitalEntity entity = capitalRepository.findById(eventId)
+                    .orElseThrow(() -> new IllegalArgumentException("Capital not found: " + eventId));
+                yield MainEventDetailDTO.fromCapital(entity);
+            }
 
-        MainEventEntity saved = mainEventRepository.save(entity);
+            case "WAR" -> {
+                WarEntity entity = warRepository.findById(eventId)
+                    .orElseThrow(() -> new IllegalArgumentException("War not found: " + eventId));
+                yield MainEventDetailDTO.fromWar(entity);
+            }
 
-        return MainEventDetailDTO.fromEntity(saved);
-    }
-
-    @Transactional
-    public MainEventDetailDTO updateMainEvent(UUID eventId, MainEventRequestDTO requestDTO) {
-        MainEventEntity entity = mainEventRepository.findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("MainEvent not found: " + eventId));
-
-        if (requestDTO.getCountryId() != null &&
-            (entity.getCountry() == null ||
-             !entity.getCountry().getCountryId().equals(requestDTO.getCountryId()))) {
-
-            CountryEntity country = countryRepository.findById(requestDTO.getCountryId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                    "Country not found: " + requestDTO.getCountryId()
-                ));
-            entity.setCountry(country);
-        }
-
-        if (requestDTO.getEventName() != null) {
-            entity.setEventName(requestDTO.getEventName());
-        }
-        if (requestDTO.getYear() != null) {
-            entity.setYear(requestDTO.getYear());
-        }
-        if (requestDTO.getDescription() != null) {
-            entity.setDescription(requestDTO.getDescription());
-        }
-
-        return MainEventDetailDTO.fromEntity(entity);
-    }
-
-    @Transactional
-    public void deleteMainEvent(UUID eventId) {
-        MainEventEntity entity = mainEventRepository.findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("MainEvent not found: " + eventId));
-
-        mainEventRepository.delete(entity);
+            default -> throw new IllegalArgumentException("Unsupported type: " + type);
+        };
     }
 
 }
