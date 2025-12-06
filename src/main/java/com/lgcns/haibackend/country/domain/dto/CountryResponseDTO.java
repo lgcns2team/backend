@@ -22,6 +22,9 @@ public class CountryResponseDTO {
     private Integer foundationYear;
     private Integer endedYear;
     private Integer countryCode;
+    private String title;
+    private String description;
+    private String summary;
 
     // Entity -> DTO
     public static CountryResponseDTO fromEntity(CountryEntity entity) {
@@ -33,6 +36,9 @@ public class CountryResponseDTO {
             .foundationYear(entity.getFoundationYear())
             .endedYear(entity.getEndedYear())
             .countryCode(entity.getCountryCode())
+            .title(entity.getTitle())
+            .description(entity.getDescription())
+            .summary(entity.getSummary())
             .build();
     }
 }
