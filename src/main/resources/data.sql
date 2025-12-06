@@ -72,21 +72,21 @@ INSERT INTO country (country_name, country_en_name, foundation_year, ended_year,
     ),
 
     -- 중국 왕조 및 기타 세력
-    ('당', 'Tang', 618, 907, NULL, NULL, NULL),
-    ('거란(요나라 이전)', 'Khitan (Pre-Liao)', 780, 916, NULL, NULL, NULL),
-    ('요(거란)', 'Liao (Khitan)', 916, 1125, NULL, NULL, NULL),
-    ('송', 'Song', 960, 1279, NULL, NULL, NULL),
-    ('서하', 'Western Xia', 1038, 1227, NULL, NULL, NULL),
-    ('금', 'Jin', 1115, 1234, NULL, NULL, NULL),
-    ('몽골 제국', 'Mongol Empire', 1206, 1271, NULL, NULL, NULL),
-    ('원', 'Yuan', 1271, 1368, NULL, NULL, NULL),
-    ('명', 'Ming', 1368, 1392, NULL, NULL, NULL),
+    ('당', 'Tang', 618, 907, NULL, NULL, NULL, NULL),
+    ('거란(요나라 이전)', 'Khitan (Pre-Liao)', 780, 916, NULL, NULL, NULL, NULL),
+    ('요(거란)', 'Liao (Khitan)', 916, 1125, NULL, NULL, NULL, NULL),
+    ('송', 'Song', 960, 1279, NULL, NULL, NULL, NULL),
+    ('서하', 'Western Xia', 1038, 1227, NULL, NULL, NULL, NULL),
+    ('금', 'Jin', 1115, 1234, NULL, NULL, NULL, NULL),
+    ('몽골 제국', 'Mongol Empire', 1206, 1271, NULL, NULL, NULL, NULL),
+    ('원', 'Yuan', 1271, 1368, NULL, NULL, NULL, NULL),
+    ('명', 'Ming', 1368, 1392, NULL, NULL, NULL, NULL),
 
     -- 주변국
-    ('일본', 'Japan', 780, 1392, NULL, NULL, NULL),
-    ('여진', 'Jurchen', 1100, 1234, NULL, NULL, NULL),
-    ('홍건적', 'Red Turban Rebels', 1350, 1370, NULL, NULL, NULL),
-    ('왜구', 'Wokou (Japanese Pirates)', 1350, 1392, NULL, NULL, NULL);
+    ('일본', 'Japan', 780, 1392, NULL, NULL, NULL, NULL),
+    ('여진', 'Jurchen', 1100, 1234, NULL, NULL, NULL, NULL),
+    ('홍건적', 'Red Turban Rebels', 1350, 1370, NULL, NULL, NULL, NULL),
+    ('왜구', 'Wokou (Japanese Pirates)', 1350, 1392, NULL, NULL, NULL, NULL);
 
 -- ##################################################
 -- 주요사건 데이터
