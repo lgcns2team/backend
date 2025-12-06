@@ -20,9 +20,6 @@ public interface CountryRepository extends JpaRepository<CountryEntity, UUID> {
     @Query("SELECT DISTINCT c FROM CountryEntity c")
     List<CountryEntity> findAllWithCapitals();
     
-    /**
-     * 타임라인용: kings를 로드 (capitals는 이미 로드된 상태)
-     */
     @EntityGraph(attributePaths = {"kings"})
     @Query("SELECT DISTINCT c FROM CountryEntity c")
     List<CountryEntity> findAllWithKings();

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.country.repository.CountryRepository;
+import com.lgcns.haibackend.war.domain.dto.WarHistoryResponseDTO;
 import com.lgcns.haibackend.war.domain.dto.WarRequestDTO;
 import com.lgcns.haibackend.war.domain.dto.WarResponseDTO;
 import com.lgcns.haibackend.war.domain.entity.WarEntity;
@@ -38,6 +39,14 @@ public class WarService {
                 .collect(Collectors.toList());
     }
 
+    // 국가별 전쟁 히스토리 조회
+    public WarHistoryResponseDTO getWarHistoryByCountryCode(Integer countryCode) {
+        CountryEntity country = countryRepository.findByCountryCode(countryCode)
+                .orElseThrow(() -> new RuntimeException("Country not found with code: " + countryCode));
+        return WarHistoryResponseDTO.fromEntity(country);
+    }
+
+    // 추가 확장 가능성
     // 전쟁 생성
     @Transactional
     public WarResponseDTO createWar(WarRequestDTO requestDTO) {
