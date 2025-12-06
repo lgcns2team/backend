@@ -46,6 +46,9 @@ public class CountryEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(columnDefinition = "TEXT")
+    private String warHistory;
+
     @OneToMany(mappedBy = "country", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<CapitalEntity> capitals;
 
