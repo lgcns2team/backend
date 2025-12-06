@@ -5,7 +5,6 @@ import com.lgcns.haibackend.war.domain.entity.WarEntity;
 
 import java.util.UUID;
 
-import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 
@@ -39,8 +38,7 @@ public class MainEventDetailDTO {
         return MainEventDetailDTO.builder()
             .eventId(entity.getCountryId())
             .eventName(entity.getTitle()) 
-            .year(year)
-            .era(entity.getEra())                        
+            .year(year)                    
             .description(entity.getDescription())
             .countryName(entity.getCountryName())
             .build();
@@ -57,7 +55,6 @@ public class MainEventDetailDTO {
             .eventId(entity.getCapitalId())
             .eventName(entity.getTitle())
             .year(year)
-            .era(null)
             .description(entity.getDescription()) 
             .countryName(entity.getCountry().getCountryName())
             .build();
@@ -76,7 +73,6 @@ public class MainEventDetailDTO {
             .eventId(entity.getWarId())
             .eventName(entity.getName())
             .year(year)
-            .era(null)
             .description(entity.getDescription())
             .countryName(countryName)
             .build();
