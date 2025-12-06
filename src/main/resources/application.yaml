@@ -31,7 +31,7 @@ spring:
       mode: always
       encoding: utf-8
       schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
+      data-locations: classpath:country_data.sql, classpath:capital_data.sql, classpath:war_data.sql, classpath:battle_data.sql ,classpath:main_event_data.sql, classpath:king_data.sql, classpath:trade_data.sql 
 logging:
   level:
     org.springframework.jdbc.datasource.init: debug
