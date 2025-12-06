@@ -120,7 +120,7 @@ public class MainEventListDTO {
             .build();
     }
 
-    private static String resolveWarCountryName(WarEntity war) {
+    public static String resolveWarCountryName(WarEntity war) {
         CountryEntity attack  = war.getAttackCountry();
         CountryEntity defence = war.getDefenceCountry();
         CountryEntity winner  = war.getWinnerCountry();
