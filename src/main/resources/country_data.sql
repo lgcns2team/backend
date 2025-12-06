@@ -68,6 +68,15 @@ INSERT INTO country (country_code, country_name, country_en_name, country_code, 
 원 간섭기와 권문세족의 부패, 신흥 무인과 신진 사대부 세력의 대두 속에서 점차 쇠퇴하고 1392년 조선의 건국과 함께 막을 내린다.',
         '후삼국을 통일해 중세 한반도를 통치했으나 외침과 내부 모순 속에서 조선으로 교체된 국가.'
     ),
+    (
+        19,
+        '조선',
+        'Choseon',
+        null,
+        null,
+        null,
+        null
+    ),
 
     -- 중국 왕조 및 기타 세력
     (5, '당', 'Tang', 618, 907, NULL, NULL, NULL),
