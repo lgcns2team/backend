@@ -1,7 +1,8 @@
 -- 국가 초기 데이터
-INSERT INTO country (country_name, country_en_name, foundation_year, ended_year, title, description, summary) VALUES
+INSERT INTO country (country_code, country_name, country_en_name, country_code, foundation_year, ended_year, title, description, summary) VALUES
     -- 한국사 주요 국가 (780년 이전 건국)
     (
+        1,
         '통일 신라',
         'Unified Silla',
         668,
@@ -14,6 +15,7 @@ INSERT INTO country (country_name, country_en_name, foundation_year, ended_year,
         '삼국 통일 이후 중앙집권과 불교 문화를 발전시키지만 내부 모순과 지방 세력 성장으로 고려에 계승된 국가.'
     ),
     (
+        2,
         '발해',
         'Balhae',
         698,
@@ -28,6 +30,7 @@ INSERT INTO country (country_name, country_en_name, foundation_year, ended_year,
 
     -- 후삼국 및 고려
     (
+        3,
         '후백제',
         'Later Baekje',
         892,
@@ -40,6 +43,7 @@ INSERT INTO country (country_name, country_en_name, foundation_year, ended_year,
         '전라도 지역을 기반으로 후삼국의 한 축을 이루었으나 내분과 고려의 공세로 멸망한 국가.'
     ),
     (
+         4,
         '후고구려(태봉)',
         'Later Goguryeo (Taebong)',
         901,
@@ -52,6 +56,7 @@ INSERT INTO country (country_name, country_en_name, foundation_year, ended_year,
         '고구려 계승을 표방하며 후삼국의 한 축을 이루었으나 궁예의 폭정과 왕건의 집권으로 소멸한 국가.'
     ),
     (
+        6,
         '고려',
         'Goryeo',
         918,
@@ -65,18 +70,18 @@ INSERT INTO country (country_name, country_en_name, foundation_year, ended_year,
     ),
 
     -- 중국 왕조 및 기타 세력
-    ('당', 'Tang', 618, 907, NULL, NULL, NULL),
-    ('거란(요나라 이전)', 'Khitan (Pre-Liao)', 780, 916, NULL, NULL, NULL),
-    ('요(거란)', 'Liao (Khitan)', 916, 1125, NULL, NULL, NULL),
-    ('송', 'Song', 960, 1279, NULL, NULL, NULL),
-    ('서하', 'Western Xia', 1038, 1227, NULL, NULL, NULL),
-    ('금', 'Jin', 1115, 1234, NULL, NULL, NULL),
-    ('몽골 제국', 'Mongol Empire', 1206, 1271, NULL, NULL, NULL),
-    ('원', 'Yuan', 1271, 1368, NULL, NULL, NULL),
-    ('명', 'Ming', 1368, 1392, NULL, NULL, NULL),
+    (5, '당', 'Tang', 618, 907, NULL, NULL, NULL),
+    (7, '거란(요나라 이전)', 'Khitan (Pre-Liao)', 780, 916, NULL, NULL, NULL),
+    (8, '요(거란)', 'Liao (Khitan)', 916, 1125, NULL, NULL, NULL),
+    (10, '금', 'Jin', 1115, 1234, NULL, NULL, NULL),
+    (11, '송', 'Song', 960, 1279, NULL, NULL, NULL),
+    (12, '서하', 'Western Xia', 1038, 1227, NULL, NULL, NULL),
+    (13, '몽골 제국', 'Mongol Empire', 1206, 1271, NULL, NULL, NULL),
+    (14, '원', 'Yuan', 1271, 1368, NULL, NULL, NULL),
+    (15, '명', 'Ming', 1368, 1392, NULL, NULL, NULL),
 
     -- 주변국
-    ('일본', 'Japan', 780, 1392, NULL, NULL, NULL),
-    ('여진', 'Jurchen', 1100, 1234, NULL, NULL, NULL),
-    ('홍건적', 'Red Turban Rebels', 1350, 1370, NULL, NULL, NULL),
-    ('왜구', 'Wokou (Japanese Pirates)', 1350, 1392, NULL, NULL, NULL);
+    (9, '여진', 'Jurchen', 1100, 1234, NULL, NULL, NULL),
+    (16, '일본', 'Japan', 780, 1392, NULL, NULL, NULL),
+    (17, '홍건적', 'Red Turban Rebels', 1350, 1370, NULL, NULL, NULL),
+    (18, '왜구', 'Wokou (Japanese Pirates)', 1350, 1392, NULL, NULL, NULL);
