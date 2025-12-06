@@ -1,10 +1,11 @@
 -- 초기 데이터 추가 시 schema.sql에서 id 기본값 설정 필요
 
 -- 국가 초기 데이터
-INSERT INTO country (country_name, foundation_year, ended_year, title, description, summary, era) VALUES
+INSERT INTO country (country_name, country_en_name, foundation_year, ended_year, title, description, summary) VALUES
     -- 한국사 주요 국가 (780년 이전 건국)
     (
         '통일 신라',
+        'Unified Silla',
         668,
         935,
         '통일 신라 건국',
@@ -17,6 +18,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
     ),
     (
         '발해',
+        'Balhae',
         698,
         926,
         '발해 건국',
@@ -31,6 +33,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
     -- 후삼국 및 고려
     (
         '후백제',
+        'Later Baekje',
         892,
         936,
         '후백제 건국',
@@ -43,6 +46,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
     ),
     (
         '후고구려(태봉)',
+        'Later Goguryeo (Taebong)',
         901,
         918,
         '후고구려(태봉) 건국',
@@ -55,6 +59,7 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
     ),
     (
         '고려',
+        'Goryeo',
         918,
         1392,
         '고려 건국',
@@ -67,21 +72,21 @@ INSERT INTO country (country_name, foundation_year, ended_year, title, descripti
     ),
 
     -- 중국 왕조 및 기타 세력
-    ('당', 618, 907, NULL, NULL, NULL, NULL),
-    ('거란(요나라 이전)', 780, 916, NULL, NULL, NULL, NULL),
-    ('요(거란)', 916, 1125, NULL, NULL, NULL, NULL),
-    ('송', 960, 1279, NULL, NULL, NULL, NULL),
-    ('서하', 1038, 1227, NULL, NULL, NULL, NULL),
-    ('금', 1115, 1234, NULL, NULL, NULL, NULL),
-    ('몽골 제국', 1206, 1271, NULL, NULL, NULL, NULL),
-    ('원', 1271, 1368, NULL, NULL, NULL, NULL),
-    ('명', 1368, 1392, NULL, NULL, NULL, NULL),
+    ('당', 'Tang', 618, 907, NULL, NULL, NULL),
+    ('거란(요나라 이전)', 'Khitan (Pre-Liao)', 780, 916, NULL, NULL, NULL),
+    ('요(거란)', 'Liao (Khitan)', 916, 1125, NULL, NULL, NULL),
+    ('송', 'Song', 960, 1279, NULL, NULL, NULL),
+    ('서하', 'Western Xia', 1038, 1227, NULL, NULL, NULL),
+    ('금', 'Jin', 1115, 1234, NULL, NULL, NULL),
+    ('몽골 제국', 'Mongol Empire', 1206, 1271, NULL, NULL, NULL),
+    ('원', 'Yuan', 1271, 1368, NULL, NULL, NULL),
+    ('명', 'Ming', 1368, 1392, NULL, NULL, NULL),
 
     -- 주변국
-    ('일본', 780, 1392, NULL, NULL, NULL, NULL),
-    ('여진', 1100, 1234, NULL, NULL, NULL, NULL),
-    ('홍건적', 1350, 1370, NULL, NULL, NULL, NULL),
-    ('왜구', 1350, 1392, NULL, NULL, NULL, NULL);
+    ('일본', 'Japan', 780, 1392, NULL, NULL, NULL),
+    ('여진', 'Jurchen', 1100, 1234, NULL, NULL, NULL),
+    ('홍건적', 'Red Turban Rebels', 1350, 1370, NULL, NULL, NULL),
+    ('왜구', 'Wokou (Japanese Pirates)', 1350, 1392, NULL, NULL, NULL);
 
 -- ##################################################
 -- 주요사건 데이터
@@ -300,8 +305,9 @@ INSERT INTO main_event (
 -- 후삼국 통일 전쟁 (WAR_TK)
 INSERT INTO war (
     name, description, war_start_date, war_end_date, result, summary,
-    attack_country_id, defence_country_id
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
 ) VALUES (
+    -- 1. 후삼국 통일 전쟁
     '후삼국 통일 전쟁',
     '신라 말기 왕건이 고려를 건국하면서 후백제, 신라와 대립하며 벌인 약 18년간의 민족 통합 전쟁이다. 이 전쟁은 고창 전투와 운주성 전투 등 주요 전투를 거치며 고려 쪽으로 세력의 추가 기울게 한다. 왕건은 신라에 대해 유화적인 정책을 펴서 평화적으로 신라를 흡수한다. 마지막에는 후백제의 내분과 일리천 전투의 승리를 통해 최종적으로 후삼국을 통일하며 고려 왕조의 기틀을 마련한다.',
     DATE '0918-06-15',
@@ -309,27 +315,37 @@ INSERT INTO war (
     '고려 승리, 후삼국 통일',
     '고창 전투와 일리천 전투에서 승리하여 신라 항복과 후백제 멸망을 통해 민족 재통합을 완성함.',
     (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '후백제'),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
     (SELECT country_id FROM country WHERE country_name = '후백제')
 );
--- 여요전쟁 (거란 침입, WAR_KH)
+
+---
+
 INSERT INTO war (
     name, description, war_start_date, war_end_date, result, summary,
-    attack_country_id, defence_country_id
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
 ) VALUES (
+    -- 2. 여요전쟁 (거란 침입)
     '여요전쟁(거란 침입)',
     '거란(요나라)이 송나라와의 관계 단절 등을 요구하며 고려를 세 차례에 걸쳐 대규모로 침략한 전쟁이다. 1차 침입 시 서희가 외교 담판을 통해 오히려 강동 6주를 확보하여 고려의 영토를 확장하는 성과를 얻는다. 2차 침입 때는 현종이 피난하는 등 위기를 겪지만 양규 등의 활약으로 거란군을 격퇴한다. 마지막 3차 침입에서는 강감찬 장군이 귀주에서 거란의 주력군을 궤멸시키는 대승을 거두어 전쟁을 최종적으로 종결시킨다.',
     DATE '0993-10-01',
     DATE '1019-02-01',
     '고려 승리, 강동 6주 확보',
     '1차 침입 때 서희의 외교 담판으로 강동 6주를 확보하고, 3차 침입 때 강감찬이 귀주에서 거란군을 대파하여 평화를 이룸.',
-    (SELECT country_id FROM country WHERE country_name = '거란(요나라 이전)'),
-    (SELECT country_id FROM country WHERE country_name = '고려')
+    (SELECT country_id FROM country WHERE country_name = '요(거란)'), -- 780년 이전 건국 거란이 아닌, 요나라 건국 후의 전쟁이므로 '요(거란)'으로 수정
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '요(거란)')
 );
--- 여진 정벌 (WAR_JR)
+
+---
+
 INSERT INTO war (
     name, description, war_start_date, war_end_date, result, summary,
-    attack_country_id, defence_country_id
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
 ) VALUES (
+    -- 3. 여진 정벌
     '여진 정벌',
     '고려 북방에서 세력을 키우던 여진족을 제압하기 위해 숙종과 예종 시기에 추진된 군사 작전이다. 고려는 기병에 대응하기 위해 윤관의 건의에 따라 별무반을 창설한다. 별무반을 이끈 윤관은 대규모 정벌을 감행하여 여진족을 몰아내고 동북 9성을 축조하는 데 성공한다. 그러나 여진족의 끈질긴 공세와 9성 방어의 어려움 때문에 고려는 결국 여진에게 9성을 돌려주고 전쟁을 마무리한다.',
     DATE '1104-02-01',
@@ -337,13 +353,18 @@ INSERT INTO war (
     '고려 부분적 승리 후 9성 반환',
     '기병 중심 별무반으로 여진을 압박해 동북 9성을 축조했으나 방어의 어려움으로 결국 여진에게 돌려줌.',
     (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '여진'),
+    (SELECT country_id FROM country WHERE country_name = '고려'), -- 9성 축조 성공했으나 결국 반환하여 '부분적 승리'로 해석
     (SELECT country_id FROM country WHERE country_name = '여진')
 );
--- 여몽전쟁(대몽항쟁, WAR_MG)
+
+---
+
 INSERT INTO war (
     name, description, war_start_date, war_end_date, result, summary,
-    attack_country_id, defence_country_id
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
 ) VALUES (
+    -- 4. 여몽전쟁(대몽항쟁)
     '여몽전쟁(대몽항쟁)',
     '몽골 사신 피살 사건을 계기로 시작된 몽골의 침략에 맞서 고려가 약 40여 년간 치른 항쟁이다. 몽골의 강력한 군사력에 맞서 고려 조정은 강화도로 천도하여 장기 항전을 벌인다. 김윤후의 처인성 전투와 충주성 항전처럼 민관군이 함께 저항하는 모습을 보인다. 최씨 무신 정권이 붕괴된 후 몽골과의 강화가 체결되면서 전쟁이 종결된다. 그러나 삼별초는 이에 불복하고 진도와 제주도에서 항쟁을 이어가며 마지막까지 자주 의지를 드러낸다.',
     DATE '1231-08-01',
@@ -351,13 +372,18 @@ INSERT INTO war (
     '고려가 몽골과 강화 체결 후 원 간섭기 시작',
     '귀주성·처인성·충주성 등에서 항전했으나 국토가 황폐화되고 결국 몽골과 강화하여 개경으로 환도, 이후 원 간섭기가 전개됨.',
     (SELECT country_id FROM country WHERE country_name = '몽골 제국'),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '몽골 제국'), -- 강화 체결 및 원 간섭기 시작은 사실상 몽골의 승리로 해석
     (SELECT country_id FROM country WHERE country_name = '고려')
 );
--- 홍건적의 난 (WAR_RB)
+
+---
+
 INSERT INTO war (
     name, description, war_start_date, war_end_date, result, summary,
-    attack_country_id, defence_country_id
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
 ) VALUES (
+    -- 5. 홍건적의 난
     '홍건적의 난',
     '원나라 말기 혼란 속에서 등장한 한족 반란군인 홍건적이 고려의 영토를 침범한 사건이다. 1차 침입 때 서경(평양)까지 함락시키며 큰 피해를 입힌다. 2차 침입 때는 홍건적이 수도인 개경을 점령하고 공민왕이 복주(안동)까지 피난하는 위기를 초래한다. 그러나 고려는 이성계, 최영 등의 장수들을 중심으로 대규모 반격 작전을 펼친다. 결국 개경을 탈환하고 홍건적을 완전히 격퇴하여 국가의 안정을 되찾는다.',
     DATE '1359-12-01',
@@ -365,13 +391,18 @@ INSERT INTO war (
     '고려 승리, 개경 탈환',
     '홍건적이 개경을 함락했으나 이성계·정세운·최영 등의 활약으로 수도를 탈환하고 홍건적을 격퇴함.',
     (SELECT country_id FROM country WHERE country_name = '홍건적'),
-    (SELECT country_id FROM country WHERE country_name = '고려')
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '홍건적')
 );
--- 여일전쟁(왜구 토벌, WAR_JP)
+
+---
+
 INSERT INTO war (
     name, description, war_start_date, war_end_date, result, summary,
-    attack_country_id, defence_country_id
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
 ) VALUES (
+    -- 6. 여일전쟁(왜구 토벌)
     '여일전쟁(왜구 토벌)',
     '고려 후기 일본에서 넘어온 해적 집단인 왜구가 해안과 내륙 깊숙한 곳까지 침입하여 약탈을 일삼아 국가를 위기에 빠뜨린 사건에 대한 대응 전쟁이다. 고려는 최영, 이성계, 최무선 등 뛰어난 장수들을 중심으로 대대적인 왜구 토벌 작전을 전개한다. 최무선이 발명한 화포를 사용한 진포 대첩에서 왜선 500여 척을 격침시키며 해상 방어력을 입증한다. 또한 이성계는 황산 대첩에서 왜구 주력을 크게 격파하는 등 큰 승리를 거두어 왜구의 세력을 약화시킨다.',
     DATE '1350-01-01',
@@ -379,7 +410,9 @@ INSERT INTO war (
     '고려 승리, 왜구 세력 약화',
     '진포 대첩에서 화포를 사용해 왜선을 격침하고, 황산 대첩 등에서 왜구 주력을 크게 격파하여 해상 방어력을 강화함.',
     (SELECT country_id FROM country WHERE country_name = '왜구'),
-    (SELECT country_id FROM country WHERE country_name = '고려')
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '고려'),
+    (SELECT country_id FROM country WHERE country_name = '왜구')
 );
 
 -- ##################################################
@@ -461,7 +494,7 @@ INSERT INTO battle (
  '윤관', '여진족',
  DATE '1107-12-01',
  (SELECT war_id FROM war WHERE name = '여진 정벌'),
- NULL,
+ '{"type":"LineString","coordinates":[[126.560,37.970],[127.200,38.500],[127.600,39.000],[127.800,39.500],[128.000,39.900],[127.900,40.100],[127.700,40.200],[127.500,40.250]]}',
  NULL
 ),
 

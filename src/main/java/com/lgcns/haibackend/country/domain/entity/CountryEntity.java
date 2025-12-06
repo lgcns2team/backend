@@ -37,6 +37,8 @@ public class CountryEntity {
     private UUID countryId;
 
     private String countryName;
+    private String countryEnName;
+
     private Integer foundationYear;
     private Integer endedYear;
 
@@ -73,5 +75,9 @@ public class CountryEntity {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<KingEntity> kings;
+
+    @OneToMany(mappedBy = "winnerCountry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<WarEntity> winnerCountires;
 
 }
