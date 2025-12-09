@@ -87,10 +87,10 @@ INSERT INTO war (
     DATE '1362-01-31',
     '고려 승리, 개경 탈환',
     '홍건적이 개경을 함락했으나 이성계·정세운·최영 등의 활약으로 수도를 탈환하고 홍건적을 격퇴함.',
-    (SELECT country_id FROM country WHERE country_name = '홍건적'),
+    (SELECT country_id FROM country WHERE country_name = '원'),
     (SELECT country_id FROM country WHERE country_name = '고려'),
     (SELECT country_id FROM country WHERE country_name = '고려'),
-    (SELECT country_id FROM country WHERE country_name = '홍건적')
+    (SELECT country_id FROM country WHERE country_name = '원')
 );
 
 ---
@@ -110,4 +110,78 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '고려'),
     (SELECT country_id FROM country WHERE country_name = '고려'),
     (SELECT country_id FROM country WHERE country_name = '왜구')
+);
+
+---
+INSERT INTO war (
+    name, description, war_start_date, war_end_date, result, summary,
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
+) VALUES (
+    -- 11. 임진왜란
+    '임진왜란',
+    '일본 도요토미 히데요시가 대륙 침략을 구실로 조선을 침략하여 7년간 이어진 전쟁이다. 일본군은 초반에 한양과 평양을 점령하며 파죽지세로 북상했다. 그러나 이순신의 한산도 대첩과 명량 해전에서 수군이 제해권을 장악하고, 권율의 행주 대첩과 전국 각지의 의병 활약으로 전세가 역전되었다. 명나라의 지원군이 참전하면서 조·명 연합군이 일본군을 물리쳤으나, 전쟁으로 국토가 황폐화되고 많은 인명 피해가 발생했다.',
+    DATE '1592-04-13',
+    DATE '1598-11-19',
+    '조·명 연합군의 승리',
+    '수군의 제해권 장악과 의병의 활약으로 일본군을 물리쳤으나 국토가 황폐화됨.',
+    (SELECT country_id FROM country WHERE country_name = '일본'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '일본')
+);
+
+---
+
+INSERT INTO war (
+    name, description, war_start_date, war_end_date, result, summary,
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
+) VALUES (
+    -- 14. 정묘호란
+    '정묘호란',
+    '인조의 친명배금 정책에 반발하여 후금(청)이 침입한 전쟁이다. 광해군을 몰아낸 인조가 친명 정책을 펼치자, 후금은 이에 반발하여 조선을 침략했다. 조선은 강화도로 피란하고 평안도 일대에서 의병이 활약했다. 후금의 내부 사정으로 전쟁이 장기화되지 않았고, 형제 관계를 맺는 조건으로 화의가 성립되었다.',
+    DATE '1627-01-13',
+    DATE '1627-03-03',
+    '형제 관계 체결',
+    '의병의 항전과 후금의 사정으로 형제 관계를 맺고 화의함.',
+    (SELECT country_id FROM country WHERE country_name = '후금'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '후금'),
+    (SELECT country_id FROM country WHERE country_name = '조선')
+);
+
+---
+
+INSERT INTO war (
+    name, description, war_start_date, war_end_date, result, summary,
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
+) VALUES (
+    -- 15. 병자호란
+    '병자호란',
+    '국호를 청으로 바꾼 후금이 군신 관계를 요구하며 재침략한 전쟁이다. 청 태종이 직접 10만 대군을 이끌고 조선을 침략했고, 인조는 남한산성으로 피란했다. 45일간의 항전 끝에 식량과 탄약이 떨어지자, 인조는 삼전도에서 청 태종에게 무릎을 꿇고 굴욕적인 항복을 했다. 이후 조선은 청에 대한 군신 관계를 맺고 소현세자와 봉림대군을 인질로 보냈다.',
+    DATE '1636-12-09',
+    DATE '1637-01-30',
+    '청의 승리',
+    '남한산성 항전 끝에 인조가 삼전도에서 굴욕적인 항복을 함.',
+    (SELECT country_id FROM country WHERE country_name = '청'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '청'),
+    (SELECT country_id FROM country WHERE country_name = '조선')
+);
+
+-- 분류용 가상 전쟁: 기타/미분류 전쟁
+INSERT INTO war (
+    name, description, war_start_date, war_end_date,
+    result, summary,
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
+) VALUES (
+    '기타/미분류 전쟁',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가')
 );
