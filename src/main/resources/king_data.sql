@@ -1,4 +1,6 @@
 -- 왕 초기 데이터
+
+-- 삼국-고려시대
 -- 견훤 (후백제)
 INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
 VALUES ('견훤', '견훤왕', '0900-01-01', '0935-03-01',
@@ -98,3 +100,16 @@ VALUES ('왕창', '창왕', '1388-11-28', '1389-12-12',
 INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id)
 VALUES ('왕요', '공양왕', '1389-12-12', '1392-07-17', 
         (SELECT country_id FROM country WHERE country_name = '고려')); -- 고려의 마지막 왕
+
+-- 조선시대
+INSERT INTO king (king_name, regnal_name, started_date, ended_date, country_id) VALUES
+('이성계', '태조', '1392-07-17', '1398-10-14', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이방원', '태종', '1400-11-13', '1418-09-09', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이도', '세종', '1418-09-09', '1450-02-17', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이유', '세조', '1455-07-25', '1468-09-23', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이혈', '성종', '1469-12-31', '1494-12-24', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이혼', '광해군', '1608-02-02', '1623-04-12', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이종', '인조', '1623-04-13', '1649-05-08', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이호', '효종', '1649-05-09', '1659-06-23', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이금', '영조', '1724-10-16', '1776-03-05', (SELECT country_id FROM country WHERE country_name = '조선')),
+('이산', '정조', '1776-03-10', '1800-08-18', (SELECT country_id FROM country WHERE country_name = '조선'));
