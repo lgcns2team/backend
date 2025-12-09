@@ -224,7 +224,7 @@ VALUES (
 INSERT INTO capital (
     capital_name, started_date, ended_date, longitude, latitude,
     title, description, summary, country_id
-) 
+)
 VALUES (
     '무진주(광주)',
     '0892-01-01', -- 후백제 건국 시점
@@ -235,10 +235,14 @@ VALUES (
     NULL,
     '견훤이 후백제 건국 초기 거점으로 삼았던 지역.',
     (SELECT country_id FROM country WHERE country_name = '후백제')
-)
+);
 
 -- 조선시대
 -- 1. 조선: 한양(서울) 천도 (조선 시대 전체)
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+)
 VALUES (
     '한양(서울)',
     DATE '1394-11-29', -- 태조가 한양으로 천도한 날짜 (1394년 음력 10월 28일)
@@ -250,11 +254,15 @@ VALUES (
 한양은 국토의 중앙에 위치하고 한강을 끼고 있어 지리적으로 매우 유리한 조건을 갖추고 있었다.
 이곳에 조선 왕조의 핵심인 경복궁, 종묘, 사직 등의 국가 핵심 시설을 건설하며 통치 기반을 확립한다.
 이후 한양은 조선이 멸망할 때까지 500년 이상 정치, 문화, 경제의 중심지 역할을 수행하며 수도의 역사를 이어갔다.',
-    '태조 이성계가 개경에서 한양으로 옮겨 조선 왕조 500년의 수도가 된 도시.'
+    '태조 이성계가 개경에서 한양으로 옮겨 조선 왕조 500년의 수도가 된 도시.',
     (SELECT country_id FROM country WHERE country_name = '조선')
-)
+);
 -- 2. 명나라: 북경(베이징) (조선 건국 이후)
-(
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+)
+VALUES (
     '북경(베이징)',
     DATE '1368-01-01', -- 명나라 건국 시점
     DATE '1644-04-25', -- 명나라 멸망 시점
@@ -262,12 +270,16 @@ VALUES (
     39.904,
     NULL,
     NULL,
-    '조선 전기까지 외교와 문화 교류의 중심이었으며, 임진왜란 당시 조선에 원군을 보낸 명나라의 수도.'
+    '조선 전기까지 외교와 문화 교류의 중심이었으며, 임진왜란 당시 조선에 원군을 보낸 명나라의 수도.',
     (SELECT country_id FROM country WHERE country_name = '명')
-),
+);
 
 -- 3. 청나라: 북경(베이징) (청나라의 수도 이동 시점)
-(
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+)
+VALUES (
     '북경(베이징)',
     DATE '1644-06-06', -- 청나라가 북경에 입성한 시점
     DATE '1910-08-29', -- 조선 멸망 시점까지 (청 멸망은 1912년)
@@ -277,10 +289,14 @@ VALUES (
     NULL,
     '병자호란 이후 조선이 군신 관계를 맺고 사대 외교를 유지했던 청나라의 수도.',
     (SELECT country_id FROM country WHERE country_name = '청')
-),
+);
 
 -- 4. 일본: 에도(도쿄) (도쿠가와 막부의 정치 중심)
-(
+INSERT INTO capital (
+    capital_name, started_date, ended_date, longitude, latitude,
+    title, description, summary, country_id
+)
+VALUES (
     '에도(도쿄)',
     DATE '1603-03-24', -- 도쿠가와 막부 수립 시점
     DATE '1868-09-03', -- 메이지 유신으로 도쿄로 개칭된 시점
