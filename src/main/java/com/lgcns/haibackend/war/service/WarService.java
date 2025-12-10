@@ -34,8 +34,16 @@ public class WarService {
 
     // 연도별 전쟁 조회
     public List<WarResponseDTO> getWarsByYear(int year) {
-        return warRepository.findWarsByYear(year).stream()
-                .map(WarResponseDTO::fromEntity)
+        List<WarEntity> wars = warRepository.findWarsByYear(year);
+        
+        // 다른 분류된 전쟁이 있는지 확인
+        boolean hasClassifiedWar = wars.stream()
+                .anyMatch(war -> !"기타/미분류 전쟁".equals(war.getName()));
+        
+        return wars.stream()
+                // 다른 분류된 전쟁이 있으면 기타/미분류 전쟁 제외
+                .filter(war -> !hasClassifiedWar || !"기타/미분류 전쟁".equals(war.getName()))
+                .map(entity -> WarResponseDTO.fromEntity(entity, year))
                 .collect(Collectors.toList());
     }
 

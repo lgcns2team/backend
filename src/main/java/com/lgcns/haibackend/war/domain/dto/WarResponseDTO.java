@@ -37,7 +37,31 @@ public class WarResponseDTO {
 
     // Entity -> DTO
     public static WarResponseDTO fromEntity(WarEntity entity) {
+        return fromEntity(entity, null);
+    }
+
+    // Entity -> DTO (연도 기반 전투 필터링)
+    public static WarResponseDTO fromEntity(WarEntity entity, Integer year) {
         if (entity == null) return null;
+
+        List<BattleResponseDTO> filteredBattles = null;
+        if (entity.getBattles() != null) {
+            // 기타/미분류 전쟁인 경우 전투 날짜 기준 ±30년 범위로 필터링
+            if ("기타/미분류 전쟁".equals(entity.getName()) && year != null) {
+                filteredBattles = entity.getBattles().stream()
+                    .filter(battle -> {
+                        if (battle.getBattleDate() == null) return false;
+                        int battleYear = battle.getBattleDate().getYear();
+                        return battleYear >= year - 30 && battleYear <= year + 30;
+                    })
+                    .map(BattleResponseDTO::fromEntity)
+                    .collect(Collectors.toList());
+            } else {
+                filteredBattles = entity.getBattles().stream()
+                    .map(BattleResponseDTO::fromEntity)
+                    .collect(Collectors.toList());
+            }
+        }
 
         return WarResponseDTO.builder()
             .warId(entity.getWarId())
@@ -51,10 +75,7 @@ public class WarResponseDTO {
             .attackCountryName(entity.getAttackCountry().getCountryName())
             .defenceCountryId(entity.getDefenceCountry().getCountryId())
             .defenceCountryName(entity.getDefenceCountry().getCountryName())
-            .battles(entity.getBattles() != null ? 
-                entity.getBattles().stream()
-                    .map(BattleResponseDTO::fromEntity)
-                    .collect(Collectors.toList()) : null)
+            .battles(filteredBattles)
             .build();
     }
 

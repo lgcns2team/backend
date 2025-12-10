@@ -168,16 +168,16 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '조선')
 );
 
--- 분류용 가상 전쟁: 기타/미분류 전쟁
+-- 분류용 가상 전쟁: 기타/미분류 전쟁 (날짜 범위를 넓게 설정하여 모든 연도에서 전투 표시)
 INSERT INTO war (
     name, description, war_start_date, war_end_date,
     result, summary,
     attack_country_id, defence_country_id, winner_country_id, loser_country_id
 ) VALUES (
     '기타/미분류 전쟁',
-    NULL,
-    NULL,
-    NULL,
+    '특정 전쟁에 분류되지 않은 개별 전투들을 포함하는 가상 전쟁 카테고리',
+    DATE '0001-01-01',
+    DATE '1910-12-31',
     NULL,
     NULL,
     (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
