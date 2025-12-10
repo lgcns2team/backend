@@ -655,8 +655,8 @@ INSERT INTO battle (
     '정봉수·이립 의병', '후금군',
     DATE '1627-01-20',
     (SELECT war_id FROM war WHERE name = '정묘호란'),
-    NULL,
-    NULL
+    '{"type":"LineString","coordinates":[[125.66,39.62],[125.7530781161885,39.00649599542771],[125.8492187065879,38.655572883034225],[126.20083684502968,38.455842978217554],[126.4007957101125,38.336204068208254]]}',
+    '#f97316'
 ),
 
 -- 17) 용골산성 전투
@@ -667,8 +667,8 @@ INSERT INTO battle (
     '정봉수', '아민',
     DATE '1627-02-01',
     (SELECT war_id FROM war WHERE name = '정묘호란'),
-    NULL,
-    NULL
+    '{"type":"LineString","coordinates":[[124.31701086032912,41.62333948876485],[124.35547890546427,40.23361355078116],[124.40535447109883,40.08547556985876],[124.69520687497196,39.956052033060004],[124.70,39.95]]}',
+    '#f97316'
 ),
 
 -- =========================
@@ -824,44 +824,38 @@ INSERT INTO battle (
 ),
 
 -- =========================
+-- 정묘호란 주요 전투
+-- =========================
+
+-- 안주성 전투
+(
+    '안주성 전투',
+    '정묘호란 당시 후금군이 안주성을 공격하여 점령한 전투. 안주성 함락 후 후금군은 평양으로 진격했다.',
+    39.62, 125.66,
+    '후금군', '조선군',
+    DATE '1627-01-17',
+    (SELECT war_id FROM war WHERE name = '정묘호란'),
+    '{"type":"LineString","coordinates":[[124.70048997552983,39.951828616900755],[124.95877542143722,39.947619083875004],[125.66,39.62]]}',
+    '#f97316'
+),
+
+-- 능한산성 전투
+(
+    '능한산성 전투',
+    '정묘호란 당시 조선군이 곽산의 능한산성에서 후금군에 맞서 저항한 전투. 결국 패배하였다.',
+    39.68, 125.08,
+    '후금군', '조선군',
+    DATE '1627-01-18',
+    (SELECT war_id FROM war WHERE name = '정묘호란'),
+    '{"type":"LineString","coordinates":[[124.69520687497196,39.956052033060004],[124.74054421388124,39.81173696413064],[125.08,39.68]]}',
+    '#f97316'
+),
+
+-- =========================
 -- 정묘호란 진격 루트 (주황색)
 -- =========================
 
--- 후금 의주 백마산성 진격로
-(
-    '후금 의주 백마산성 진격로',
-    '정묘호란 당시 후금군이 의주에서 백마산성까지 진격한 경로.',
-    NULL, NULL,
-    '후금군', '조선군',
-    DATE '1627-01-01',
-    (SELECT war_id FROM war WHERE name = '정묘호란'),
-    '{"type":"LineString","coordinates":[[124.31701086032912,41.62333948876485],[124.35547890546427,40.23361355078116],[124.40535447109883,40.08547556985876],[124.70619944822819,39.94769451812549]]}',
-    '#f97316'
-),
 
--- 용골산성 아래루트
-(
-    '용골산성 아래루트',
-    '정묘호란 당시 후금군이 용골산성 아래쪽으로 우회한 경로.',
-    NULL, NULL,
-    '후금군', '조선군',
-    DATE '1627-02-01',
-    (SELECT war_id FROM war WHERE name = '정묘호란'),
-    '{"type":"LineString","coordinates":[[124.69520687497196,39.956052033060004],[124.74054421388124,39.81173696413064]]}',
-    '#f97316'
-),
-
--- 정묘호란 용천 안주 평양 평산 루트
-(
-    '정묘호란 용천-안주-평양-평산 루트',
-    '정묘호란 당시 후금군이 용천에서 안주, 평양을 거쳐 평산까지 남하한 주요 진격로.',
-    NULL, NULL,
-    '후금군', '조선군',
-    DATE '1627-01-15',
-    (SELECT war_id FROM war WHERE name = '정묘호란'),
-    '{"type":"LineString","coordinates":[[124.70048997552983,39.951828616900755],[124.95877542143722,39.947619083875004],[125.64592053974722,39.61201160207365],[125.7420872461499,39.29818155944996],[125.7530781161885,39.00649599542771],[125.8492187065879,38.655572883034225],[126.20083684502968,38.455842978217554],[126.4007957101125,38.336204068208254]]}',
-    '#f97316'
-),
 
 -- =========================
 -- 병자호란 진격 루트 (빨간색)
@@ -1009,8 +1003,6 @@ UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '명나�
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선 수군 한산도-부산 진격';
 
 -- 정묘호란 진격 루트들
-UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '후금 의주 백마산성 진격로';
-UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '용골산성 아래루트';
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '정묘호란 용천-안주-평양-평산 루트';
 
 -- 병자호란 진격 루트들
@@ -1021,10 +1013,8 @@ UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자�
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 토산-김화 우회로';
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 개성-한성 루트';
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 한성-강화 방면 루트';
-UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 한성-남한산성 루트';
 
 -- 조선군 진군로들
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 함흥-맹산';
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 강원-김화';
-UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 남부-한성 방면';
-UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 남부-남한산성 방면';
+
