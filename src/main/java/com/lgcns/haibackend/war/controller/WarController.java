@@ -36,7 +36,7 @@ public class WarController {
 
     // 연도별 전쟁 조회
     @GetMapping("/{year}")
-    public ResponseEntity<List<WarResponseDTO>> getWarsByYear(@PathVariable int year) {
+    public ResponseEntity<List<WarResponseDTO>> getWarsByYear(@PathVariable("year") int year) {
         List<WarResponseDTO> wars = warService.getWarsByYear(year);
         return ResponseEntity.ok(wars);
     }

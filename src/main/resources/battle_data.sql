@@ -431,7 +431,7 @@ INSERT INTO battle (
 -- 일본군 진격로 (빨간색)
 ('일본군 주요 북상 진격로 (일본-부산-한성-평양)',
  '고니시 유키나가가 이끈 일본군 1군이 쓰시마를 거쳐 부산에 상륙 후 한성과 평양까지 진격한 주요 경로.',
- 39.03, 125.74,
+ NULL, NULL,
  '고니시 유키나가', '조선군',
  DATE '1592-04-13',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -441,7 +441,7 @@ INSERT INTO battle (
 
 ('일본군 부산-상주 진격로',
  '일본군이 부산에서 내륙으로 상주까지 직접 진격한 경로.',
- 36.40, 128.16,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-04-20',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -451,7 +451,7 @@ INSERT INTO battle (
 
 ('일본군 해상-진주 방향 진격로',
  '일본군이 쓰시마와 부산 사이에서 분기하여 진주 방향으로 진격한 해상 및 육상 경로.',
- 34.94, 127.90,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-04-15',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -461,7 +461,7 @@ INSERT INTO battle (
 
 ('일본군 부산-진주 진격로',
  '일본군이 부산에서 서쪽 진주성까지 진격한 경로. 진주 대첩 관련.',
- 35.19, 128.08,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-10-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -471,7 +471,7 @@ INSERT INTO battle (
 
 ('일본군 북상 진격로 (부산-경주-상주)',
  '일본군이 부산에서 상륙 후 경주를 거쳐 상주 방향으로 북상한 주요 진격 경로.',
- 36.28, 128.45,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-04-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -481,7 +481,7 @@ INSERT INTO battle (
 
 ('일본군 한양-행주 진격로',
  '일본군이 한양에서 행주산성 방향으로 진격한 경로.',
- 37.60, 126.80,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1593-02-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -491,7 +491,7 @@ INSERT INTO battle (
 
 ('일본군 한성-경주 전선',
  '일본군이 한성에서 동해안을 따라 경주까지 연결한 동부 전선 경로.',
- 36.95, 129.25,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-05-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -501,7 +501,7 @@ INSERT INTO battle (
 
 ('일본군 한성-충주 경로',
  '일본군이 한성에서 충주를 거쳐 동부 내륙으로 연결한 경로.',
- 36.95, 128.73,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-05-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -511,7 +511,7 @@ INSERT INTO battle (
 
 ('일본군 동부 전선 우회로 (상주 방향)',
  '한성-경주 전선에서 분기하여 상주 방향으로 연결된 우회 경로.',
- 37.25, 128.72,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-05-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -521,7 +521,7 @@ INSERT INTO battle (
 
 ('일본군 황해도 서진 경로',
  '일본군이 개성 북쪽에서 황해도 서쪽으로 진격한 경로.',
- 38.07, 125.55,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-06-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -531,7 +531,7 @@ INSERT INTO battle (
 
 ('일본군 개성-평양 우측 경로',
  '일본군이 개성에서 평양으로 향하는 우측 내륙 경로.',
- 39.15, 127.07,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-06-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -541,7 +541,7 @@ INSERT INTO battle (
 
 ('일본군 한성-금강산 진격로',
  '일본군이 한성에서 강원도 금강산 방향으로 진격한 동부 전선.',
- 38.62, 127.99,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-06-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -551,7 +551,7 @@ INSERT INTO battle (
 
 ('일본군 함경도 북부 진격로',
  '일본군이 한성에서 금강산을 지나 함경도 북부로 진격한 경로.',
- 39.10, 127.18,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-07-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -561,7 +561,7 @@ INSERT INTO battle (
 
 ('일본군 동해안 후퇴로',
  '일본군이 평양 탈환 이후 동해안을 따라 남하한 후퇴 경로.',
- 37.59, 128.94,
+ NULL, NULL,
  '조선-명 연합군', '일본군',
  DATE '1593-02-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -571,7 +571,7 @@ INSERT INTO battle (
 
 ('일본군 함경도 극북부 진출로',
  '가토 기요마사가 이끄는 일본군이 함경도 북청, 길주를 거쳐 두만강까지 진출한 경로.',
- 41.71, 129.56,
+ NULL, NULL,
  '가토 기요마사', '조선군',
  DATE '1592-09-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -581,7 +581,7 @@ INSERT INTO battle (
 
 ('일본군 백두산 방향 진출로',
  '일본군이 북청에서 백두산 방향으로 진출한 경로.',
- 41.22, 127.99,
+ NULL, NULL,
  '일본군', '조선군',
  DATE '1592-09-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -591,7 +591,7 @@ INSERT INTO battle (
 
 ('일본 해군 진격로 (거제-명량)',
  '정유재란 당시 일본 수군이 거제에서 명량까지 서진한 해상 진격로.',
- 34.56, 126.30,
+ NULL, NULL,
  '일본 수군', '조선 수군',
  DATE '1597-09-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -602,7 +602,7 @@ INSERT INTO battle (
 -- 명나라 원군 이동로 (보라색)
 ('명나라 원군 평양-개성 남하',
  '명나라 원군이 평양 탈환 후 개성까지 남하한 경로.',
- 38.05, 126.54,
+ NULL, NULL,
  '이여송', '일본군',
  DATE '1593-01-15',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -612,7 +612,7 @@ INSERT INTO battle (
 
 ('명나라 원군 한성-상주 추격',
  '명나라 원군이 한성에서 충주, 상주까지 일본군을 추격한 경로.',
- 36.41, 128.16,
+ NULL, NULL,
  '이여송', '일본군',
  DATE '1593-02-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -623,7 +623,7 @@ INSERT INTO battle (
 -- 조선 수군 이동로 (파란색)
 ('조선 수군 한산도-부산 진격',
  '조선 수군이 한산도에서 부산 방향으로 일본 수군을 추격한 해상 경로.',
- 35.18, 129.09,
+ NULL, NULL,
  '이순신', '일본 수군',
  DATE '1592-09-01',
  (SELECT war_id FROM war WHERE name = '임진왜란'),
@@ -683,8 +683,8 @@ INSERT INTO battle (
     '청 태종 홍타이지', '인조와 조선 수비군',
     DATE '1636-12-15',
     (SELECT war_id FROM war WHERE name = '병자호란'),
-    NULL,
-    NULL
+    '{"type":"LineString","coordinates":[[126.9718883348487,37.57288371897846],[127.2360,37.4730]]}',
+    '#ef4444'
 ),
 
 -- 19) 쌍령 전투
@@ -695,8 +695,8 @@ INSERT INTO battle (
     '청군', '허완',
     DATE '1637-01-26',
     (SELECT war_id FROM war WHERE name = '병자호란'),
-    NULL,
-    NULL
+    '{"type":"LineString","coordinates":[[127.45556382907913,37.03991219639523],[127.29207463725474,37.20519366274251],[127.2831,37.4042]]}',
+    '#3b82f6'
 ),
 
 -- 20) 광교산 전투
@@ -707,8 +707,8 @@ INSERT INTO battle (
     '김준용', '양굴리',
     DATE '1637-01-05',
     (SELECT war_id FROM war WHERE name = '병자호란'),
-    NULL,
-    NULL
+    '{"type":"LineString","coordinates":[[127.04067494955831,37.014709714997124],[127.03,37.33]]}',
+    '#3b82f6'
 ),
 
 -- =========================
@@ -821,4 +821,210 @@ INSERT INTO battle (
     (SELECT war_id FROM war WHERE name = '기타/미분류 전쟁'),
     NULL,
     NULL
+),
+
+-- =========================
+-- 정묘호란 진격 루트 (주황색)
+-- =========================
+
+-- 후금 의주 백마산성 진격로
+(
+    '후금 의주 백마산성 진격로',
+    '정묘호란 당시 후금군이 의주에서 백마산성까지 진격한 경로.',
+    NULL, NULL,
+    '후금군', '조선군',
+    DATE '1627-01-01',
+    (SELECT war_id FROM war WHERE name = '정묘호란'),
+    '{"type":"LineString","coordinates":[[124.31701086032912,41.62333948876485],[124.35547890546427,40.23361355078116],[124.40535447109883,40.08547556985876],[124.70619944822819,39.94769451812549]]}',
+    '#f97316'
+),
+
+-- 용골산성 아래루트
+(
+    '용골산성 아래루트',
+    '정묘호란 당시 후금군이 용골산성 아래쪽으로 우회한 경로.',
+    NULL, NULL,
+    '후금군', '조선군',
+    DATE '1627-02-01',
+    (SELECT war_id FROM war WHERE name = '정묘호란'),
+    '{"type":"LineString","coordinates":[[124.69520687497196,39.956052033060004],[124.74054421388124,39.81173696413064]]}',
+    '#f97316'
+),
+
+-- 정묘호란 용천 안주 평양 평산 루트
+(
+    '정묘호란 용천-안주-평양-평산 루트',
+    '정묘호란 당시 후금군이 용천에서 안주, 평양을 거쳐 평산까지 남하한 주요 진격로.',
+    NULL, NULL,
+    '후금군', '조선군',
+    DATE '1627-01-15',
+    (SELECT war_id FROM war WHERE name = '정묘호란'),
+    '{"type":"LineString","coordinates":[[124.70048997552983,39.951828616900755],[124.95877542143722,39.947619083875004],[125.64592053974722,39.61201160207365],[125.7420872461499,39.29818155944996],[125.7530781161885,39.00649599542771],[125.8492187065879,38.655572883034225],[126.20083684502968,38.455842978217554],[126.4007957101125,38.336204068208254]]}',
+    '#f97316'
+),
+
+-- =========================
+-- 병자호란 진격 루트 (빨간색)
+-- =========================
+
+-- 병자호란 후금 안주 진격로
+(
+    '병자호란 후금 안주 진격로',
+    '병자호란 당시 청군이 심양에서 안주까지 진격한 경로.',
+    NULL, NULL,
+    '청군', '조선군',
+    DATE '1636-12-01',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[124.32791316305229,41.62356934615518],[124.64115295915275,40.635083292324516],[124.7455662245196,40.48490077138498],[125.36105494668195,40.238040160940244],[125.67332277326915,39.98777386060129],[125.64686745862238,39.61217274299993]]}',
+    '#ef4444'
+),
+
+-- 병자호란 안주 맹산 루트
+(
+    '병자호란 안주-맹산 루트',
+    '병자호란 당시 청군이 안주에서 맹산까지 진격한 경로.',
+    NULL, NULL,
+    '청군', '조선군',
+    DATE '1636-12-05',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[125.64810676318643,39.61414451629387],[126.56013720966912,39.66385533983838]]}',
+    '#ef4444'
+),
+
+-- 병자호란 안주 신계 루트
+(
+    '병자호란 안주-신계 루트',
+    '병자호란 당시 청군이 안주에서 신계까지 남하한 경로.',
+    NULL, NULL,
+    '청군', '조선군',
+    DATE '1636-12-05',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[125.64937331923211,39.61419110214426],[125.88173939629917,39.360004666915614],[126.00534807796788,39.094095290083224],[126.28534672331011,38.73911956123527],[126.52987427853641,38.50634861926418]]}',
+    '#ef4444'
+),
+
+-- 병자호란 신계 개성 루트
+(
+    '병자호란 신계-개성 루트',
+    '병자호란 당시 청군이 신계에서 개성까지 진격한 경로.',
+    NULL, NULL,
+    '청군', '조선군',
+    DATE '1636-12-08',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[126.53264243465733,38.50740401566513],[126.58069853637696,38.289928090219874],[126.56146451380938,37.969213518847624]]}',
+    '#ef4444'
+),
+
+-- 병자호란 신계 개성사이 토산 김화 루트
+(
+    '병자호란 토산-김화 우회로',
+    '병자호란 당시 청군 일부가 신계에서 토산, 김화를 거쳐 우회한 경로.',
+    NULL, NULL,
+    '청군', '조선군',
+    DATE '1636-12-10',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[126.58189526050087,38.29210432379566],[126.70004711341599,38.311495677207894],[127.19313409733918,38.40192452293123],[127.60803944129681,38.42021096067226]]}',
+    '#ef4444'
+),
+
+-- 병자호란 개성 한성 루트
+(
+    '병자호란 개성-한성 루트',
+    '병자호란 당시 청군이 개성에서 한성까지 진격한 경로.',
+    NULL, NULL,
+    '청군', '조선군',
+    DATE '1636-12-10',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[126.56155478434248,37.97132459524012],[126.76749563694044,37.87166028819297],[126.9776767232961,37.713254611112475],[126.97218128827679,37.56432599003795]]}',
+    '#ef4444'
+),
+
+-- 병자호란 한성 강화방면 루트
+(
+    '병자호란 한성-강화 방면 루트',
+    '병자호란 당시 청군이 한성에서 강화도 방면으로 진격한 경로.',
+    NULL, NULL,
+    '청군', '조선군',
+    DATE '1636-12-12',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[126.97340185744713,37.57398027527015],[126.81267344113407,37.642491046201144],[126.59422989911661,37.68704536187475]]}',
+    '#ef4444'
+),
+
+
+-- =========================
+-- 조선군 진군로 (파란색)
+-- =========================
+
+-- 조선군 진군로 함흥 맹산
+(
+    '조선군 진군로 함흥-맹산',
+    '병자호란 당시 함경도 근왕군이 함흥에서 맹산까지 남하한 경로.',
+    NULL, NULL,
+    '조선 근왕군', '청군',
+    DATE '1637-01-01',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[127.53668508240449,39.91605033542973],[127.04072207191206,39.741045801109415],[126.56536694274202,39.665001652671705]]}',
+    '#3b82f6'
+),
+
+-- 조선군 진군로 강화 방면 김화
+(
+    '조선군 진군로 강원-김화',
+    '병자호란 당시 강원도 근왕군이 김화 방면으로 진격한 경로.',
+    NULL, NULL,
+    '조선 근왕군', '청군',
+    DATE '1637-01-10',
+    (SELECT war_id FROM war WHERE name = '병자호란'),
+    '{"type":"LineString","coordinates":[[127.94485511903962,38.82256610076575],[127.61512901788122,38.42359442463905]]}',
+    '#3b82f6'
 );
+
+
+-- =========================
+-- UPDATE: 경로 전용 항목들의 마커 좌표 제거
+-- (latitude, longitude를 NULL로 변경하여 마커 없이 경로만 표시)
+-- =========================
+
+-- 임진왜란 이동 루트들
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 주요 북상 진격로 (일본-부산-한성-평양)';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 부산-상주 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 해상-진주 방향 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 부산-진주 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 북상 진격로 (부산-경주-상주)';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 한양-행주 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 한성-경주 전선';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 한성-충주 경로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 동부 전선 우회로 (상주 방향)';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 황해도 서진 경로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 개성-평양 우측 경로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 한성-금강산 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 함경도 북부 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 동해안 후퇴로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 함경도 극북부 진출로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본군 백두산 방향 진출로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '일본 해군 진격로 (거제-명량)';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '명나라 원군 평양-개성 남하';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '명나라 원군 한성-상주 추격';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선 수군 한산도-부산 진격';
+
+-- 정묘호란 진격 루트들
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '후금 의주 백마산성 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '용골산성 아래루트';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '정묘호란 용천-안주-평양-평산 루트';
+
+-- 병자호란 진격 루트들
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 후금 안주 진격로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 안주-맹산 루트';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 안주-신계 루트';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 신계-개성 루트';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 토산-김화 우회로';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 개성-한성 루트';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 한성-강화 방면 루트';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '병자호란 한성-남한산성 루트';
+
+-- 조선군 진군로들
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 함흥-맹산';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 강원-김화';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 남부-한성 방면';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '조선군 진군로 남부-남한산성 방면';
