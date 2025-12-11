@@ -1,3 +1,4 @@
+
 -- 무역 초기 데이터
 INSERT INTO trade (trade_id, start_country_id, end_country_id, trade_year, product)
 VALUES
