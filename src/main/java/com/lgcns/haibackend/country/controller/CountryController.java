@@ -36,7 +36,7 @@ public class CountryController {
 
     // 국가 코드로 국가 상세 조회
     @GetMapping("/{countryCode}")
-    public ResponseEntity<CountryResponseDTO> getCountryByCode(@PathVariable Integer countryCode) {
+    public ResponseEntity<CountryResponseDTO> getCountryByCode(@PathVariable("countryCode") Integer countryCode) {
         CountryResponseDTO country = countryService.getCountryByCode(countryCode);
         return ResponseEntity.ok(country);
     }
@@ -51,7 +51,7 @@ public class CountryController {
     // 국가 수정
     @PutMapping("/{countryId}")
     public ResponseEntity<CountryResponseDTO> updateCountry(
-            @PathVariable UUID countryId,
+            @PathVariable("countryId") UUID countryId,
             @RequestBody CountryRequestDTO requestDTO) {
         CountryResponseDTO updatedCountry = countryService.updateCountry(countryId, requestDTO);
         return ResponseEntity.ok(updatedCountry);
@@ -59,7 +59,7 @@ public class CountryController {
 
     // 국가 삭제
     @DeleteMapping("/{countryId}")
-    public ResponseEntity<Void> deleteCountry(@PathVariable UUID countryId) {
+    public ResponseEntity<Void> deleteCountry(@PathVariable("countryId") UUID countryId) {
         countryService.deleteCountry(countryId);
         return ResponseEntity.noContent().build();
     }
