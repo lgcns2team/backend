@@ -13,6 +13,6 @@ import com.lgcns.haibackend.user.domain.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
-    public Optional<UserEntity> findByNameAndPassword(String name, String password);
+    public Optional<UserEntity> findByNicknameAndPassword(String nickname, String password);
     public Optional<UserEntity> findByUserId(UUID userId);
 }

@@ -38,9 +38,9 @@ public class MainEventEntity {
     private Integer year;
     private String description;
     private String summary;
+    private Boolean timeline;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
     private CountryEntity country;
-
 }
