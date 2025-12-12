@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
 import com.lgcns.haibackend.user.domain.dto.UserResponseDTO;
-import com.lgcns.haibackend.user.repository.AIChatHistoryRepository;
 import com.lgcns.haibackend.user.repository.RefreshTokenRepository;
 import com.lgcns.haibackend.user.service.UserService;
 import com.lgcns.haibackend.util.JwtProvider;
@@ -41,14 +40,12 @@ public class AuthUserController {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
-    private AIChatHistoryRepository aiChatHistoryRepository;
 
     @SecurityRequirement(name = "bearerAuth")
-    @PutMapping("/updateUser/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<UserResponseDTO> update(@RequestBody UserRequestDTO request,
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
-        System.out.println(">>>> user ctrl PUT /updateUser");
+        System.out.println(">>>> user ctrl PUT /update");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -92,7 +89,7 @@ public class AuthUserController {
         }
 
         refreshTokenRepository.delete(userId);
-        aiChatHistoryRepository.deleteHistory(userId);
+        // aiChatHistoryRepository.deleteHistory(userId);
 
         System.out.println(">>>> Refresh token deleted for user: " + userId);
         return ResponseEntity.ok().build();

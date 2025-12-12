@@ -97,7 +97,7 @@ public class JwtFilter implements Filter {
     public boolean isPath(String path, String method) {
         return path.startsWith("/swagger-ui") ||
                 path.startsWith("/v3/api-docs") ||
-                path.startsWith("/api/user/") ||
+                path.startsWith("/api/user") ||
                 path.startsWith("/api/wars") ||
                 path.startsWith("/api/trades") || 
                 path.startsWith("/api/kings") || 
