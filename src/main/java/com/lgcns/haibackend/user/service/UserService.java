@@ -38,8 +38,8 @@ public class UserService {
 
     public Map<String, Object> login(UserRequestDTO request) {
         System.out.println(">>> service login");
-        UserEntity entity = userRepository.findByNameAndPassword(request.getName(), request.getPassword())
-                .orElseThrow(() -> new RuntimeException("이름 또는 비밀번호가 일치하지 않습니다."));
+        UserEntity entity = userRepository.findByNicknameAndPassword(request.getNickname(), request.getPassword())
+                .orElseThrow(() -> new RuntimeException("닉네임 또는 비밀번호가 일치하지 않습니다."));
 
         String userIdStr = entity.getUserId().toString();
         String role = entity.getRole();

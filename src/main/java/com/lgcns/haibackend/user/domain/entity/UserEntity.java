@@ -34,8 +34,13 @@ public class UserEntity {
     @Column(updatable = false, nullable = false)
     private UUID userId;
 
+    @Column(nullable = false, updatable = true)
     private Integer grade;
+
+    @Column(nullable = false, updatable = true)
     private Integer classroom;
+
+    @Column(nullable = false, updatable = true)
     private String role;
 
     @Column(nullable = false, updatable = true)
@@ -44,7 +49,7 @@ public class UserEntity {
     @Column(nullable = false, updatable = true)
     private String password;
 
-    @Column(nullable = false, updatable = true)
+    @Column(nullable = false, updatable = true, unique = true)
     private String nickname;
 
     // 토론, AI챗봇, 교과서 그리기 연결 필요
