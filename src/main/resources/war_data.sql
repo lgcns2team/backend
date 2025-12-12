@@ -1,4 +1,188 @@
 -- 전쟁 초기 데이터
+
+INSERT INTO war (
+    name, description, war_start_date, war_end_date, result, summary,
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
+) VALUES
+
+-- [고조선]
+(
+    '고조선-연 전쟁',
+    '기원전 3세기 초, 중국 전국시대 연나라가 고조선을 침략한 전쟁이다. 연나라 장수 진개의 침입으로 고조선은 서쪽 영토 2천여 리를 상실하고 중심지를 이동하게 되었다. [교과서 13쪽]',
+    '0300-01-01 BC'::date, '0280-12-31 BC'::date,
+    '연나라 승리',
+    '서쪽 영토 상실 및 중심지 이동(요동→한반도 북부).',
+    (SELECT country_id FROM country WHERE country_name = '연'),
+    (SELECT country_id FROM country WHERE country_name = '고조선'),
+    (SELECT country_id FROM country WHERE country_name = '연'),
+    (SELECT country_id FROM country WHERE country_name = '고조선')
+),
+(
+    '고조선-한 전쟁',
+    '기원전 109년, 한 무제가 고조선의 중계 무역 독점과 흉노와의 연계를 경계하여 침략한 전쟁이다. 왕검성에서 1년여간 항전했으나 지배층 분열로 멸망하였다. [교과서 14쪽]',
+    '0109-01-01 BC'::date, '0108-06-01 BC'::date,
+    '한나라 승리, 고조선 멸망',
+    '왕검성 함락 후 한사군이 설치됨.',
+    (SELECT country_id FROM country WHERE country_name = '한'),
+    (SELECT country_id FROM country WHERE country_name = '고조선'),
+    (SELECT country_id FROM country WHERE country_name = '한'),
+    (SELECT country_id FROM country WHERE country_name = '고조선')
+),
+
+-- [고구려 초기 대외 항쟁]
+(
+    '고구려-위 전쟁',
+    '3세기 중반 동천왕 시기, 고구려의 서안평 선제공격에 대한 보복으로 위나라 관구검이 침입한 전쟁이다. 수도 환도성이 함락되었으나 끈질긴 항전으로 격퇴하였다. [교과서 20쪽]',
+    DATE '0244-08-01', DATE '0245-10-01',
+    '위나라의 일시적 승리 (후퇴)',
+    '수도 함락의 위기를 겪었으나 유유, 밀우 등의 활약으로 적을 물리침.',
+    (SELECT country_id FROM country WHERE country_name = '위'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '위'),
+    (SELECT country_id FROM country WHERE country_name = '고구려')
+),
+(
+    '고구려-전연 전쟁',
+    '4세기 초 고국원왕 시기, 선비족이 세운 전연(모용황)이 침입한 전쟁이다. 수도가 함락되고 왕의 시신과 왕비가 인질로 잡혀가는 치욕을 겪었다. [교과서 20쪽]',
+    DATE '0342-11-01', DATE '0343-02-01',
+    '전연 승리',
+    '수도 함락 및 왕실 인질 사태로 일시적으로 굴복함.',
+    (SELECT country_id FROM country WHERE country_name = '전연'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '전연'),
+    (SELECT country_id FROM country WHERE country_name = '고구려')
+),
+
+-- [삼국 간의 쟁패]
+(
+    '백제-고구려 전쟁 (4세기)',
+    '백제 근초고왕이 북진 정책을 추진하며 고구려 평양성을 공격한 전쟁이다. 고구려 고국원왕이 전사하고 백제가 한반도 주도권을 장악하였다. [교과서 26쪽]',
+    DATE '0369-01-01', DATE '0371-10-31',
+    '백제 승리',
+    '치양 전투와 평양성 전투에서 승리하여 고구려 왕을 전사시킴.',
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '고구려')
+),
+(
+    '광개토대왕의 신라 구원전',
+    '왜와 가야 연합군이 신라를 침공하자, 고구려 광개토대왕이 5만 대군을 파견하여 구원한 전쟁이다. [교과서 23쪽]',
+    DATE '0400-01-01', DATE '0400-12-31',
+    '고구려·신라 연합군 승리',
+    '고구려군이 왜와 가야를 격퇴하고 금관가야를 쇠퇴시킴.',
+    (SELECT country_id FROM country WHERE country_name = '왜'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '왜')
+),
+(
+    '고구려-백제 전쟁 (5세기)',
+    '고구려 장수왕이 남진 정책을 추진하며 백제 수도 한성을 침공한 전쟁이다. 개로왕이 피살되고 백제는 웅진으로 천도하였다. [교과서 24쪽]',
+    DATE '0475-09-01', DATE '0475-09-30',
+    '고구려 승리 (한성 함락)',
+    '고구려가 한강 유역 전체를 장악함.',
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '백제')
+),
+(
+    '신라-백제 전쟁 (6세기)',
+    '신라 진흥왕이 나제동맹을 깨고 한강 유역을 독차지하자 백제 성왕이 총공격을 감행한 전쟁이다. 관산성에서 성왕이 전사하며 신라가 승리했다. [교과서 29쪽]',
+    DATE '0554-07-01', DATE '0554-12-01',
+    '신라 승리',
+    '백제 성왕 전사 및 군대 궤멸, 신라의 한강 지배권 확립.',
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '백제')
+),
+
+-- [고구려-수·당 전쟁]
+(
+    '고구려-수 전쟁',
+    '중국 수나라가 4차례에 걸쳐 대규모로 고구려를 침공했으나 고구려가 모두 막아낸 전쟁이다. 살수대첩이 대표적이다. [교과서 46쪽]',
+    DATE '0598-01-01', DATE '0614-12-31',
+    '고구려 승리',
+    '을지문덕 등이 수나라 대군을 격파하여 나라를 지킴.',
+    (SELECT country_id FROM country WHERE country_name = '수'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '수')
+),
+(
+    '고구려-당 전쟁',
+    '당 태종의 침입(안시성 전투)부터 나당연합군에 의한 평양성 함락까지 이어진 긴 전쟁이다. [교과서 47쪽]',
+    DATE '0645-04-01', DATE '0668-09-21',
+    '나당연합군 승리 (고구려 멸망)',
+    '초기 방어에는 성공했으나 국력 소모와 내분, 나당연합군의 공격으로 멸망함.',
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    (SELECT country_id FROM country WHERE country_name = '고구려')
+),
+
+-- [삼국 통일 전쟁]
+(
+    '백제 멸망전',
+    '신라와 당 연합군이 백제를 침공한 전쟁이다. 황산벌 전투 패배와 사비성 함락으로 백제가 멸망하였다. [교과서 48쪽]',
+    DATE '0660-07-09', DATE '0660-07-18',
+    '나당연합군 승리 (백제 멸망)',
+    '계백의 결사대 패배 후 의자왕 항복.',
+    (SELECT country_id FROM country WHERE country_name = '나당연합군'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '백제')
+),
+(
+    '백제 부흥 운동',
+    '백제 멸망 후 복신, 도침, 흑치상지 등이 왜의 지원을 받아 전개한 부흥 전쟁이다. 백강 전투 패배로 실패했다. [교과서 48쪽]',
+    DATE '0660-08-01', DATE '0663-09-01',
+    '나당연합군 승리 (진압)',
+    '백강 전투에서 왜-백제 연합군이 대패하며 운동이 소멸됨.',
+    (SELECT country_id FROM country WHERE country_name = '백제부흥군'),
+    (SELECT country_id FROM country WHERE country_name = '나당연합군'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '백제부흥군')
+),
+(
+    '나당 전쟁',
+    '당나라가 한반도 전체를 지배하려 하자 신라가 당군을 축출하기 위해 벌인 전쟁이다. [교과서 49쪽]',
+    DATE '0670-03-01', DATE '0676-11-01',
+    '신라 승리 (삼국 통일)',
+    '매소성과 기벌포에서 당군을 격파하여 통일을 완수함.',
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '당')
+),
+
+-- [발해]
+(
+    '발해 건국 전쟁',
+    '고구려 유민 대조영이 당나라 군대의 추격을 천문령에서 물리치고 발해를 건국한 전쟁이다. [교과서 51쪽]',
+    DATE '0698-01-01', DATE '0698-12-31',
+    '대조영 승리, 발해 건국',
+    '천문령 전투 승리로 동모산에 나라를 세움.',
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '당')
+),
+(
+    '발해-당 전쟁',
+    '당나라가 흑수말갈을 이용해 압박하자 발해 무왕이 장문휴를 보내 등주를 선제 공격한 전쟁이다. [교과서 56쪽]',
+    DATE '0732-09-01', DATE '0733-01-01',
+    '발해의 선제 공격 성공',
+    '장문휴가 당의 등주를 기습 공격하여 위세를 떨침.',
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '당'),
+    (SELECT country_id FROM country WHERE country_name = '발해'),
+    (SELECT country_id FROM country WHERE country_name = '당')
+);
+
+
 -- 후삼국 통일 전쟁 (WAR_TK)
 INSERT INTO war (
     name, description, war_start_date, war_end_date, result, summary,
