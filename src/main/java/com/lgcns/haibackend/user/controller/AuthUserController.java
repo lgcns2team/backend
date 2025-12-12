@@ -73,21 +73,10 @@ public class AuthUserController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || auth.getPrincipal() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    public ResponseEntity<Void> logout(Authentication auth) {
         UUID userId = UUID.fromString(auth.getPrincipal().toString());
 
-        System.out.println(">>>> user ctrl POST /logout");
-        System.out.println(">>>> Authorization: " + userId);
-
-
         refreshTokenRepository.delete(userId);
-        // aiChatHistoryRepository.deleteHistory(userId);
         redisChatRepository.deleteAllAIPersonChats(userId);
         redisChatRepository.deleteAllChatbotChats(userId);
 
@@ -96,7 +85,7 @@ public class AuthUserController {
     }
 
     @SecurityRequirement(name = "bearerAuth")
-    @DeleteMapping("/delete/{userId}")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteUser(@PathVariable("userId") UUID userId, @RequestHeader(value = "Authorization", required = false) String authHeader){
         
         if(authHeader == null || !authHeader.startsWith("Bearer ")) {

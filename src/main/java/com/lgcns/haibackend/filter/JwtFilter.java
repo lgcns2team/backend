@@ -112,8 +112,6 @@ public class JwtFilter implements Filter {
             e.printStackTrace();
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 👈 검증 실패 시에도 401 상태를 명확히 반환
             return;
-        } finally {
-            SecurityContextHolder.clearContext();
         }
 
     }
