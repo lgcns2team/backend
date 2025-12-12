@@ -23,7 +23,6 @@ import com.lgcns.haibackend.util.JwtProvider;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +44,7 @@ public class AuthUserController {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
-    private final RedisChatRepository redisChatCleanupRepository;
+    private final RedisChatRepository redisChatRepository;
 
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/update/{id}")
@@ -89,7 +88,8 @@ public class AuthUserController {
 
         refreshTokenRepository.delete(userId);
         // aiChatHistoryRepository.deleteHistory(userId);
-        redisChatCleanupRepository.deleteAllAIPersonChats(userId);
+        redisChatRepository.deleteAllAIPersonChats(userId);
+        redisChatRepository.deleteAllChatbotChats(userId);
 
         System.out.println(">>>> Refresh token deleted for user: " + userId);
         return ResponseEntity.ok().build();

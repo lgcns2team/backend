@@ -26,4 +26,15 @@ public class RedisChatRepository {
         }
     }
 
+    public void deleteAllChatbotChats(UUID userId) {
+        // chatbot:chat:*:userId 패턴으로 모든 키 검색
+        String pattern = "chatbot:chat:" + userId;
+        Set<String> keys = redisTemplate.keys(pattern);
+        
+        if (keys != null && !keys.isEmpty()) {
+            redisTemplate.delete(keys);
+            System.out.println("[REDIS] Deleted " + keys.size() + " AI Person chat keys for user: " + userId);
+        }
+    }
+
 }
