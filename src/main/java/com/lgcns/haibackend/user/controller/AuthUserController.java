@@ -5,12 +5,15 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lgcns.haibackend.common.redis.RedisChatRepository;
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
 import com.lgcns.haibackend.user.domain.dto.UserResponseDTO;
 import com.lgcns.haibackend.user.repository.RefreshTokenRepository;
@@ -21,6 +24,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 @RestController
 @RequestMapping("/auth/api/user")
+@RequiredArgsConstructor
 public class AuthUserController {
     // JWT 필요 -> 로그아웃, 회원정보 수정
     @Autowired
@@ -40,6 +45,7 @@ public class AuthUserController {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
+    private final RedisChatRepository redisChatCleanupRepository;
 
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/update/{id}")
@@ -68,28 +74,22 @@ public class AuthUserController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization", required = false) String authHeader,
-            HttpServletRequest request) {
+    public ResponseEntity<Void> logout() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth.getPrincipal() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        UUID userId = UUID.fromString(auth.getPrincipal().toString());
 
         System.out.println(">>>> user ctrl POST /logout");
-        System.out.println(">>>> Authorization: " + authHeader);
+        System.out.println(">>>> Authorization: " + userId);
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        String token = authHeader.substring(7);
-        String userIdStr = jwtProvider.getUserIdFromToken(token);
-
-        UUID userId = null;
-        try {
-            userId = UUID.fromString(userIdStr);
-        } catch (IllegalArgumentException e) {
-            // 토큰에 잘못된 형식의 UUID가 담겨있을 경우 (보안 이슈 또는 오류)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
 
         refreshTokenRepository.delete(userId);
         // aiChatHistoryRepository.deleteHistory(userId);
+        redisChatCleanupRepository.deleteAllAIPersonChats(userId);
 
         System.out.println(">>>> Refresh token deleted for user: " + userId);
         return ResponseEntity.ok().build();
