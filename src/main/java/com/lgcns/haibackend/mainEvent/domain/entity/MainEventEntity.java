@@ -28,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MainEventEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
@@ -39,6 +39,7 @@ public class MainEventEntity {
     private String description;
     private String summary;
     private Boolean timeline;
+    private String shortName;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
