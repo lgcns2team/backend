@@ -5,8 +5,11 @@ import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.lgcns.haibackend.global.Role;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -28,7 +31,7 @@ public class JwtProvider {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(String userIdStr, String role) {
+    public String generateAccessToken(String userIdStr, Role role) {
         System.out.println("[debug] >>> JwtProvider generateAccessToken");
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRATION_MS);
@@ -43,7 +46,7 @@ public class JwtProvider {
 
     }
 
-    public String generateRefreshToken(String userIdStr, String role) {
+    public String generateRefreshToken(String userIdStr, Role role) {
         System.out.println("[debug] >>> JwtProvider generateRefreshToken");
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + REFRESH_TOKEN_EXPIRATION_MS);

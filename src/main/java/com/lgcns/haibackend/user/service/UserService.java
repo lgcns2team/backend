@@ -4,8 +4,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
+import com.lgcns.haibackend.global.Role;
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
 import com.lgcns.haibackend.user.domain.dto.UserResponseDTO;
 import com.lgcns.haibackend.user.domain.entity.UserEntity;
@@ -27,11 +29,53 @@ public class UserService {
 
     public UserResponseDTO signup(UserRequestDTO request) {
         System.out.println(">>> service signup");
+        Integer classCode = null;
+        Integer generatedCode = null;
+
+        if (request.getRole() == Role.TEACHER) {
+            // 1. 선생님: 새로운 반 코드 생성 (6자리 숫자)
+            
+            // 6자리 랜덤 숫자 생성 로직 (100000 ~ 999999 사이)
+            do {
+                // [주의] 이 코드가 실제 운영 환경에서 고유성을 보장하려면, 
+                // 충분히 많은 코드를 생성하고 충돌 가능성을 줄여야 합니다.
+                generatedCode = (int) (Math.random() * 900000) + 100000;
+                
+                // 생성된 코드가 이미 다른 선생님에 의해 사용 중인지 DB에서 확인
+            } while (userRepository.existsByClassCodeAndRole(generatedCode, Role.TEACHER));
+            
+            classCode = generatedCode;
+            
+        } else if (request.getRole() == Role.STUDENT) {
+            // 2. 학생: joinCode 필수 검증 로직!
+            
+            // DTO에서 학생이 입력한 코드 (Integer 타입)를 가져옵니다.
+            Integer joinCode = request.getClassCode(); 
+
+            if (joinCode == null || joinCode < 100000 || joinCode > 999999) {
+                throw new IllegalArgumentException("학생은 유효한 6자리 반 초대 코드를 입력해야 합니다.");
+            }
+            
+            // 해당 코드를 가진 선생님(반)이 존재하는지 DB에서 확인
+            // (findBy 대신 existsBy를 사용해 성능 최적화)
+            boolean codeExists = userRepository.existsByClassCodeAndRole(joinCode, Role.TEACHER);
+
+            if (!codeExists) {
+                throw new RuntimeException("유효하지 않거나 존재하지 않는 반 코드입니다.");
+            }
+            
+            classCode = joinCode; // 학생에게 classCode 부여
+            
+        }
         UserEntity entity = userRepository.save(request.toEntity());
         System.out.println(">>> after save: " + entity);
 
         UserResponseDTO dto = UserResponseDTO.fromEntity(entity);
+        if (entity.getRole() == Role.TEACHER && entity.getClassCode() != null) {
+            dto.setCreatedClassCode(entity.getClassCode().toString());
+        }
         System.out.println(">>> response dto: " + dto);
+
 
         return dto;
     }
@@ -42,7 +86,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("닉네임 또는 비밀번호가 일치하지 않습니다."));
 
         String userIdStr = entity.getUserId().toString();
-        String role = entity.getRole();
+        Role role = entity.getRole();
 
         String accToken = provider.generateAccessToken(userIdStr, role);
         String refToken = provider.generateRefreshToken(userIdStr, role);
