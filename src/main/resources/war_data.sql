@@ -57,7 +57,7 @@ INSERT INTO war (
 (
     '백제-고구려 전쟁 (4세기)',
     '백제 근초고왕이 북진 정책을 추진하며 고구려 평양성을 공격한 전쟁이다. 고구려 고국원왕이 전사하고 백제가 한반도 주도권을 장악하였다. [교과서 26쪽]',
-    DATE '0369-01-01', DATE '0371-10-31',
+    DATE '0369-09-01', DATE '0371-10-31',
     '백제 승리',
     '치양 전투와 평양성 전투에서 승리하여 고구려 왕을 전사시킴.',
     (SELECT country_id FROM country WHERE country_name = '백제'),
@@ -65,6 +65,19 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '백제'),
     (SELECT country_id FROM country WHERE country_name = '고구려')
 ),
+-- 2. 마한 정복 전쟁 (남방 확장)
+(
+    '마한 정복전',
+    '근초고왕이 남쪽으로 세력을 확장하여 전라도 지역의 잔여 마한 세력을 모두 복속시킨 전쟁이다. 이로써 백제는 경기, 충청, 전라도를 아우르는 곡창 지대를 확보하였다.',
+    DATE '0366-01-01', DATE '0369-12-31',
+    '백제 승리 (남해안 진출)',
+    '마한의 모든 소국을 병합하여 백제의 영토가 남해안에 이름.',
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '마한'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '마한')
+),
+
 (
     '광개토대왕의 신라 구원전',
     '왜와 가야 연합군이 신라를 침공하자, 고구려 광개토대왕이 5만 대군을 파견하여 구원한 전쟁이다. [교과서 23쪽]',
@@ -88,6 +101,17 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '백제')
 ),
 (
+    '한강 유역 점령전',
+    '진흥왕이 백제와 연합하여 고구려를 밀어내고 한강 상류를 차지한 뒤, 나제동맹을 깨고 백제가 차지했던 한강 하류까지 기습 공격하여 독차지한 전쟁이다. [교과서 29쪽]',
+    DATE '0551-01-01', DATE '0553-12-31',
+    '신라 승리, 한강 유역 독점',
+    '한강 유역을 확보하여 당항성을 통해 중국과 직접 교류할 발판을 마련함.',
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '백제'), -- 초기엔 고구려 공격, 후반엔 백제 공격
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '백제')
+),
+(
     '신라-백제 전쟁 (6세기)',
     '신라 진흥왕이 나제동맹을 깨고 한강 유역을 독차지하자 백제 성왕이 총공격을 감행한 전쟁이다. 관산성에서 성왕이 전사하며 신라가 승리했다. [교과서 29쪽]',
     DATE '0554-07-01', DATE '0554-12-01',
@@ -97,6 +121,17 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '신라'),
     (SELECT country_id FROM country WHERE country_name = '신라'),
     (SELECT country_id FROM country WHERE country_name = '백제')
+),
+(
+    '신라-대가야 전쟁',
+    '신라 진흥왕이 낙동강 유역 장악을 위해 대가야를 공격한 전쟁이다. 562년 관산성 전투에서 이사부와 사다함이 대가야를 멸망시켰다. [교과서 29쪽]',
+    DATE '0562-09-01', DATE '0562-09-30',
+    '신라 승리, 대가야 멸망',
+    '이사부와 사다함의 활약으로 대가야가 멸망하고 대가야 연맹이 소멸함.',
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가')
 ),
 
 -- [고구려-수·당 전쟁]
@@ -350,14 +385,10 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '조선'),
     (SELECT country_id FROM country WHERE country_name = '청'),
     (SELECT country_id FROM country WHERE country_name = '조선')
-);
+),
 
 -- 분류용 가상 전쟁: 기타/미분류 전쟁 (날짜 범위를 넓게 설정하여 모든 연도에서 전투 표시)
-INSERT INTO war (
-    name, description, war_start_date, war_end_date,
-    result, summary,
-    attack_country_id, defence_country_id, winner_country_id, loser_country_id
-) VALUES (
+(
     '기타/미분류 전쟁',
     '특정 전쟁에 분류되지 않은 개별 전투들을 포함하는 가상 전쟁 카테고리',
     DATE '0001-01-01',
