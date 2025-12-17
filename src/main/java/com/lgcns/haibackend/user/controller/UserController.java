@@ -25,7 +25,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody UserRequestDTO request, BindingResult bindingResult) {
+    public ResponseEntity<UserResponseDTO> signup(@RequestBody UserRequestDTO request, BindingResult bindingResult) {
         System.out.println(">>>> user ctrl POST /signup");
         System.out.println(">>>> user ctrl POST /signup param : " + request);
 
@@ -38,7 +38,7 @@ public class UserController {
                 System.out.println("[debug] >>> validation err: " + filed.getField() + " - " + msg);
                 errorMap.put(filed.getField(), msg);
             });
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMap);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         UserResponseDTO response = userService.signup(request);

@@ -5,9 +5,14 @@ import java.util.UUID;
 import com.lgcns.haibackend.global.Role;
 import com.lgcns.haibackend.user.domain.entity.UserEntity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Data
 @Builder
 public class UserResponseDTO {
@@ -20,6 +25,7 @@ public class UserResponseDTO {
     private Role role;
 
     // 선생님 가입 시에만 반환되는, 생성된 반 코드
+    @Schema(description = "선생님 가입 시 생성된 6자리 반 초대 코드", example = "123456")
     private String createdClassCode;
 
     public static UserResponseDTO fromEntity(UserEntity user) {

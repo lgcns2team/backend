@@ -34,7 +34,6 @@ public class UserService {
 
         if (request.getRole() == Role.TEACHER) {
             // 1. 선생님: 새로운 반 코드 생성 (6자리 숫자)
-            
             // 6자리 랜덤 숫자 생성 로직 (100000 ~ 999999 사이)
             do {
                 // [주의] 이 코드가 실제 운영 환경에서 고유성을 보장하려면, 
@@ -44,7 +43,8 @@ public class UserService {
                 // 생성된 코드가 이미 다른 선생님에 의해 사용 중인지 DB에서 확인
             } while (userRepository.existsByClassCodeAndRole(generatedCode, Role.TEACHER));
             
-            classCode = generatedCode;
+            request.setClassCode(generatedCode);
+            System.out.println("Generated Code for teacher: "+ generatedCode);
             
         } else if (request.getRole() == Role.STUDENT) {
             // 2. 학생: joinCode 필수 검증 로직!
@@ -67,6 +67,7 @@ public class UserService {
             classCode = joinCode; // 학생에게 classCode 부여
             
         }
+        System.out.println("Final check before save: " + request.getClassCode());
         UserEntity entity = userRepository.save(request.toEntity());
         System.out.println(">>> after save: " + entity);
 
