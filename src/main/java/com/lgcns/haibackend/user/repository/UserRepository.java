@@ -18,5 +18,5 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     public Optional<UserEntity> findByUserId(UUID userId);
     
     // 코드가 이미 사용 중인지, 또는 존재하는지 확인하는 메서드 (Integer 타입으로 변경)
-    public boolean existsByClassCodeAndRole(Integer classCode, Role role);
+    public boolean existsByTeacherCodeAndRole(Integer teacherCode, Role role);
 }

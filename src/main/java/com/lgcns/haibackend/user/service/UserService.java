@@ -29,7 +29,6 @@ public class UserService {
 
     public UserResponseDTO signup(UserRequestDTO request) {
         System.out.println(">>> service signup");
-        Integer classCode = null;
         Integer generatedCode = null;
 
         if (request.getRole() == Role.TEACHER) {
@@ -41,39 +40,39 @@ public class UserService {
                 generatedCode = (int) (Math.random() * 900000) + 100000;
                 
                 // 생성된 코드가 이미 다른 선생님에 의해 사용 중인지 DB에서 확인
-            } while (userRepository.existsByClassCodeAndRole(generatedCode, Role.TEACHER));
+            } while (userRepository.existsByTeacherCodeAndRole(generatedCode, Role.TEACHER));
             
-            request.setClassCode(generatedCode);
+            request.setTeacherCode(generatedCode);
             System.out.println("Generated Code for teacher: "+ generatedCode);
             
         } else if (request.getRole() == Role.STUDENT) {
             // 2. 학생: joinCode 필수 검증 로직!
             
             // DTO에서 학생이 입력한 코드 (Integer 타입)를 가져옵니다.
-            Integer joinCode = request.getClassCode(); 
+            Integer joinCode = request.getTeacherCode(); 
 
             if (joinCode == null || joinCode < 100000 || joinCode > 999999) {
-                throw new IllegalArgumentException("학생은 유효한 6자리 반 초대 코드를 입력해야 합니다.");
+                throw new IllegalArgumentException("학생은 유효한 6자리 초대 코드를 입력해야 합니다.");
             }
             
             // 해당 코드를 가진 선생님(반)이 존재하는지 DB에서 확인
             // (findBy 대신 existsBy를 사용해 성능 최적화)
-            boolean codeExists = userRepository.existsByClassCodeAndRole(joinCode, Role.TEACHER);
+            boolean codeExists = userRepository.existsByTeacherCodeAndRole(joinCode, Role.TEACHER);
 
             if (!codeExists) {
-                throw new RuntimeException("유효하지 않거나 존재하지 않는 반 코드입니다.");
+                throw new RuntimeException("유효하지 않거나 존재하지 않는 코드입니다.");
             }
             
-            classCode = joinCode; // 학생에게 classCode 부여
+            request.setTeacherCode(joinCode); // 학생에게 tCode 부여
             
         }
-        System.out.println("Final check before save: " + request.getClassCode());
+        System.out.println("Final check before save: " + request.getTeacherCode());
         UserEntity entity = userRepository.save(request.toEntity());
         System.out.println(">>> after save: " + entity);
 
         UserResponseDTO dto = UserResponseDTO.fromEntity(entity);
-        if (entity.getRole() == Role.TEACHER && entity.getClassCode() != null) {
-            dto.setCreatedClassCode(entity.getClassCode().toString());
+        if (entity.getRole() == Role.TEACHER && entity.getTeacherCode() != null) {
+            dto.setCreatedTeacherCode(entity.getTeacherCode().toString());
         }
         System.out.println(">>> response dto: " + dto);
 
