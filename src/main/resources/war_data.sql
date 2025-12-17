@@ -78,6 +78,45 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '마한')
 ),
 
+-- 1. 백제 정벌 (광개토대왕)
+(
+    '고구려의 백제 정벌 (아신왕 굴복)',
+    '396년 광개토대왕이 수군을 이끌고 백제를 공격하여 58개 성을 빼앗고, 아신왕에게 "영원히 노객(신하)이 되겠다"는 항복을 받아낸 전쟁. [교과서 23쪽]',
+    DATE '396-07-01', DATE '396-08-30',
+    '고구려 승리 (백제 항복)',
+    '백제 수도를 포위하여 항복을 받고 한강 이북과 경기 북부 지역을 장악함.',
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '백제')
+),
+
+-- 2. 후연 정복 (요동 확보)
+(
+    '고구려-후연 전쟁 (요동 정복)',
+    '광개토대왕이 서쪽의 선비족 국가인 후연을 공격하여 숙군성을 함락시키고, 요동 지역 전체를 고구려 영토로 확정한 전쟁. [교과서 23쪽]',
+    DATE '400-01-01', DATE '404-12-31',
+    '고구려 승리 (요동 완전 장악)',
+    '후연을 격파하고 요동성 및 만주 서부 지역을 완전히 차지함.',
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '후연'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '후연')
+),
+
+-- 3. 동부여 정복
+(
+    '동부여 정복전',
+    '410년 광개토대왕이 직접 군대를 이끌고 동부여를 공격하여 64개 성을 격파하고 복속시킨 전쟁. 만주 북부까지 영향력을 확대했다. [교과서 23쪽]',
+    DATE '410-02-01', DATE '410-12-31',
+    '고구려 승리 (동부여 복속)',
+    '동부여가 항복하고 고구려의 영역권으로 들어옴.',
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '동부여'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '동부여')
+),
+
 (
     '광개토대왕의 신라 구원전',
     '왜와 가야 연합군이 신라를 침공하자, 고구려 광개토대왕이 5만 대군을 파견하여 구원한 전쟁이다. [교과서 23쪽]',
