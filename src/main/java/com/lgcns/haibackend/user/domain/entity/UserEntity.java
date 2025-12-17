@@ -24,14 +24,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name="users")
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -57,6 +56,9 @@ public class UserEntity {
 
     @Column(nullable = false, updatable = true, unique = true)
     private String nickname;
+
+    @Column
+    private UUID classCode;
 
     // 토론, AI챗봇, 교과서 그리기 연결 필요
 }
