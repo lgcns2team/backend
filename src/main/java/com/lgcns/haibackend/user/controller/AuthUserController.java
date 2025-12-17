@@ -26,7 +26,6 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
@@ -59,14 +58,14 @@ public class AuthUserController {
         String token = authHeader.substring(7);
         String userIdStr = jwtProvider.getUserIdFromToken(token);
         UUID userId = null; // UUID 객체를 선언합니다.
-        
+
         try {
             userId = UUID.fromString(userIdStr);
         } catch (IllegalArgumentException e) {
             // 토큰에 담긴 UUID 문자열이 유효하지 않을 경우
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        
+
         UserResponseDTO response = userService.update(userId, request);
         return ResponseEntity.ok(response);
     }
@@ -86,12 +85,13 @@ public class AuthUserController {
 
     @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(@PathVariable("userId") UUID userId, @RequestHeader(value = "Authorization", required = false) String authHeader){
-        
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        String token = authHeader.substring(7);
+    public ResponseEntity<String> deleteUser(Authentication auth) {
+        UUID userId = UUID.fromString(auth.getPrincipal().toString());
+
+        refreshTokenRepository.delete(userId);
+        redisChatRepository.deleteAllAIPersonChats(userId);
+        redisChatRepository.deleteAllChatbotChats(userId);
+
         userService.deleteUser(userId);
         return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
     }

@@ -3,9 +3,11 @@ package com.lgcns.haibackend.user.domain.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.lgcns.haibackend.global.Role;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,9 +37,16 @@ public class UserEntity {
     @Column(updatable = false, nullable = false)
     private UUID userId;
 
+    private Integer teacherCode;
+
+    @Column(nullable = true, updatable = true)
     private Integer grade;
+
+    @Column(nullable = true, updatable = true)
     private Integer classroom;
-    private String role;
+
+    @Column(nullable = false, updatable = true)
+    private Role role;
 
     @Column(nullable = false, updatable = true)
     private String name;
@@ -45,7 +54,7 @@ public class UserEntity {
     @Column(nullable = false, updatable = true)
     private String password;
 
-    @Column(nullable = false, updatable = true)
+    @Column(nullable = false, updatable = true, unique = true)
     private String nickname;
 
     @Column
