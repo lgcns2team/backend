@@ -57,8 +57,5 @@ public class UserEntity {
     @Column(nullable = false, updatable = true, unique = true)
     private String nickname;
 
-    @Column
-    private UUID classCode;
-
     // 토론, AI챗봇, 교과서 그리기 연결 필요
 }
