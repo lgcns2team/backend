@@ -3,6 +3,102 @@
 INSERT INTO trade (trade_id, start_country_id, end_country_id, trade_year, product)
 VALUES
 /* ========================================================================= */
+/* 0. 삼국시대의 대외 교류 (4~7세기) - 실크로드 (초원길, 사막길, 바닷길) */
+/* ========================================================================= */
+
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '서역'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    500,
+    '유리, 황금, 뿔잔 (초원길/사막길 교류)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '서역'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    500,
+    '로마 유리, 황금 장식 보검, 뿔잔 (초원길/비단길 경유)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '서역'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    500,
+    '유리 구슬, 공작석, 서역 물산 (바닷길/사막길 경유)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '가야'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    450,
+    '철, 토기, 덩이쇠'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '가야'),
+    (SELECT country_id FROM country WHERE country_name = '남조(송)'),
+    450,
+    '철, 덩이쇠 (송서 기록)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '남조(송)'),
+    (SELECT country_id FROM country WHERE country_name = '가야'),
+    450,
+    '서적, 불교 용품, 사치품'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '가야'),
+    (SELECT country_id FROM country WHERE country_name = '일본'),
+    450,
+    '철, 덩이쇠, 토기, 갑옷'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '일본'),
+    (SELECT country_id FROM country WHERE country_name = '가야'),
+    450,
+    '청동 거울, 옥, 토기'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '동진'),
+    375,
+    '칠지도, 박사 파견, 불경 수입'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '동진'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    375,
+    '불교 전파, 도자기, 비단'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '요서'),
+    375,
+    '군사 진출 (요서 경략설)'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '일본'),
+    375,
+    '칠지도 하사, 아직기/왕인 박사 파견'
+),
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '가야'),
+    375,
+    '철 수입, 선진 문물 전파'
+),
+
+/* ========================================================================= */
 /* 1. 통일 신라의 대외 교류 (8세기~10세기 초) */
 /* ========================================================================= */
 
@@ -313,6 +409,188 @@ VALUES
 -- =========================================================================
 -- 무역 경로 초기 데이터 (trade_route) - 실제 역사적 무역로 반영
 -- =========================================================================
+
+-- 0. 삼국시대 실크로드 (500년)
+
+-- 서역 -> 고구려 (초원길)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[52.712402,42.688896],[55.612792,42.365038],[62.182617,42.023181],[68.312988,43.395468],[75.432128,40.152007],[86.374511,39.222040],[98.261718,36.626108],[108.632812,38.300283],[117.619628,40.886939],[123.574218,42.543367],[125.090332,40.470352],[125.771484,38.971367]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '서역')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '고구려')
+  AND t.trade_year = 500;
+
+-- 서역 -> 고구려 (비단길/사막길)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[53.503417,39.815287],[68.510742,39.239060],[77.563476,35.188175],[84.726562,39.143694],[93.911132,35.259973],[100.634765,31.780481],[108.808593,29.932086],[116.103515,37.628154],[117.597656,40.926795],[125.068359,40.825449],[125.771484,38.954282]]}'::jsonb,
+    '#f59e0b'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '서역')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '고구려')
+  AND t.trade_year = 500;
+
+-- 서역 -> 신라 (초원길 - 고구려 경유)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[52.712402,42.688896],[55.612792,42.365038],[62.182617,42.023181],[68.312988,43.395468],[75.432128,40.152007],[86.374511,39.222040],[98.261718,36.626108],[108.632812,38.300283],[117.619628,40.886939],[123.574218,42.543367],[125.090332,40.470352],[125.771484,38.971367],[127.419433,36.557305],[129.100341,35.776822]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '서역')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '신라')
+  AND t.trade_year = 500;
+
+-- 서역 -> 신라 (비단길/사막길 - 중국, 고구려/백제 경유)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[53.503417,39.815287],[68.510742,39.239060],[77.563476,35.188175],[84.726562,39.143694],[93.911132,35.259973],[100.634765,31.780481],[108.808593,29.932086],[116.103515,37.628154],[117.597656,40.926795],[125.068359,40.825449],[125.771484,38.954282],[126.982727,37.493165],[129.100341,35.776822]]}'::jsonb,
+    '#f59e0b'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '서역')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '신라')
+  AND t.trade_year = 500;
+
+-- 서역 -> 백제 (바닷길 - 중국 양저우 경유)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[119.882812,30.171725],[122.980957,31.041639],[121.354980,33.315840],[120.805664,34.119990],[120.234375,34.682007],[119.750976,35.285087],[120.717773,35.812467],[122.091064,36.238956],[122.904052,37.163818],[122.288818,37.722066],[121.069335,37.373649],[121.376953,38.911552],[122.904052,39.014062],[123.090820,40.182230],[123.409423,39.481997],[125.595703,38.868796],[124.826660,38.688940],[123.804931,37.990967],[125.540771,37.233827],[126.988220,37.500356]]}'::jsonb,
+    '#3b82f6'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '서역')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '백제')
+  AND t.trade_year = 500;
+
+-- 가야 -> 백제 (450년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[128.259456,34.983330],[128.295120,34.674373],[127.561027,34.399633],[126.594680,34.218081],[126.001695,34.435896],[126.155432,34.824731],[126.160077,35.161704],[126.475787,35.147103],[126.221847,35.253742],[126.354994,35.420714],[126.066267,37.101537],[126.736120,36.299734]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '가야')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '백제')
+  AND t.trade_year = 450;
+
+-- 가야 -> 남조(송) (450년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[128.259142,35.012608],[128.251348,34.145409],[122.178110,32.446722],[122.693776,31.131257],[121.879390,30.441310],[120.298096,30.242138]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '가야')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '남조(송)')
+  AND t.trade_year = 450;
+
+-- 남조(송) -> 가야 (450년) - 역방향 경로
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[120.298096,30.242138],[121.879390,30.441310],[122.693776,31.131257],[122.178110,32.446722],[128.251348,34.145409],[128.259142,35.012608]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '남조(송)')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '가야')
+  AND t.trade_year = 450;
+
+-- 가야 -> 일본 (450년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[128.248804,34.986620],[128.654530,34.535017],[129.386078,34.529152],[129.638812,33.915953],[129.541887,33.354032],[129.777983,33.500781],[129.948192,33.475576],[130.306930,33.844374],[130.725634,33.914448],[130.887607,34.026094],[131.131939,33.811786],[131.548388,33.717750],[132.382960,33.781713],[132.635528,34.091712],[133.228513,34.219030],[133.612855,34.309854],[134.425731,34.391515],[135.293246,34.744443],[135.479927,35.454743],[134.206107,36.025620],[132.844437,35.954484],[132.515000,35.212679]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '가야')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '일본')
+  AND t.trade_year = 450;
+
+-- 일본 -> 가야 (450년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[132.482057,35.230634],[130.033247,35.077886],[128.276254,34.978896]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '일본')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '가야')
+  AND t.trade_year = 450;
+
+-- 백제 -> 동진 (375년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[120.749575,37.703748],[122.089282,37.851413],[122.781098,36.758773],[121.043779,35.679223],[120.231170,35.123843],[120.837363,33.871494],[122.208550,32.530779],[122.402776,30.812479],[121.166715,30.388295],[120.738581,30.483146]]}'::jsonb,
+    '#a855f7'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '백제')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '동진')
+  AND t.trade_year = 375;
+
+-- 동진 -> 백제 (375년) - 역방향
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[120.738581,30.483146],[121.166715,30.388295],[122.402776,30.812479],[122.208550,32.530779],[120.837363,33.871494],[120.231170,35.123843],[121.043779,35.679223],[122.781098,36.758773],[122.089282,37.851413],[120.749575,37.703748]]}'::jsonb,
+    '#a855f7'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '동진')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '백제')
+  AND t.trade_year = 375;
+
+-- 백제 -> 요서 (375년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[126.741665,37.406406],[125.242730,37.174714],[124.011542,37.816840],[124.527658,38.594037],[125.665504,38.994963],[125.669632,39.013449],[123.978526,39.396657],[122.561950,39.286168],[121.013600,38.188968],[120.750051,37.703658]]}'::jsonb,
+    '#a855f7'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '백제')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '요서')
+  AND t.trade_year = 375;
+
+-- 백제 -> 가야 (375년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[126.737620,37.410227],[126.100710,37.047091],[125.803281,36.131198],[126.731756,35.890196],[125.771085,35.206708],[125.672254,34.634518],[125.968746,34.149350],[126.753903,33.958144],[128.219894,34.321975],[128.896439,34.836993],[128.890948,35.188025],[128.897316,35.221131]]}'::jsonb,
+    '#a855f7'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '백제')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '가야')
+  AND t.trade_year = 375;
+
+-- 백제 -> 일본 (375년)
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[126.737620,37.410227],[126.100710,37.047091],[125.803281,36.131198],[126.731756,35.890196],[125.771085,35.206708],[125.672254,34.634518],[125.968746,34.149350],[126.753903,33.958144],[128.219894,34.321975],[128.896439,34.836993],[128.890948,35.188025],[128.897316,35.221131],[128.899849,35.218702],[129.384273,34.498725],[130.052972,34.536098],[129.811386,33.826983],[130.360446,33.451861],[130.777732,34.091324],[131.173056,33.653349],[132.806113,33.990126],[133.630727,34.326428],[134.454318,34.453392],[134.914292,34.597688],[135.276672,34.599950],[135.611599,34.767132]]}'::jsonb,
+    '#a855f7'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '백제')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '일본')
+  AND t.trade_year = 375;
 
 -- 통일 신라 -> 일본 (800년) - 신라 당은포 완도 하카타 금성
 INSERT INTO trade_route (route_id, trade_id, path, route_color)
