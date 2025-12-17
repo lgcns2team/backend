@@ -38,7 +38,7 @@ public class UserEntity {
     @Column(updatable = false, nullable = false)
     private UUID userId;
 
-    private Integer classCode;
+    private Integer teacherCode;
 
     @Column(nullable = true, updatable = true)
     private Integer grade;

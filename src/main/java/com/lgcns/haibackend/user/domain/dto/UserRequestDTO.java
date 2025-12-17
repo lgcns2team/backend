@@ -25,7 +25,7 @@ public class UserRequestDTO {
     private Role role;
 
     // 학생 전용 필드 (Role이 STUDENT일 때 필수 검증)
-    private Integer classCode; // 학생이 입력할 선생님의 초대 코드 (UUID 문자열)
+    private Integer teacherCode; // 학생이 입력할 선생님의 초대 코드 (UUID 문자열)
 
     // 기타 프로필 정보 (선생님/학생 모두에게 선택적 또는 업데이트 시 사용)
     private Integer grade;
@@ -37,7 +37,7 @@ public class UserRequestDTO {
                 .password(this.password)
                 .nickname(this.nickname)
                 .role(this.role)
-                .classCode(this.classCode)
+                .teacherCode(this.teacherCode)
                 .grade(this.grade)
                 .classroom(this.classroom)
                 .build();
