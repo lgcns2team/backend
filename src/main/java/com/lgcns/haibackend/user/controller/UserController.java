@@ -5,16 +5,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
 import com.lgcns.haibackend.user.domain.dto.UserResponseDTO;
+import com.lgcns.haibackend.user.domain.entity.UserEntity;
+import com.lgcns.haibackend.user.repository.UserRepository;
 import com.lgcns.haibackend.user.service.UserService;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -60,4 +68,6 @@ public class UserController {
                 .header("Refresh-Token", (String) (map.get("refresh")))
                 .body((UserResponseDTO) map.get("response"));
     }
+
+    
 }
