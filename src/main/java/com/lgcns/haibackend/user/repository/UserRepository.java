@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     public Optional<UserEntity> findByNicknameAndPassword(String nickname, String password);
     public Optional<UserEntity> findByUserId(UUID userId);
     public Optional<UserEntity> findByNickname(String nickname);
+    public boolean existsByNickname(String nickname);
     // 코드가 이미 사용 중인지, 또는 존재하는지 확인하는 메서드 (Integer 타입으로 변경)
     public boolean existsByTeacherCodeAndRole(Integer teacherCode, Role role);
 }

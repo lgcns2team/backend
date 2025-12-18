@@ -32,7 +32,14 @@ public class UserService {
         System.out.println(">>> service signup");
         Integer generatedCode = null;
 
+        // 닉네임 중복 체크 (공통)
+        if (userRepository.existsByNickname(request.getNickname())) {
+            throw new RuntimeException("이미 존재하는 아이디(닉네임)입니다.");
+        }
+
         if (request.getRole() == Role.TEACHER) {
+
+
             // 1. 선생님: 새로운 반 코드 생성 (6자리 숫자)
             // 6자리 랜덤 숫자 생성 로직 (100000 ~ 999999 사이)
             do {
