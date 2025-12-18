@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.lgcns.haibackend.global.Role;
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
@@ -72,7 +73,7 @@ public class UserService {
 
         UserResponseDTO dto = UserResponseDTO.fromEntity(entity);
         if (entity.getRole() == Role.TEACHER && entity.getTeacherCode() != null) {
-            dto.setCreatedTeacherCode(entity.getTeacherCode().toString());
+            dto.setCreatedTeacherCode(entity.getTeacherCode());
         }
         System.out.println(">>> response dto: " + dto);
 
@@ -151,5 +152,15 @@ public class UserService {
         UserEntity user = userRepository.findByUserId(userId)
                     .orElseThrow( () -> new RuntimeException("사용자를 찾을 수 없습니다."));
         userRepository.delete(user);
+    }
+    
+    @Transactional
+    public Integer getTeacherCodeByUserId(UUID userId) {
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        if (!"TEACHER".equals(user.getRole().name())) {
+            throw new RuntimeException("선생님 권한이 없는 사용자입니다.");
+        }
+        return user.getTeacherCode();
     }
 }
