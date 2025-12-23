@@ -1,7 +1,7 @@
 # HAI Backend - 한국사 GeoJSON 시각화 API
 
 > **Spring Boot 기반 한국사 전쟁·전투 데이터 REST API**  
-> GeoJSON 이동경로 데이터를 활용한 역사 시각화 프로젝트
+> GeoJSON 이동경로 데이터를 활용한 역사 시각화 프로젝트 및 AWS Bedrock과 Knowledge Base를 활용한 Spring Boot 기반 AI 챗봇 백엔드 서비스
 
 ## 프로젝트 개요
 
