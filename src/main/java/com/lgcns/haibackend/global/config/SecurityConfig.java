@@ -29,8 +29,7 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             
             // 모든 요청 허용 (JwtFilter에서 직접 검증)
-            .authorizeHttpRequests(auth -> 
-                auth.anyRequest().permitAll())
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
             
             // 기본 로그인 폼 비활성화
             .formLogin(form -> form.disable())
