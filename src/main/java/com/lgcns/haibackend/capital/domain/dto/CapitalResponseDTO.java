@@ -3,6 +3,7 @@ package com.lgcns.haibackend.capital.domain.dto;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 
 import lombok.Builder;
@@ -13,7 +14,11 @@ import lombok.Data;
 public class CapitalResponseDTO {
     private UUID capitalId;
     private String capitalName;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startedDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endedDate;
     private Double latitude;
     private Double longitude;
