@@ -3,12 +3,15 @@ package com.lgcns.haibackend.user.domain.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.lgcns.haibackend.discussion.domain.entity.DebateRoomEntity;
 import com.lgcns.haibackend.global.Role;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -58,4 +61,7 @@ public class UserEntity {
     private String nickname;
 
     // 토론, AI챗봇, 교과서 그리기 연결 필요
+
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DebateRoomEntity> debateRooms = new ArrayList<>();
 }
