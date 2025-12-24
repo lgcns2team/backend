@@ -9,6 +9,8 @@ import com.lgcns.haibackend.discussion.domain.dto.DebateRoomResponseDTO;
 import com.lgcns.haibackend.discussion.domain.dto.DebateStatus;
 import com.lgcns.haibackend.discussion.domain.dto.DebateTopicsRequest;
 import com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse;
+import com.lgcns.haibackend.discussion.domain.entity.DebateRoomEntity;
+import com.lgcns.haibackend.discussion.repository.DebateRoomRepository;
 import com.lgcns.haibackend.global.Role;
 import com.lgcns.haibackend.discussion.domain.dto.DebateSummaryResponse;
 import com.lgcns.haibackend.user.domain.entity.UserClassInfo;
@@ -17,21 +19,22 @@ import com.lgcns.haibackend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,6 +47,8 @@ public class DebateService {
 
     @Value("${aws.bedrock.prompt.debate-summary}")
     private String debateSummaryPromptId;
+
+    private final DebateRoomRepository debateRoomRepository;
 
     private final UserRepository userRepository;
     private final RedisTemplate<String, String> redisTemplate;
@@ -66,126 +71,102 @@ public class DebateService {
         }
     }
 
+    @Transactional
     public DebateRoomResponseDTO createRoom(DebateRoomRequestDTO req, Authentication auth) {
 
         UUID userId = AuthUtils.getUserId(auth);
         validateTeacher(userId);
 
-        UUID teacherId = AuthUtils.getUserId(auth);
-        UserEntity teacher = userRepository.findByUserId(teacherId)
+        UserEntity teacher = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
 
-        Integer teacherCode = teacher.getTeacherCode();
-        UUID roomId = UUID.randomUUID();
-        LocalDateTime createdAt = LocalDateTime.now();
+        DebateRoomEntity room = new DebateRoomEntity();
+        room.setTeacher(teacher);
+        room.setParticipantCount(req.getParticipantCount());
+        room.setTopicTitle(req.getTopicTitle());
+        room.setTopicDescription(req.getTopicDescription());
+        room.setGrade(req.getGrade());
+        room.setClassroom(req.getClassroom());
+        room.setTime(req.getTime());
 
-        String roomKey = "debate:room:" + roomId;
-        Map<String, String> roomMap = new HashMap<>();
-        roomMap.put("roomId", roomId.toString());
-        roomMap.put("teacherId", teacherId.toString());
-        roomMap.put("teacherCode", teacherCode.toString());
-        roomMap.put("grade", req.getGrade().toString());
-        roomMap.put("classroom", req.getClassroom().toString());
-        roomMap.put("topicTitle", req.getTopicTitle());
-        roomMap.put("topicDescription", req.getTopicDescription());
-        roomMap.put("participantCount", req.getParticipantCount().toString());
-        roomMap.put("createdAt", createdAt.toString());
-        roomMap.put("viewMode", "vote");
+        DebateRoomEntity saved = debateRoomRepository.save(room);
 
-        redisTemplate.opsForHash().putAll(roomKey, roomMap);
-
-        // 코드별 토론방
-        String teacherCodeIndexKey = "debate:teacherCode:" + teacherCode + ":rooms";
-        redisTemplate.opsForZSet().add(
-                teacherCodeIndexKey,
-                roomId.toString(),
-                createdAt.atZone(ZoneId.systemDefault()).toEpochSecond());
-
-        return DebateRoomResponseDTO.builder()
-                .roomId(roomId)
-                .teacherId(teacherId)
-                .teacherCode(teacherCode)
-                .participantCount(req.getParticipantCount())
-                .topicTitle(req.getTopicTitle())
-                .topicDescription(req.getTopicDescription())
-                .createdAt(createdAt)
-                .viewMode("vote")
-                .grade(req.getGrade())
-                .classroom(req.getClassroom())
-                .build();
+        return DebateRoomResponseDTO.fromEntity(saved);
     }
 
-    public void deleteRoom(String roomId, Authentication auth) {
+    @Transactional
+    public void deleteRoom(UUID roomId, Authentication auth) {
         if (auth == null || !auth.isAuthenticated()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication required");
         }
 
-        String roomKey = "debate:room:" + roomId;
-        Map<Object, Object> roomMap = redisTemplate.opsForHash().entries(roomKey);
-
-        if (roomMap == null || roomMap.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found");
-        }
-
-        // 권한 확인 (생성한 선생님만 삭제 가능)
+        DebateRoomEntity room = debateRoomRepository.findById(roomId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+    
         UUID currentUserId = AuthUtils.getUserId(auth);
-        String teacherIdStr = (String) roomMap.get("teacherId");
-
-        if (teacherIdStr == null || !teacherIdStr.equals(currentUserId.toString())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the creator can delete this room");
+        if (!room.getTeacher().getUserId().equals(currentUserId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "방을 생성한 선생님만 삭제할 수 있습니다.");
         }
+        Integer teacherCode = room.getTeacherCode();
+        debateRoomRepository.delete(room);
 
-        String teacherCode = (String) roomMap.get("teacherCode");
+        String roomIdStr = roomId.toString();
+        redisTemplate.delete("debate:room:" + roomIdStr + ":messages");
+        redisTemplate.delete("debate:room:" + roomIdStr + ":status");
 
-        // Redis 데이터 삭제
-        redisTemplate.delete(roomKey); // 방정보
-        redisTemplate.delete("debate:room:" + roomId + ":messages"); // 메시지
-        redisTemplate.delete("debate:room:" + roomId + ":status"); // 찬성/반대 상태
-
-        // 목록에서 제거
         if (teacherCode != null) {
             String teacherCodeIndexKey = "debate:teacherCode:" + teacherCode + ":rooms";
-            redisTemplate.opsForZSet().remove(teacherCodeIndexKey, roomId);
+            redisTemplate.opsForZSet().remove(teacherCodeIndexKey, roomIdStr);
         }
     }
 
-    public List<DebateRoomResponseDTO> getRoomsByClassCode(
-            Authentication auth) {
-        UUID userId;
-        if (auth != null && auth.isAuthenticated()) {
-            userId = AuthUtils.getUserId(auth);
-        } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication or userId required");
+    @Transactional(readOnly = true)
+    public List<DebateRoomResponseDTO> getRoomsByClassCode(Authentication auth) {
+
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication required");
         }
+
+        UUID userId = AuthUtils.getUserId(auth);
 
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
 
         Integer teacherCode = user.getTeacherCode();
+        if (teacherCode == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No teacher code");
+        }
 
-        String classIndexKey = "debate:teacherCode:" + teacherCode + ":rooms";
-        Set<String> roomIds = redisTemplate.opsForZSet()
-                .reverseRange(classIndexKey, 0, 50);
+        boolean isTeacher = (user.getRole() == Role.TEACHER);
 
-        if (roomIds == null || roomIds.isEmpty()) {
+        List<DebateRoomEntity> rooms;
+
+        if (isTeacher) {
+            rooms = debateRoomRepository.findByTeacherCodeOrderByCreatedAtDesc(teacherCode);
+        } else {
+            UserClassInfo userInfo = userRepository.findClassInfoByUserId(userId);
+            if (userInfo == null || userInfo.getGrade() == null) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No grade info");
+            }
+            Integer grade = userInfo.getGrade();
+            rooms = debateRoomRepository.findByTeacherCodeAndGradeOrderByCreatedAtDesc(teacherCode, grade);
+        }
+
+        if (rooms == null || rooms.isEmpty()) {
             return List.of();
         }
 
-        List<DebateRoomResponseDTO> result = new ArrayList<>();
-
-        for (String roomIdStr : roomIds) {
-            String roomKey = "debate:room:" + roomIdStr;
-            Map<Object, Object> map = redisTemplate.opsForHash().entries(roomKey);
-            if (map == null || map.isEmpty())
-                continue;
-
-            result.add(DebateRoomResponseDTO.from(map));
-        }
-        return result;
+        return rooms.stream()
+                .map(DebateRoomResponseDTO::fromEntity)
+                .toList();
     }
 
-    public List<ChatMessage> getMessages(String roomId, int page, int size) {
-        String key = "debate:room:" + roomId + ":messages";
+    public List<ChatMessage> getMessages(UUID roomId, int page, int size) {
+        if (!debateRoomRepository.existsById(roomId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
+        }
+        
+        String key = "debate:room:" + roomId.toString() + ":messages";
         int p = Math.max(0, page);
         int s = Math.max(1, Math.min(size, 200));
 
@@ -219,45 +200,53 @@ public class DebateService {
         return activeRooms.get(roomId);
     }
 
+    @Transactional(readOnly = true)
     public void validateJoin(String roomId, UUID userId) {
 
-        String roomKey = "debate:room:" + roomId;
-
-        Map<Object, Object> room = redisTemplate.opsForHash().entries(roomKey);
-        if (room == null || room.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found");
+        UUID roomUuid;
+        try {
+            roomUuid = UUID.fromString(roomId);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid roomId");
         }
 
-        String roomTeacherCode = (String) room.get("teacherCode");
-        String roomGrade = (String) room.get("grade");
-        String roomClassroom = (String) room.get("classroom");
+        DebateRoomEntity room = debateRoomRepository.findById(roomUuid)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+
+        Integer roomTeacherCode = room.getTeacherCode();
+        Integer roomGrade = room.getGrade();
+        Integer roomClassroom = room.getClassroom();
+
         if (roomTeacherCode == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found");
         }
 
         UserClassInfo userInfo = userRepository.findClassInfoByUserId(userId);
         if (userInfo == null) {
-            // Guest user or user not found - Allow for now or handle differently
-            return;
+            throw new ResponseStatusException(
+                HttpStatus.FORBIDDEN,
+                "Class information required"
+            );
         }
 
         if (userInfo.getTeacherCode() == null) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No teacher code");
         }
 
-        if (!userInfo.getTeacherCode().toString().equals(roomTeacherCode)) {
+        if (!roomTeacherCode.equals(userInfo.getTeacherCode())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not in this class");
         }
 
-        boolean teacher = isTeacher(userId);
-        if (!teacher) {
+        boolean isTeacher = isTeacher(userId);
+
+        if (!isTeacher) {
             if (roomGrade != null) {
-                if (userInfo.getGrade() == null || !roomGrade.equals(userInfo.getGrade().toString())) {
+                if (userInfo.getGrade() == null || !roomGrade.equals(userInfo.getGrade())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Grade mismatch");
                 }
             }
             if (roomClassroom != null) {
-                if (userInfo.getClassroom() == null || !roomClassroom.equals(userInfo.getClassroom().toString())) {
+                if (userInfo.getClassroom() == null || !roomClassroom.equals(userInfo.getClassroom())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Classroom mismatch");
                 }
             }
@@ -303,7 +292,12 @@ public class DebateService {
         return nickname != null ? nickname : "unknown";
     }
 
-    public List<ChatMessage> getMessages(String roomId) {
+    public List<ChatMessage> getMessages(UUID roomId) {
+
+        if (!debateRoomRepository.existsById(roomId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
+        }
+
         String key = "debate:room:" + roomId + ":messages";
         List<String> rawMessages = redisTemplate.opsForList().range(key, 0, -1);
 
@@ -320,8 +314,12 @@ public class DebateService {
         return messages;
     }
 
-    public void appendMessage(String roomId, ChatMessage msg) {
-        String key = "debate:room:" + roomId + ":messages";
+    public void appendMessage(UUID roomId, ChatMessage msg) {
+
+        if (!debateRoomRepository.existsById(roomId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
+        }
+        String key = "debate:room:" + roomId.toString() + ":messages";
         try {
             String json = objectMapper.writeValueAsString(msg);
             redisTemplate.opsForList().rightPush(key, json);
@@ -329,19 +327,6 @@ public class DebateService {
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Failed to serialize ChatMessage", e);
         }
-    }
-
-    public void deleteRoom(Integer teacherCode, String roomId, Authentication auth) {
-        UUID userId = AuthUtils.getUserId(auth);
-        validateTeacher(userId);
-
-        String messagesKey = "debate:room:" + roomId + ":messages";
-        String roomKey = "debate:room:" + roomId;
-        String teacherRoomsKey = "debate:teacherCode:" + teacherCode + ":rooms";
-
-        redisTemplate.delete(messagesKey);
-        redisTemplate.delete(roomKey);
-        redisTemplate.opsForZSet().remove(teacherRoomsKey, roomId);
     }
 
     /**
@@ -381,7 +366,7 @@ public class DebateService {
         }
     }
 
-    public DebateSummaryResponse getDebateAnalysis(String roomId) {
+    public DebateSummaryResponse getDebateAnalysis(UUID roomId) {
         // 1. 채팅 내역 가져오기
         List<ChatMessage> messages = getMessages(roomId);
         System.err.println("messages !!!!!!: " + messages);
