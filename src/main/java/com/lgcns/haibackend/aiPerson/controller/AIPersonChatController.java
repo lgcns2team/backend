@@ -1,13 +1,16 @@
 package com.lgcns.haibackend.aiPerson.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.lgcns.haibackend.aiPerson.service.AIPersonChatService;
+import com.lgcns.haibackend.bedrock.domain.dto.MessageDTO;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +68,18 @@ public class AIPersonChatController {
                     log.error("Error in AI person chat: {}", error.getMessage());
                     return Flux.just("data: Error: " + error.getMessage() + "\n\n");
                 });
+    }
+
+    // 특정 AI 인물과의 대화 히스토리 조회
+    @GetMapping("/{promptId}/history")
+    public ResponseEntity<List<MessageDTO>> getChatHistory(
+            @PathVariable("promptId") String promptId,
+            Authentication authentication) {
+        
+        UUID userId = UUID.fromString(authentication.getName()); 
+        List<MessageDTO> history = aiPersonChatService.getChatHistory(promptId, userId);
+        
+        return ResponseEntity.ok(history);
     }
 
     // AI Person ChatRequest DTO

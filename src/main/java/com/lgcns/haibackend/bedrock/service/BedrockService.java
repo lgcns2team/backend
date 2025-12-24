@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -132,5 +133,12 @@ public class BedrockService {
                                 .doOnSubscribe(s -> {
                                         log.info("🔗 [AIPERSON PROMPT CHAT SUBSCRIBED] Starting stream...");
                                 });
+        }
+        // 챗봇 대화 히스토리 조회
+        public List<MessageDTO> getChatbotHistory(UUID userId) {
+                String historyKey = "chatbot:chat:" + userId.toString();
+                log.info("[CHATBOT HISTORY] Fetching history for user: {}", userId);
+                
+                return redisChatRepository.getMessages(historyKey);
         }
 }
