@@ -37,14 +37,14 @@ public class BattleController {
 
     // 전투 상세 조회
     @GetMapping("/{battleId}")
-    public ResponseEntity<BattleResponseDTO> getBattleById(@PathVariable UUID battleId) {
+    public ResponseEntity<BattleResponseDTO> getBattleById(@PathVariable("battleId") UUID battleId) {
         BattleResponseDTO battle = battleService.getBattleById(battleId);
         return ResponseEntity.ok(battle);
     }
 
     // 전쟁별 전투 조회
     @GetMapping("/war/{warId}")
-    public ResponseEntity<List<BattleResponseDTO>> getBattlesByWarId(@PathVariable UUID warId) {
+    public ResponseEntity<List<BattleResponseDTO>> getBattlesByWarId(@PathVariable("warId") UUID warId) {
         List<BattleResponseDTO> battles = battleService.getBattlesByWarId(warId);
         return ResponseEntity.ok(battles);
     }
@@ -67,7 +67,7 @@ public class BattleController {
     // 전투 수정
     @PutMapping("/{battleId}")
     public ResponseEntity<BattleResponseDTO> updateBattle(
-            @PathVariable UUID battleId,
+            @PathVariable("battleId") UUID battleId,
             @RequestBody BattleRequestDTO requestDTO) {
         BattleResponseDTO updatedBattle = battleService.updateBattle(battleId, requestDTO);
         return ResponseEntity.ok(updatedBattle);
@@ -75,7 +75,7 @@ public class BattleController {
 
     // 전투 삭제
     @DeleteMapping("/{battleId}")
-    public ResponseEntity<Void> deleteBattle(@PathVariable UUID battleId) {
+    public ResponseEntity<Void> deleteBattle(@PathVariable("battleId") UUID battleId) {
         battleService.deleteBattle(battleId);
         return ResponseEntity.noContent().build();
     }

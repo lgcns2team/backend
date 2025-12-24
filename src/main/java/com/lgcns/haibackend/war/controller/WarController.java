@@ -36,14 +36,14 @@ public class WarController {
 
     // 연도별 전쟁 조회
     @GetMapping("/{year}")
-    public ResponseEntity<List<WarResponseDTO>> getWarsByYear(@PathVariable int year) {
+    public ResponseEntity<List<WarResponseDTO>> getWarsByYear(@PathVariable("year") int year) {
         List<WarResponseDTO> wars = warService.getWarsByYear(year);
         return ResponseEntity.ok(wars);
     }
 
     // 국가별 전쟁 히스토리 조회
     @GetMapping("/history/{countryCode}")
-    public ResponseEntity<?> getWarHistoryByCountryCode(@PathVariable Integer countryCode) {
+    public ResponseEntity<?> getWarHistoryByCountryCode(@PathVariable("countryCode") Integer countryCode) {
         return ResponseEntity.ok(warService.getWarHistoryByCountryCode(countryCode));
     }
 
@@ -59,7 +59,7 @@ public class WarController {
     // 전쟁 수정
     @PutMapping("/{warId}")
     public ResponseEntity<WarResponseDTO> updateWar(
-            @PathVariable UUID warId,
+            @PathVariable("warId") UUID warId,
             @RequestBody WarRequestDTO requestDTO) {
         WarResponseDTO updatedWar = warService.updateWar(warId, requestDTO);
         return ResponseEntity.ok(updatedWar);
@@ -67,7 +67,7 @@ public class WarController {
 
     // 전쟁 삭제
     @DeleteMapping("/{warId}")
-    public ResponseEntity<Void> deleteWar(@PathVariable UUID warId) {
+    public ResponseEntity<Void> deleteWar(@PathVariable("warId") UUID warId) {
         warService.deleteWar(warId);
         return ResponseEntity.noContent().build();
     }

@@ -34,7 +34,7 @@ public class CapitalController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CapitalResponseDTO> getCapitalById(@PathVariable UUID id) {
+    public ResponseEntity<CapitalResponseDTO> getCapitalById(@PathVariable("id") UUID id) {
         CapitalResponseDTO capital = capitalService.getCapitalById(id);
         return ResponseEntity.ok(capital);
     }
@@ -47,14 +47,14 @@ public class CapitalController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CapitalResponseDTO> updateCapital(
-            @PathVariable UUID id,
+            @PathVariable("id") UUID id,
             @RequestBody CapitalRequestDTO requestDTO) {
         CapitalResponseDTO updatedCapital = capitalService.updateCapital(id, requestDTO);
         return ResponseEntity.ok(updatedCapital);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCapital(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteCapital(@PathVariable("id") UUID id) {
         capitalService.deleteCapital(id);
         return ResponseEntity.noContent().build();
     }

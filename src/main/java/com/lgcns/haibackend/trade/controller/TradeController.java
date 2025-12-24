@@ -37,8 +37,8 @@ public class TradeController {
     // 특정 국가의 특정 연도 무역 조회 (국가 존속기간 필터링)
     @GetMapping("/{countryId}/{year}")
     public ResponseEntity<List<TradeResponseDTO>> getTradesByCountryAndYear(
-            @PathVariable UUID countryId,
-            @PathVariable int year) {
+            @PathVariable("countryId") UUID countryId,
+            @PathVariable("year") int year) {
         List<TradeResponseDTO> trades = tradeService.getTradesByCountryAndYear(countryId, year);
         return ResponseEntity.ok(trades);
     }
@@ -53,7 +53,7 @@ public class TradeController {
     // 무역 수정
     @PutMapping("/{tradeId}")
     public ResponseEntity<TradeResponseDTO> updateTrade(
-            @PathVariable UUID tradeId,
+            @PathVariable("tradeId") UUID tradeId,
             @RequestBody TradeRequestDTO requestDTO) {
         TradeResponseDTO updatedTrade = tradeService.updateTrade(tradeId, requestDTO);
         return ResponseEntity.ok(updatedTrade);
@@ -61,7 +61,7 @@ public class TradeController {
 
     // 무역 삭제
     @DeleteMapping("/{tradeId}")
-    public ResponseEntity<Void> deleteTrade(@PathVariable UUID tradeId) {
+    public ResponseEntity<Void> deleteTrade(@PathVariable("tradeId") UUID tradeId) {
         tradeService.deleteTrade(tradeId);
         return ResponseEntity.noContent().build();
     }

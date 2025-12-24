@@ -34,7 +34,7 @@ public class KingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<KingResponseDTO> getKingById(@PathVariable UUID id) {
+    public ResponseEntity<KingResponseDTO> getKingById(@PathVariable("id") UUID id) {
         KingResponseDTO king = kingService.getKingById(id);
         return ResponseEntity.ok(king);
     }
@@ -47,14 +47,14 @@ public class KingController {
 
     @PutMapping("/{id}")
     public ResponseEntity<KingResponseDTO> updateKing(
-            @PathVariable UUID id,
+            @PathVariable("id") UUID id,
             @RequestBody KingRequestDTO requestDTO) {
         KingResponseDTO updatedKing = kingService.updateKing(id, requestDTO);
         return ResponseEntity.ok(updatedKing);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteKing(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteKing(@PathVariable("id") UUID id) {
         kingService.deleteKing(id);
         return ResponseEntity.noContent().build();
     }

@@ -34,8 +34,10 @@ public class WarService {
 
     // 연도별 전쟁 조회
     public List<WarResponseDTO> getWarsByYear(int year) {
-        return warRepository.findWarsByYear(year).stream()
-                .map(WarResponseDTO::fromEntity)
+        List<WarEntity> wars = warRepository.findWarsByYear(year);
+        
+        return wars.stream()
+                .map(entity -> WarResponseDTO.fromEntity(entity, year))
                 .collect(Collectors.toList());
     }
 
