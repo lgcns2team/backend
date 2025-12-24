@@ -6,7 +6,6 @@ import com.lgcns.haibackend.war.domain.entity.WarEntity;
 import java.util.UUID;
 
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
-import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -30,17 +29,6 @@ public class MainEventDetailDTO {
             .year(entity.getYear())
             .description(entity.getDescription())
             .countryName(entity.getCountry().getCountryName())
-            .build();
-    }
-
-    public static MainEventDetailDTO fromCountry(CountryEntity entity) {
-        Integer year = entity.getFoundationYear();
-        return MainEventDetailDTO.builder()
-            .eventId(entity.getCountryId())
-            .eventName(entity.getTitle()) 
-            .year(year)                    
-            .description(entity.getDescription())
-            .countryName(entity.getCountryName())
             .build();
     }
 

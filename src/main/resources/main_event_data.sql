@@ -1,6 +1,10 @@
 INSERT INTO main_event (
     event_id, country_id, event_name, year, description, summary, timeline, short_name
 ) VALUES
+    (
+        gen_random_uuid(),
+        ()
+    )
     -- 통일 신라 말
     (
         gen_random_uuid(),

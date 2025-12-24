@@ -38,8 +38,7 @@ public class CountryEntity {
 
     private Integer foundationYear;
     private Integer endedYear;
-    @Column(name = "title")
-    private String title;
+    
     @Column(name = "summary")
     private String summary;
 
