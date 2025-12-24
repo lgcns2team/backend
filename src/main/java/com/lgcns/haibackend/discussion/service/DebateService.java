@@ -89,38 +89,29 @@ public class DebateService {
         return DebateRoomResponseDTO.fromEntity(saved);
     }
 
-
-    public void deleteRoom(String roomId, Authentication auth) {
+    @Transactional
+    public void deleteRoom(UUID roomId, Authentication auth) {
         if (auth == null || !auth.isAuthenticated()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication required");
         }
 
-        String roomKey = "debate:room:" + roomId;
-        Map<Object, Object> roomMap = redisTemplate.opsForHash().entries(roomKey);
-
-        if (roomMap == null || roomMap.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found");
-        }
-
-        // 권한 확인 (생성한 선생님만 삭제 가능)
+        DebateRoomEntity room = debateRoomRepository.findById(roomId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+    
         UUID currentUserId = AuthUtils.getUserId(auth);
-        String teacherIdStr = (String) roomMap.get("teacherId");
-
-        if (teacherIdStr == null || !teacherIdStr.equals(currentUserId.toString())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the creator can delete this room");
+        if (!room.getTeacher().getUserId().equals(currentUserId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "방을 생성한 선생님만 삭제할 수 있습니다.");
         }
+        Integer teacherCode = room.getTeacherCode();
+        debateRoomRepository.delete(room);
 
-        String teacherCode = (String) roomMap.get("teacherCode");
+        String roomIdStr = roomId.toString();
+        redisTemplate.delete("debate:room:" + roomIdStr + ":messages");
+        redisTemplate.delete("debate:room:" + roomIdStr + ":status");
 
-        // Redis 데이터 삭제
-        redisTemplate.delete(roomKey); // 방정보
-        redisTemplate.delete("debate:room:" + roomId + ":messages"); // 메시지
-        redisTemplate.delete("debate:room:" + roomId + ":status"); // 찬성/반대 상태
-
-        // 목록에서 제거
         if (teacherCode != null) {
             String teacherCodeIndexKey = "debate:teacherCode:" + teacherCode + ":rooms";
-            redisTemplate.opsForZSet().remove(teacherCodeIndexKey, roomId);
+            redisTemplate.opsForZSet().remove(teacherCodeIndexKey, roomIdStr);
         }
     }
 
@@ -165,8 +156,12 @@ public class DebateService {
                 .toList();
     }
 
-    public List<ChatMessage> getMessages(String roomId, int page, int size) {
-        String key = "debate:room:" + roomId + ":messages";
+    public List<ChatMessage> getMessages(UUID roomId, int page, int size) {
+        if (!debateRoomRepository.existsById(roomId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
+        }
+        
+        String key = "debate:room:" + roomId.toString() + ":messages";
         int p = Math.max(0, page);
         int s = Math.max(1, Math.min(size, 200));
 
@@ -292,7 +287,12 @@ public class DebateService {
         return nickname != null ? nickname : "unknown";
     }
 
-    public List<ChatMessage> getMessages(String roomId) {
+    public List<ChatMessage> getMessages(UUID roomId) {
+
+        if (!debateRoomRepository.existsById(roomId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
+        }
+
         String key = "debate:room:" + roomId + ":messages";
         List<String> rawMessages = redisTemplate.opsForList().range(key, 0, -1);
 
@@ -309,8 +309,12 @@ public class DebateService {
         return messages;
     }
 
-    public void appendMessage(String roomId, ChatMessage msg) {
-        String key = "debate:room:" + roomId + ":messages";
+    public void appendMessage(UUID roomId, ChatMessage msg) {
+
+        if (!debateRoomRepository.existsById(roomId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
+        }
+        String key = "debate:room:" + roomId.toString() + ":messages";
         try {
             String json = objectMapper.writeValueAsString(msg);
             redisTemplate.opsForList().rightPush(key, json);
@@ -318,19 +322,6 @@ public class DebateService {
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Failed to serialize ChatMessage", e);
         }
-    }
-
-    public void deleteRoom(Integer teacherCode, String roomId, Authentication auth) {
-        UUID userId = AuthUtils.getUserId(auth);
-        validateTeacher(userId);
-
-        String messagesKey = "debate:room:" + roomId + ":messages";
-        String roomKey = "debate:room:" + roomId;
-        String teacherRoomsKey = "debate:teacherCode:" + teacherCode + ":rooms";
-
-        redisTemplate.delete(messagesKey);
-        redisTemplate.delete(roomKey);
-        redisTemplate.opsForZSet().remove(teacherRoomsKey, roomId);
     }
 
     /**
@@ -370,7 +361,7 @@ public class DebateService {
         }
     }
 
-    public DebateSummaryResponse getDebateAnalysis(String roomId) {
+    public DebateSummaryResponse getDebateAnalysis(UUID roomId) {
         // 1. 채팅 내역 가져오기
         List<ChatMessage> messages = getMessages(roomId);
         System.err.println("messages !!!!!!: " + messages);
