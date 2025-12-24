@@ -5,16 +5,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
 import com.lgcns.haibackend.user.domain.dto.UserResponseDTO;
+import com.lgcns.haibackend.user.domain.entity.UserEntity;
+import com.lgcns.haibackend.user.repository.UserRepository;
 import com.lgcns.haibackend.user.service.UserService;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,7 +33,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody UserRequestDTO request, BindingResult bindingResult) {
+    public ResponseEntity<UserResponseDTO> signup(@RequestBody UserRequestDTO request, BindingResult bindingResult) {
         System.out.println(">>>> user ctrl POST /signup");
         System.out.println(">>>> user ctrl POST /signup param : " + request);
 
@@ -38,7 +46,7 @@ public class UserController {
                 System.out.println("[debug] >>> validation err: " + filed.getField() + " - " + msg);
                 errorMap.put(filed.getField(), msg);
             });
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMap);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         UserResponseDTO response = userService.signup(request);
@@ -60,4 +68,6 @@ public class UserController {
                 .header("Refresh-Token", (String) (map.get("refresh")))
                 .body((UserResponseDTO) map.get("response"));
     }
+
+    
 }

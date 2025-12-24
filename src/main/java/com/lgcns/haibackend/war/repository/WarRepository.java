@@ -14,6 +14,9 @@ import com.lgcns.haibackend.war.domain.entity.WarEntity;
 @Repository
 public interface WarRepository extends JpaRepository<WarEntity, UUID> {
 
-    @Query("SELECT w FROM WarEntity w WHERE YEAR(w.warStartDate) <= :year AND (w.warEndDate IS NULL OR YEAR(w.warEndDate) >= :year)")
+    // 전쟁 시작/종료 범위 내이거나, 현재 연도~+30년 범위 내에 전투가 있는 전쟁 조회
+    @Query("SELECT DISTINCT w FROM WarEntity w LEFT JOIN w.battles b WHERE " +
+           "(YEAR(w.warStartDate) <= :year AND (w.warEndDate IS NULL OR YEAR(w.warEndDate) >= :year)) " +
+           "OR (b.battleDate IS NOT NULL AND YEAR(b.battleDate) >= :year AND YEAR(b.battleDate) <= :year + 30)")
     List<WarEntity> findWarsByYear(@Param("year") int year);
 }
