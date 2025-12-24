@@ -51,9 +51,6 @@ public class DebateRoomEntity {
     @Column(name = "teacher_code")
     private Integer teacherCode;
 
-    @Column(name = "time")
-    private Integer time; // 타이머
-
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

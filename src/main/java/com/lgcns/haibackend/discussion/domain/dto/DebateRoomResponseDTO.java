@@ -28,7 +28,6 @@ public class DebateRoomResponseDTO {
     private String viewMode;
     private Integer grade;
     private Integer classroom;
-    private Integer time;
 
     public static DebateRoomResponseDTO from(Map<Object, Object> map) {
         return DebateRoomResponseDTO.builder()
@@ -42,7 +41,6 @@ public class DebateRoomResponseDTO {
                 .createdAt(LocalDateTime.parse((String) map.get("createdAt")))
                 .grade(map.get("grade") != null ? Integer.parseInt((String) map.get("grade")) : null)
                 .classroom(map.get("classroom") != null ? Integer.parseInt((String) map.get("classroom")) : null)
-                .time(Integer.parseInt((String) map.get("time")))
                 .build();
     }
 
@@ -57,7 +55,6 @@ public class DebateRoomResponseDTO {
                 .createdAt(entity.getCreatedAt())
                 .viewMode("vote")
                 .grade(entity.getGrade())
-                .time(entity.getTime())
                 .classroom(entity.getClassroom())
                 .build();
     }

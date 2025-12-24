@@ -19,10 +19,6 @@ import com.lgcns.haibackend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -87,7 +83,6 @@ public class DebateService {
         room.setTopicDescription(req.getTopicDescription());
         room.setGrade(req.getGrade());
         room.setClassroom(req.getClassroom());
-        room.setTime(req.getTime());
 
         DebateRoomEntity saved = debateRoomRepository.save(room);
 
