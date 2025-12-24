@@ -1,5 +1,7 @@
 package com.lgcns.haibackend.aiPerson.domain.entity;
 
+import org.checkerframework.checker.units.qual.C;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -40,4 +42,10 @@ public class AIPersonEntity {
 
     @Column
     private Integer year;
+
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
 }
