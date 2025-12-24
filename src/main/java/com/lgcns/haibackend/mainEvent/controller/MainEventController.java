@@ -37,7 +37,7 @@ public class MainEventController {
     // 주요 사건 상세 조회
     @GetMapping("/detail")
     public ResponseEntity<MainEventDetailDTO> getMainEventDetail(
-        @RequestParam("type") String type, @RequestParam("id") UUID eventId
+        @RequestParam("type") String type, @RequestParam("id") UUID eventId, Integer year
     ) {
         MainEventDetailDTO response = mainEventService.getDetail(type, eventId);
         if( response != null ) {
