@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.capital.repository.CapitalRepository;
-import com.lgcns.haibackend.country.domain.entity.CountryEntity;
 import com.lgcns.haibackend.country.repository.CountryRepository;
 import com.lgcns.haibackend.mainEvent.domain.dto.MainEventDetailDTO;
 import com.lgcns.haibackend.mainEvent.domain.dto.MainEventListDTO;
@@ -40,31 +39,24 @@ public class MainEventService {
             .map(MainEventListDTO::fromEntity)
             .toList();
 
-        // 2) country 테이블 (title not null)
-        List<MainEventListDTO> countryEvents = countryRepository.findAll()
-            .stream()
-            .map(MainEventListDTO::fromCountry)
-            .filter(Objects::nonNull)
-            .toList();
-
-        // 3) capital 테이블 (title not null)
+        // 2) capital 테이블 (title not null)
         List<MainEventListDTO> capitalEvents = capitalRepository.findAll()
             .stream()
             .map(MainEventListDTO::fromCapital)
             .filter(Objects::nonNull)
             .toList();
 
-        // 4) war 테이블
+        // 3) war 테이블
         List<MainEventListDTO> warEvents = warRepository.findAll()
             .stream()
             .map(MainEventListDTO::fromWar)
             .filter(Objects::nonNull)
             .toList();
 
-        // 5) 합치고 정렬
+        // 4) 합치고 정렬
         List<MainEventListDTO> merged = new ArrayList<>();
 
-        Stream.of(mainEventList, countryEvents, capitalEvents, warEvents)
+        Stream.of(mainEventList, capitalEvents, warEvents)
             .forEach(merged::addAll);
 
         return merged.stream()
@@ -80,12 +72,6 @@ public class MainEventService {
                 MainEventEntity entity = mainEventRepository.findById(eventId)
                     .orElseThrow(() -> new IllegalArgumentException("MainEvent not found: " + eventId));
                 yield MainEventDetailDTO.fromMainEvent(entity);
-            }
-
-            case "COUNTRY" -> {
-                CountryEntity entity = countryRepository.findById(eventId)
-                    .orElseThrow(() -> new IllegalArgumentException("Country not found: " + eventId));
-                yield MainEventDetailDTO.fromCountry(entity);
             }
 
             case "CAPITAL" -> {

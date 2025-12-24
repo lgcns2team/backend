@@ -11,5 +11,5 @@ public interface DebateRoomRepository extends JpaRepository<DebateRoomEntity, UU
     List<DebateRoomEntity> findByTeacherCodeOrderByCreatedAtDesc(Integer teacherCode);
     
     List<DebateRoomEntity> findByTeacherCodeAndGradeOrderByCreatedAtDesc(Integer teacherCode, Integer grade);
-    
+    //집 가고 싶습니다.
 }
