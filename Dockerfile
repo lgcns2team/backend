@@ -1,7 +1,7 @@
 # 멀티스테이지 빌드를 사용한 Spring Boot Dockerfile
 
 # Build Stage
-FROM gradle:8.5-jdk17 AS builder
+FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
