@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+import com.lgcns.haibackend.discussion.domain.entity.DebateRoomEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +28,7 @@ public class DebateRoomResponseDTO {
     private String viewMode;
     private Integer grade;
     private Integer classroom;
+    private Integer time;
 
     public static DebateRoomResponseDTO from(Map<Object, Object> map) {
         return DebateRoomResponseDTO.builder()
@@ -39,7 +42,25 @@ public class DebateRoomResponseDTO {
                 .createdAt(LocalDateTime.parse((String) map.get("createdAt")))
                 .grade(map.get("grade") != null ? Integer.parseInt((String) map.get("grade")) : null)
                 .classroom(map.get("classroom") != null ? Integer.parseInt((String) map.get("classroom")) : null)
+                .time(Integer.parseInt((String) map.get("time")))
                 .build();
     }
+
+    public static DebateRoomResponseDTO fromEntity(DebateRoomEntity entity) {
+        return DebateRoomResponseDTO.builder()
+                .roomId(entity.getRoomId())
+                .teacherId(entity.getTeacher() != null ? entity.getTeacher().getUserId() : null)
+                .teacherCode(entity.getTeacherCode())
+                .participantCount(entity.getParticipantCount())
+                .topicTitle(entity.getTopicTitle())
+                .topicDescription(entity.getTopicDescription())
+                .createdAt(entity.getCreatedAt())
+                .viewMode("vote")
+                .grade(entity.getGrade())
+                .time(entity.getTime())
+                .classroom(entity.getClassroom())
+                .build();
+    }
+
 
 }
