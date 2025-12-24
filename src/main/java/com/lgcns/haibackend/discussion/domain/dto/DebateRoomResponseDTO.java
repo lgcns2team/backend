@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+import com.lgcns.haibackend.discussion.domain.entity.DebateRoomEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,5 +43,21 @@ public class DebateRoomResponseDTO {
                 .classroom(map.get("classroom") != null ? Integer.parseInt((String) map.get("classroom")) : null)
                 .build();
     }
+
+    public static DebateRoomResponseDTO fromEntity(DebateRoomEntity entity) {
+        return DebateRoomResponseDTO.builder()
+                .roomId(entity.getRoomId())
+                .teacherId(entity.getTeacher() != null ? entity.getTeacher().getUserId() : null)
+                .teacherCode(entity.getTeacherCode())
+                .participantCount(entity.getParticipantCount())
+                .topicTitle(entity.getTopicTitle())
+                .topicDescription(entity.getTopicDescription())
+                .createdAt(entity.getCreatedAt())
+                .viewMode("vote")
+                .grade(entity.getGrade())
+                .classroom(entity.getClassroom())
+                .build();
+    }
+
 
 }

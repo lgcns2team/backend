@@ -140,7 +140,7 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '백제')
 ),
 (
-    '한강 유역 점령전',
+    '신라의 전성기 전쟁',
     '진흥왕이 백제와 연합하여 고구려를 밀어내고 한강 상류를 차지한 뒤, 나제동맹을 깨고 백제가 차지했던 한강 하류까지 기습 공격하여 독차지한 전쟁이다. [교과서 29쪽]',
     DATE '0551-01-01', DATE '0553-12-31',
     '신라 승리, 한강 유역 독점',
@@ -386,8 +386,19 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '조선'),
     (SELECT country_id FROM country WHERE country_name = '조선'),
     (SELECT country_id FROM country WHERE country_name = '일본')
-);
+),
 
+(
+    '을묘왜변',
+    '1555년(명종 10년) 5월, 왜선 70여 척이 전라남도 영암, 강진, 진도 일대를 대규모로 침공한 사건이다. 왜구는 달량진을 포위하고 전라병사와 장흥부사 등을 전사시켰으나, 도순찰사 이준경 등의 활약으로 격퇴되었다. 이 사건을 계기로 비변사가 상설 기구화되었다.',
+    DATE '1555-05-11', DATE '1555-06-27', -- 음력 기준
+    '조선군 승리 (왜구 격퇴)',
+    '초기 방어 실패로 전라도 해안이 유린당했으나, 관군과 의병의 반격으로 왜구를 축출함.',
+    (SELECT country_id FROM country WHERE country_name = '왜구'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '왜구')
+);
 ---
 
 INSERT INTO war (

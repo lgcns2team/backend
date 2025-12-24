@@ -124,7 +124,7 @@ INSERT INTO battle (
  37.5200, 127.1200, -- 서울 (한산주)
  '김무력', '백제군',
  DATE '0553-07-01',
- (SELECT war_id FROM war WHERE name = '한강 유역 점령전'),
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'),
  '{"type":"LineString","coordinates":[[128.87786865234378,36.01000586940248],[127.76550292968751,37.47660186609046],[126.96487426757814,37.54457732085584]]}',
  '#ef4444'
 ),
@@ -157,7 +157,7 @@ INSERT INTO battle (
  37.4900, 130.8600, -- 울릉도
  '이사부', '우산국왕',
  DATE '0512-06-01',
- (SELECT war_id FROM war WHERE name = '기타/미분류 전쟁'), 
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'), 
  '{"type":"LineString","coordinates":[[129.1648864746094,37.44586187568058],[130.17700195312503,37.548061586332274],[130.85815429687503,37.495780706360065]]}',
  '#ef4444'
 ),
@@ -168,7 +168,7 @@ INSERT INTO battle (
  NULL, NULL,
  '신라군', '금관가야',
  DATE '0532-01-01',
- (SELECT war_id FROM war WHERE name = '기타/미분류 전쟁'),
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'),
  '{"type":"LineString","coordinates":[[129.20059204101565,35.798167853859255],[128.89434814453128,35.22848129402602]]}',
  '#ef4444'
 ),
@@ -179,7 +179,7 @@ INSERT INTO battle (
  NULL, NULL,
  '신라군', '고구려군',
  DATE '0555-01-01',
- (SELECT war_id FROM war WHERE name = '기타/미분류 전쟁'),
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'),
  '{"type":"LineString","coordinates":[[129.1923522949219,35.7970979292758],[129.23767089843753,36.28147849101487],[129.21020507812503,36.91652105501729],[129.16351318359378,37.44520769780763]]}',
  '#ef4444'
 ),
@@ -190,7 +190,7 @@ INSERT INTO battle (
  NULL, NULL,
  '진흥왕', '-',
  DATE '0555-01-01',
- (SELECT war_id FROM war WHERE name = '한강 유역 점령전'),
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'),
  '{"type":"LineString","coordinates":[[127.77099609375001,37.463522565873134],[126.99783325195314,37.592471511019085]]}',
  '#ef4444'
 ),
@@ -201,7 +201,7 @@ INSERT INTO battle (
  NULL, NULL,
  '신라군', '고구려군',
  DATE '0556-01-01',
- (SELECT war_id FROM war WHERE name = '한강 유역 점령전'),
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'),
  '{"type":"LineString","coordinates":[[129.16213989257815,37.444771573275105],[128.85314941406253,37.73249376156296],[128.53729248046878,38.100847198390014],[128.16101074218753,38.635752832346206],[127.38647460937501,39.08914150197178]]}',
  '#ef4444'
 ),
@@ -212,7 +212,7 @@ INSERT INTO battle (
  NULL, NULL,
  '진흥왕', '-',
  DATE '0568-01-01',
- (SELECT war_id FROM war WHERE name = '한강 유역 점령전'),
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'),
  '{"type":"LineString","coordinates":[[127.37823486328126,39.08615691086906],[126.96350097656251,39.26798555911836],[127.00744628906251,39.83553735764004],[127.46749877929689,40.01751855883932]]}',
  '#ef4444'
 ),
@@ -223,7 +223,7 @@ INSERT INTO battle (
  NULL, NULL,
  '진흥왕', '-',
  DATE '0568-06-01',
- (SELECT war_id FROM war WHERE name = '한강 유역 점령전'),
+ (SELECT war_id FROM war WHERE name = '신라의 전성기 전쟁'),
  '{"type":"LineString","coordinates":[[126.99645996093751,39.70443970516652],[127.32330322265626,39.787855994391656],[127.96600341796876,40.127231024746614],[128.38073730468753,40.23005695635835],[128.65814208984378,40.322257620675074]]}',
  '#ef4444'
 ),
@@ -1640,16 +1640,45 @@ INSERT INTO battle (
  '#3b82f6'
 ),
 
--- 15) 달량진 전투 (을묘왜변 → 기타/미분류)
-(
-    '달량진 전투',
-    '을묘왜변 당시 왜구가 전남 해남 달량진성을 포위 공격한 전투로, 호남 해안 방어의 취약함을 드러낸 사건이다.',
-    34.3964, 126.6142,
-    '왜구', '조안국',
-    DATE '1555-05-11',
-    (SELECT war_id FROM war WHERE name = '기타/미분류 전쟁'),
-    NULL,
-    NULL
+
+-- 1. 달량진 침공 (개전)
+('달량진 함락',
+ '왜구 6천여 명이 70여 척의 배를 타고 해남 북평면 달량진에 상륙하여 성을 포위 공격함. 가리포 첨사 이세린이 6일간 항전했으나 함락되고 전라남도 해안 방어선이 붕괴됨.',
+ 34.4300, 126.5800, -- 전남 해남 북평면 (구 달량진)
+ '왜구', '이세린',
+ DATE '1555-05-11',
+ (SELECT war_id FROM war WHERE name = '을묘왜변'),
+ NULL, '#ef4444'
+),
+
+-- 2. 장흥/영암 교전 (지휘관 전사)
+('병영성 인근 전투',
+ '전라병사 원적과 장흥부사 한온이 군사를 이끌고 구원하려 했으나, 왜구의 포위 공격을 받아 항복 후 피살되거나 전사함. 조선군 지휘부의 괴멸.',
+ 34.6800, 126.9100, -- 전남 강진 병영면
+ '왜구', '원적/한온',
+ DATE '1555-05-15',
+ (SELECT war_id FROM war WHERE name = '을묘왜변'),
+ NULL, '#ef4444'
+),
+
+-- 3. 영암성 전투 (반격의 시작)
+('영암성 수성전',
+ '도순찰사로 파견된 이준경이 영암성에 들어가 흩어진 군민을 수습하고, 왜구의 포위를 뚫고 성을 지켜내며 반격의 거점을 마련한 전투.',
+ 34.8000, 126.7000, -- 전남 영암읍성
+ '이준경', '왜구',
+ DATE '1555-05-25',
+ (SELECT war_id FROM war WHERE name = '을묘왜변'),
+ NULL, '#22c55e'
+),
+
+-- 4. 녹도 전투 (최후 추격)
+('녹도 추격전',
+ '전열을 정비한 조선군(김경석, 남치훈)이 퇴각하는 왜구를 추격하여 녹도(고흥) 인근에서 적선 4척을 나포하고 수급을 베며 잔당을 소탕한 전투.',
+ 34.5000, 127.1300, -- 전남 고흥 녹동항 인근
+ '김경석', '왜구',
+ DATE '1555-06-27',
+ (SELECT war_id FROM war WHERE name = '을묘왜변'),
+ NULL, '#22c55e'
 ),
 
 -- =========================
@@ -2231,4 +2260,4 @@ UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '왜구 
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '왜구 서북 침입로 (강화-의주 방면)';
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '왜구 동해안 북상로 (사천-안동-북청)';
 UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '왜구 내륙 침입로 (사천-함양-황산)';
-UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '황산 대첩 후 해양 방면 추격';
+UPDATE battle SET latitude = NULL, longitude = NULL WHERE battle_name = '황산 대첩 후 해양 방면 도주';

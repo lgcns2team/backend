@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -58,7 +59,7 @@ public class DebateController {
 
     @DeleteMapping("/room/{roomId}")
     public ResponseEntity<Void> deleteRoom(
-            @PathVariable("roomId") String roomId,
+            @PathVariable("roomId") UUID roomId,
             Authentication authentication) {
         debateService.deleteRoom(roomId, authentication);
         return ResponseEntity.noContent().build();
@@ -73,7 +74,7 @@ public class DebateController {
 
     @GetMapping("/room/{roomId}/messages")
     public ResponseEntity<List<ChatMessage>> getRoomMessages(
-            @PathVariable String roomId,
+            @PathVariable UUID roomId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             Authentication auth) {
@@ -82,7 +83,7 @@ public class DebateController {
         }
 
         UUID userId = AuthUtils.getUserId(auth);
-        debateService.validateJoin(roomId, userId);
+        debateService.validateJoin(roomId.toString(), userId);
 
         return ResponseEntity.ok(debateService.getMessages(roomId, page, size));
     }
@@ -208,7 +209,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/chat")
     public void sendMessage(
-            @DestinationVariable String roomId,
+            @DestinationVariable UUID roomId,
             @Payload ChatMessage incoming,
             SimpMessageHeaderAccessor headerAccessor) {
         UsernamePasswordAuthenticationToken auth =
@@ -221,10 +222,10 @@ public class DebateController {
         UUID userId = UUID.fromString(auth.getPrincipal().toString());
 
 
-        debateService.validateJoin(roomId, userId);
+        debateService.validateJoin(roomId.toString(), userId);
 
         // status 선택 여부 확인
-        DebateStatus status = debateService.requireStatusSelected(roomId, userId, headerAccessor);
+        DebateStatus status = debateService.requireStatusSelected(roomId.toString(), userId, headerAccessor);
         String sender = debateService.resolveNickname(userId, headerAccessor);
 
         ChatMessage out = ChatMessage.builder()
@@ -288,7 +289,7 @@ public class DebateController {
 
     @PostMapping("/room/{roomId}/analyze")
     public ResponseEntity<com.lgcns.haibackend.discussion.domain.dto.DebateSummaryResponse> analyzeDebate(
-            @org.springframework.web.bind.annotation.PathVariable("roomId") String roomId) {
+            @org.springframework.web.bind.annotation.PathVariable("roomId") UUID roomId) {
         return ResponseEntity.ok(debateService.getDebateAnalysis(roomId));
     }
 }
