@@ -41,6 +41,9 @@ public class AIPersonEntity {
     @Column
     private Integer year;
 
+    @Column(name = "death_year")
+    private Integer deathYear;
+
     @Column
     private Double latitude;
 

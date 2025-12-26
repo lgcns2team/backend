@@ -129,6 +129,7 @@ public class JwtFilter implements Filter {
                 path.startsWith("/api/timeline/events") ||
                 path.startsWith("/api/main-event") ||
                 path.startsWith("/api/main-event/detail") ||
+                path.startsWith("/api/ai-person") ||
                 path.startsWith("/api/user/signup") ||
                 path.startsWith("/api/user/login") ||
                 path.startsWith("/user/signup") || // 프론트엔드가 /api 없이 호출
