@@ -10,14 +10,14 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AIPersonListDTO {
-    
+
     private String promptId;
     private String name;
     private String era;
     private Integer year;
 
     public static AIPersonListDTO fromEntity(AIPersonEntity entity) {
-        return AIPersonListDTO .builder()
+        return AIPersonListDTO.builder()
                 .promptId(entity.getPromptId())
                 .name(entity.getName())
                 .era(entity.getEra())
