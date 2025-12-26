@@ -134,7 +134,7 @@ public class JwtFilter implements Filter {
                 path.startsWith("/api/user/login") ||
                 path.startsWith("/user/signup") || // 프론트엔드가 /api 없이 호출
                 path.startsWith("/user/login") || // 프론트엔드가 /api 없이 호출
-                path.startsWith("/api/ai/ws-stomp");
+                path.startsWith("/api/ws-stomp");
 
     }
 }

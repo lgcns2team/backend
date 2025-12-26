@@ -30,7 +30,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/api/ai/ws-stomp")
+        registry.addEndpoint("/api/ws-stomp")
                 .setAllowedOriginPatterns("*")
                 .addInterceptors(new HandshakeInterceptor() {
                     @Override
@@ -39,27 +39,28 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                             ServerHttpResponse response,
                             WebSocketHandler wsHandler,
                             Map<String, Object> attributes) throws Exception {
-                        
+
                         log.info("WebSocket Handshake - Before");
-                        
+
                         if (request instanceof ServletServerHttpRequest) {
                             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-                            
+
                             // URL 쿼리 파라미터에서 토큰 추출
                             String token = servletRequest.getServletRequest().getParameter("token");
-                            
+
                             if (token != null && !token.isEmpty()) {
                                 // 세션 속성에 토큰 저장
                                 attributes.put("token", token);
-                                log.info("Token saved in handshake: {}...", token.substring(0, Math.min(20, token.length())));
+                                log.info("Token saved in handshake: {}...",
+                                        token.substring(0, Math.min(20, token.length())));
                             } else {
                                 log.warn("No token in handshake request");
                             }
-                            
+
                             log.debug("Request URI: {}", servletRequest.getURI());
                             log.debug("Query String: {}", servletRequest.getServletRequest().getQueryString());
                         }
-                        
+
                         return true;
                     }
 
