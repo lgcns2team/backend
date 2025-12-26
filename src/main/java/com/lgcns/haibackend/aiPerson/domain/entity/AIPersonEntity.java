@@ -40,4 +40,10 @@ public class AIPersonEntity {
 
     @Column
     private Integer year;
+
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
 }
