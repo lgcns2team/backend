@@ -1,3 +1,8 @@
+server:
+  port: ${SERVER_PORT}
+  error:
+    include-message: always
+
 spring:
   application:
     name: haibackend
@@ -6,11 +11,6 @@ spring:
     group:
       timeline-export:
         - default
-
-  server:
-    port: ${SERVER_PORT}
-    error:
-      include-message: always
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}
