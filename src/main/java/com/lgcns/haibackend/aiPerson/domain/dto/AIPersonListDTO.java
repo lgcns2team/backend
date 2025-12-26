@@ -15,6 +15,10 @@ public class AIPersonListDTO {
     private String name;
     private String era;
     private Integer year;
+    private Integer deathYear;
+    private Double latitude;
+    private Double longitude;
+    private String summary;
 
     public static AIPersonListDTO fromEntity(AIPersonEntity entity) {
         return AIPersonListDTO.builder()
@@ -22,6 +26,10 @@ public class AIPersonListDTO {
                 .name(entity.getName())
                 .era(entity.getEra())
                 .year(entity.getYear())
+                .deathYear(entity.getDeathYear())
+                .latitude(entity.getLatitude())
+                .longitude(entity.getLongitude())
+                .summary(entity.getSummary())
                 .build();
     }
 }
