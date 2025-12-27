@@ -49,4 +49,8 @@ public class AIPersonEntity {
 
     @Column
     private Double longitude;
+
+    @Column(name = "voice_id")
+    @Builder.Default
+    private String voice_id = "Dohyun";
 }
