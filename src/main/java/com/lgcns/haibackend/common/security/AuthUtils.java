@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.web.server.ResponseStatusException;
 
 public final class AuthUtils {
     private AuthUtils() {}

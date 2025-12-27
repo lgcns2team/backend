@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lgcns.haibackend.common.redis.RedisChatRepository;
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
 import com.lgcns.haibackend.user.domain.dto.UserResponseDTO;
-import com.lgcns.haibackend.user.domain.entity.UserEntity;
 import com.lgcns.haibackend.user.repository.RefreshTokenRepository;
 import com.lgcns.haibackend.user.service.UserService;
 import com.lgcns.haibackend.util.JwtProvider;

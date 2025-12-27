@@ -7,18 +7,14 @@ import com.lgcns.haibackend.discussion.domain.dto.ChatMessage;
 import com.lgcns.haibackend.discussion.domain.dto.DebateRoomRequestDTO;
 import com.lgcns.haibackend.discussion.domain.dto.DebateRoomResponseDTO;
 import com.lgcns.haibackend.discussion.domain.dto.DebateStatus;
-import com.lgcns.haibackend.discussion.domain.dto.DebateTopicsRequest;
-import com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse;
 import com.lgcns.haibackend.discussion.domain.entity.DebateRoomEntity;
 import com.lgcns.haibackend.discussion.repository.DebateRoomRepository;
 import com.lgcns.haibackend.global.Role;
-import com.lgcns.haibackend.discussion.domain.dto.DebateSummaryResponse;
 import com.lgcns.haibackend.user.domain.entity.UserClassInfo;
 import com.lgcns.haibackend.user.domain.entity.UserEntity;
 import com.lgcns.haibackend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -32,25 +28,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @RequiredArgsConstructor
 public class DebateService {
 
-    @Value("${aws.bedrock.prompt.debate-topic}")
-    private String debateTopicPromptId;
-
-    @Value("${aws.bedrock.prompt.debate-summary}")
-    private String debateSummaryPromptId;
-
     private final DebateRoomRepository debateRoomRepository;
 
     private final UserRepository userRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    private final com.lgcns.haibackend.bedrock.client.FastApiClient fastApiClient;
     private final ObjectMapper objectMapper;
-    private final Map<UUID, DebateRoomRequestDTO> activeRooms = new ConcurrentHashMap<>();
 
     public boolean isTeacher(UUID userId) {
         UserEntity user = userRepository.findByUserId(userId)
@@ -191,10 +178,6 @@ public class DebateService {
         return result;
     }
 
-    public DebateRoomRequestDTO getRoom(String roomId) {
-        return activeRooms.get(roomId);
-    }
-
     @Transactional(readOnly = true)
     public void validateJoin(String roomId, UUID userId) {
 
@@ -321,111 +304,6 @@ public class DebateService {
             // redisTemplate.opsForList().trim(key, -200, -1);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Failed to serialize ChatMessage", e);
-        }
-    }
-
-    /**
-     * 토론 주제 추천 받기
-     * AWS Bedrock Prompt를 통해 한국 역사 토론 주제 3개를 추천받습니다.
-     */
-    public DebateTopicsResponse getDebateTopicRecommendations(DebateTopicsRequest request) {
-        // 1. PromptRequest 생성
-        com.lgcns.haibackend.aiPerson.domain.dto.PromptRequest promptRequest = com.lgcns.haibackend.aiPerson.domain.dto.PromptRequest
-                .builder()
-                .promptId(debateTopicPromptId)
-                .userQuery(request.getUserQuery())
-                .build();
-
-        // 2. FastAPI를 통해 스트리밍 응답 받기
-        String completeResponse = fastApiClient.chatPromptStream(promptRequest)
-                .collectList()
-                .map(chunks -> String.join("", chunks))
-                .block();
-
-        if (completeResponse == null || completeResponse.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "AI 응답을 받지 못했습니다.");
-        }
-
-        // 🔍 디버깅: 완전한 응답 출력
-        System.out.println("=== COMPLETE RESPONSE ===");
-        System.out.println(completeResponse);
-        System.out.println("=== END RESPONSE ===");
-
-        // 3. JSON 파싱하여 DebateTopicsResponse 변환
-        try {
-            DebateTopicsResponse response = objectMapper.readValue(completeResponse, DebateTopicsResponse.class);
-            return response;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "AI 응답을 파싱하는 중 오류가 발생했습니다: " + e.getMessage());
-        }
-    }
-
-    public DebateSummaryResponse getDebateAnalysis(UUID roomId) {
-        // 1. 채팅 내역 가져오기
-        List<ChatMessage> messages = getMessages(roomId);
-        System.err.println("messages !!!!!!: " + messages);
-        if (messages == null || messages.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "분석할 대화 내용이 없습니다.");
-        }
-
-        // 2. 대화 내용 포맷팅
-        StringBuilder sb = new StringBuilder();
-        for (ChatMessage msg : messages) {
-            if (msg.getType() == ChatMessage.MessageType.CHAT) {
-                String status = msg.getStatus() != null ? msg.getStatus().name() : "NONE";
-                sb.append(String.format("[%s (%s)]: %s\n", msg.getSender(), status, msg.getContent()));
-            }
-        }
-        String chatHistory = sb.toString();
-
-        if (chatHistory.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "분석할 대화 내용이 없습니다 (채팅 메시지 없음).");
-        }
-
-        // 3. PromptRequest 생성
-        com.lgcns.haibackend.aiPerson.domain.dto.PromptRequest promptRequest = com.lgcns.haibackend.aiPerson.domain.dto.PromptRequest
-                .builder()
-                .promptId(debateSummaryPromptId)
-                .userQuery(chatHistory)
-                .build();
-
-        // 4. AI 응답 받기
-        String completeResponse = fastApiClient.chatPromptStream(promptRequest)
-                .collectList()
-                .map(chunks -> String.join("", chunks))
-                .block();
-
-        System.out.println("=== SUMMARY RESPONSE ===");
-        System.out.println(completeResponse);
-        System.out.println("=== END RESPONSE ===");
-
-        if (completeResponse == null || completeResponse.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "AI 분석 응답을 받지 못했습니다.");
-        }
-
-        // 4.1. 응답 전처리 (마크다운 코드 블록 제거 및 JSON 추출)
-        String jsonResponse = completeResponse;
-        if (jsonResponse.contains("```")) {
-            jsonResponse = jsonResponse.replace("```json", "").replace("```", "");
-        }
-
-        int start = jsonResponse.indexOf("{");
-        int end = jsonResponse.lastIndexOf("}");
-        if (start != -1 && end != -1 && start < end) {
-            jsonResponse = jsonResponse.substring(start, end + 1);
-        } else {
-            jsonResponse = jsonResponse.trim();
-        }
-
-        // 5. JSON 파싱
-        try {
-            return objectMapper.readValue(jsonResponse,
-                    com.lgcns.haibackend.discussion.domain.dto.DebateSummaryResponse.class);
-        } catch (Exception e) {
-            System.err.println("JSON Parse Error. Raw: " + completeResponse);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "AI 응답 파싱 실패: " + e.getMessage());
         }
     }
 

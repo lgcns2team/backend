@@ -3,7 +3,6 @@ package com.lgcns.haibackend.util;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import java.util.UUID;
 
 
 import org.springframework.beans.factory.annotation.Value;

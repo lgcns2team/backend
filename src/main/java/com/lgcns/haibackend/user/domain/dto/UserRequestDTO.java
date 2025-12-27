@@ -1,6 +1,5 @@
 package com.lgcns.haibackend.user.domain.dto;
 
-import java.util.UUID;
 
 import com.lgcns.haibackend.global.Role;
 import com.lgcns.haibackend.user.domain.entity.UserEntity;

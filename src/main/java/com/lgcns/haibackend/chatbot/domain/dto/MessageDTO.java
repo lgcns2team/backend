@@ -1,4 +1,4 @@
-package com.lgcns.haibackend.bedrock.domain.dto;
+package com.lgcns.haibackend.chatbot.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
