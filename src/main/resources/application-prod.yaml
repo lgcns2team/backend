@@ -1,0 +1,70 @@
+server:
+  port: ${SERVER_PORT}
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: haibackend
+  
+  profiles:
+    group:
+      timeline-export:
+        - default
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      ssl: true
+      timeout: 2000
+  jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: false
+  
+  sql:
+    init:
+      mode: never 
+      encoding: utf-8
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:country_data.sql, classpath:capital_data.sql, classpath:war_data.sql, classpath:battle_data.sql ,classpath:main_event_data.sql, classpath:king_data.sql, classpath:trade_data.sql, classpath:user_dummy_data.sql, classpath:ai_person_data.sql
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+
+logging:
+  level:
+    org.springframework.jdbc.datasource.init: debug
+#     org.hibernate.SQL: debug
+#     org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+aws:
+  credentials:
+    access-key-id: ${AWS_ACCESS_KEY_ID}
+    secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+  region: ${CLOUD_AWS_REGION:ap-northeast-2}
+  bedrock:
+    model:
+      chat: ${AWS_BEDROCK_CHAT_MODEL:anthropic.claude-3-haiku-20240307-v1:0}
+    knowledge-base:
+      id: ${AWS_BEDROCK_KB_ID}
+      model-arn: ${AWS_BEDROCK_KB_MODEL_ARN}
+    prompt:
+      debate-topic: ${AWS_BEDROCK_DEBATE_TOPICS_PROMPT_ARN}
+      ai-person: ${AWS_BEDROCK_AI_PERSON_PROMPT_ARN:arn:aws:bedrock:ap-northeast-2:811221506617:prompt/VJQKBMTQM2}
+      debate-summary: ${AWS_BEDROCK_DEBATE_SUMMARY_PROMPT_ARN}
+
+fastapi:
+  base-url: ${FASTAPI_BASE_URL:http://localhost:8000}

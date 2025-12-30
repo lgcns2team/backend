@@ -30,7 +30,9 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 # curl 설치 (헬스체크용)
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y curl postgresql-client && \
+    rm -rf /var/lib/apt/lists/
 
 # 보안을 위해 non-root 유저로 실행
 RUN groupadd -r spring && useradd -r -g spring spring
