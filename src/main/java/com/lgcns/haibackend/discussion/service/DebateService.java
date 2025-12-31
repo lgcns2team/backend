@@ -97,7 +97,7 @@ public class DebateService {
 
         DebateRoomEntity room = debateRoomRepository.findById(roomId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
-    
+
         UUID currentUserId = AuthUtils.getUserId(auth);
         if (!room.getTeacher().getUserId().equals(currentUserId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "방을 생성한 선생님만 삭제할 수 있습니다.");
@@ -160,7 +160,7 @@ public class DebateService {
         if (!debateRoomRepository.existsById(roomId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
         }
-        
+
         String key = "debate:room:" + roomId.toString() + ":messages";
         int p = Math.max(0, page);
         int s = Math.max(1, Math.min(size, 200));
@@ -219,9 +219,8 @@ public class DebateService {
         UserClassInfo userInfo = userRepository.findClassInfoByUserId(userId);
         if (userInfo == null) {
             throw new ResponseStatusException(
-                HttpStatus.FORBIDDEN,
-                "Class information required"
-            );
+                    HttpStatus.FORBIDDEN,
+                    "Class information required");
         }
 
         if (userInfo.getTeacherCode() == null) {
@@ -311,6 +310,11 @@ public class DebateService {
 
     public void appendMessage(UUID roomId, ChatMessage msg) {
 
+        // 시스템 메시지(접두사 "__")는 저장하지 않음
+        if (msg.getContent() != null && msg.getContent().startsWith("__")) {
+            return;
+        }
+
         if (!debateRoomRepository.existsById(roomId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
         }
@@ -372,6 +376,10 @@ public class DebateService {
         // 2. 대화 내용 포맷팅
         StringBuilder sb = new StringBuilder();
         for (ChatMessage msg : messages) {
+            // 시스템 메시지(접두사 "__")는 분석에서 제외
+            if (msg.getContent() != null && msg.getContent().startsWith("__")) {
+                continue;
+            }
             if (msg.getType() == ChatMessage.MessageType.CHAT) {
                 String status = msg.getStatus() != null ? msg.getStatus().name() : "NONE";
                 sb.append(String.format("[%s (%s)]: %s\n", msg.getSender(), status, msg.getContent()));
