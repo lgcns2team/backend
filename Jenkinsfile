@@ -158,7 +158,7 @@ pipeline {
     
     post {
         success {
-            echo '✅ Gateway deployment succeeded!'
+            echo '✅ Gateway deployment succeeded!!'
         }
         failure {
             echo '❌ Gateway deployment failed!'
