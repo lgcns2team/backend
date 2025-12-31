@@ -988,3 +988,75 @@ FROM trade t
 WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = '일본')
   AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '조선')
   AND t.trade_year = 1650;
+
+
+
+/* ========================================================================= */
+/* 6. 6.25 전쟁 UN 지원국 이동 경로 (1950년)                                  */
+/* ========================================================================= */
+
+INSERT INTO trade (trade_id, start_country_id, end_country_id, trade_year, product)
+VALUES
+-- UN군(아메리카) -> 대한민국
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = 'UN군'),
+    (SELECT country_id FROM country WHERE country_name = '대한민국'),
+    1950,
+    '미국, 캐나다, 콜롬비아'
+),
+-- UN군(유럽/아프리카) -> 대한민국
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = 'UN군'),
+    (SELECT country_id FROM country WHERE country_name = '대한민국'),
+    1950,
+    '영국, 프랑스, 튀르키예, 에티오피아, 그리스, 벨기에, 네덜란드, 룩셈부르크'
+),
+-- UN군(오세아니아) -> 대한민국
+(
+    gen_random_uuid(),
+    (SELECT country_id FROM country WHERE country_name = 'UN군'),
+    (SELECT country_id FROM country WHERE country_name = '대한민국'),
+    1950,
+    '호주, 뉴질랜드'
+);
+
+-- 아메리카 경로
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[241.69921875000003,33.908046991902296],[224.29687500000003,24.970226375097344],[204.78515625000003,19.855213764861343],[173.23242187500003,24.25129315634873],[138.91113281250003,34.02530919899422],[139.81201171875003,35.790515124619105],[136.56005859375003,36.252429040978924],[133.22021484375003,35.03864829305066],[130.93505859375003,33.89777715296256],[129.08935546875003,35.34382023636876]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = 'UN군')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '대한민국')
+  AND t.product = '미국, 캐나다, 콜롬비아'
+  AND t.trade_year = 1950;
+
+-- 유럽/아프리카 경로
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[6.108398437500001,49.788159606277645],[5.493164062500001,52.1393474958699],[4.460449218750001,50.659452027192906],[2.2412109375000004,48.98747086559707],[0.0439453125,51.583171750079615],[-5.910644531250001,49.27492948870262],[-15.161132812500002,39.62357034573476],[-10.458984375000002,35.588118143467455],[-3.5595703125,35.83781218159538],[5.888671875,38.222323719806354],[16.875000000000004,35.08589801314754],[32.43164062500001,32.63809514348737],[32.69531250000001,29.859239185957307],[37.00195312500001,22.899366287203947],[43.11035156250001,12.973572600109941],[44.60449218750001,11.815076079372954],[55.26123046875001,14.786079180448363],[74.31152343750001,3.6699752444941147],[94.08691406250001,7.1659302861765655],[97.20703125000001,6.511642819057593],[105.20507812500001,-0.8548348137970283],[110.30273437500001,7.68868890579356],[119.88281250000001,20.292113111949973],[127.30957031250001,23.944195280270755],[129.06738281250003,35.34321116311242]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = 'UN군')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '대한민국')
+  AND t.product = '영국, 프랑스, 튀르키예, 에티오피아, 그리스, 벨기에, 네덜란드, 룩셈부르크'
+  AND t.trade_year = 1950;
+
+-- 오세아니아 경로
+INSERT INTO trade_route (route_id, trade_id, path, route_color)
+SELECT 
+    gen_random_uuid(),
+    t.trade_id,
+    '{"type":"LineString","coordinates":[[152.13867187500003,-26.621070981673704],[156.00585937500003,-11.305144357506807],[145.10742187500003,-5.221502255410173],[132.69287109375003,32.35202157739673],[131.63818359375003,33.82425098684538],[129.15527343750003,35.432804253407035]]}'::jsonb,
+    '#ef4444'
+FROM trade t
+WHERE t.start_country_id = (SELECT country_id FROM country WHERE country_name = 'UN군')
+  AND t.end_country_id = (SELECT country_id FROM country WHERE country_name = '대한민국')
+  AND t.product = '호주, 뉴질랜드'
+  AND t.trade_year = 1950;
