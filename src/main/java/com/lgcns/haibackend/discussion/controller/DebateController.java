@@ -7,6 +7,8 @@ import com.lgcns.haibackend.discussion.domain.dto.DebateRoomResponseDTO;
 import com.lgcns.haibackend.discussion.domain.dto.DebateStatus;
 import com.lgcns.haibackend.discussion.domain.dto.StatusSelectMessage;
 import com.lgcns.haibackend.discussion.service.DebateService;
+import com.lgcns.haibackend.moderation.dto.ModerationResult;
+import com.lgcns.haibackend.moderation.service.ModerationService;
 import com.lgcns.haibackend.util.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -49,6 +51,7 @@ public class DebateController {
     private final DebateService debateService;
     private final SimpMessagingTemplate messagingTemplate;
     private final JwtProvider jwtProvider;
+    private final ModerationService moderationService;
 
     @PostMapping("/room")
     public ResponseEntity<DebateRoomResponseDTO> createRoom(@RequestBody DebateRoomRequestDTO req,
@@ -223,12 +226,33 @@ public class DebateController {
         DebateStatus status = debateService.requireStatusSelected(roomId.toString(), userId, headerAccessor);
         String sender = debateService.resolveNickname(userId, headerAccessor);
 
+        // moderation 체크
+        String content = incoming.getContent();
+        ModerationResult mr = moderationService.check(userId.toString(), content);
+
+        if (!mr.isAllowed()) {
+            // 해당 유저에게만 알림
+            messagingTemplate.convertAndSendToUser(
+                    userId.toString(),
+                    "/queue/moderation",
+                    Map.of(
+                            "type", "blocked",
+                            "notice", mr.getNotice(),
+                            "muteSecondsLeft", mr.getMuteSecondsLeft()
+                    )
+            );
+            return;
+        }
+
+        // 1회라면 마스킹된 content
+        String finalContent = mr.getContent();
+
         ChatMessage out = ChatMessage.builder()
                 .id(UUID.randomUUID().toString())
                 .parentId(incoming.getParentId())
                 .userId(userId)
                 .type(ChatMessage.MessageType.CHAT)
-                .content(incoming.getContent())
+                .content(finalContent)
                 .sender(sender)
                 .status(status)
                 .createdAt(LocalDateTime.now())
@@ -236,6 +260,15 @@ public class DebateController {
 
         debateService.appendMessage(roomId, out);
         messagingTemplate.convertAndSend("/topic/room/" + roomId, out);
+
+        // 개인에게 경고 안내
+        if (mr.getNotice() != null) {
+            messagingTemplate.convertAndSendToUser(
+                    userId.toString(),
+                    "/queue/moderation",
+                    Map.of("type", "warning", "notice", mr.getNotice())
+            );
+        }
     }
 
     @MessageMapping("/room/{roomId}/mode")
