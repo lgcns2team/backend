@@ -10,4 +10,5 @@ import lombok.Setter;
 public class StatusSelectMessage {
     private UUID userId;
     private DebateStatus status;
+    private String content;
 }

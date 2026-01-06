@@ -253,7 +253,11 @@ public class DebateService {
 
     public void saveStatus(String roomId, UUID userId, DebateStatus status) {
         String key = "debate:room:" + roomId + ":status";
-        redisTemplate.opsForHash().put(key, userId.toString(), status.name());
+        if (status == DebateStatus.CANCEL) {
+            redisTemplate.opsForHash().delete(key, userId.toString());
+        } else {
+            redisTemplate.opsForHash().put(key, userId.toString(), status.name());
+        }
     }
 
     public DebateStatus requireStatusSelected(String roomId, UUID userId, SimpMessageHeaderAccessor headerAccessor) {
@@ -309,11 +313,6 @@ public class DebateService {
     }
 
     public void appendMessage(UUID roomId, ChatMessage msg) {
-
-        // 시스템 메시지(접두사 "__")는 저장하지 않음
-        if (msg.getContent() != null && msg.getContent().startsWith("__")) {
-            return;
-        }
 
         if (!debateRoomRepository.existsById(roomId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
