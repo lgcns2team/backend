@@ -180,12 +180,28 @@ public class DebateController {
 
         debateService.validateJoin(roomId, userId);
 
-        // status 저장
-        debateService.saveStatus(roomId, userId, msg.getStatus());
+        DebateStatus status = msg.getStatus();
 
-        if (headerAccessor.getSessionAttributes() != null) {
-            headerAccessor.getSessionAttributes().put("status", msg.getStatus().name());
+        // 1. 투표(User Vote) 관련 상태 처리
+        if (status == DebateStatus.PRO || status == DebateStatus.CON || status == DebateStatus.CANCEL) {
+            debateService.saveStatus(roomId, userId, status);
+
+            if (headerAccessor.getSessionAttributes() != null) {
+                if (status == DebateStatus.CANCEL) {
+                    headerAccessor.getSessionAttributes().remove("status");
+                } else {
+                    headerAccessor.getSessionAttributes().put("status", status.name());
+                }
+            }
         }
+        // 2. 시스템/운영(System Command) 관련 상태 처리
+        else if (status == DebateStatus.MODE_CHANGE) {
+            // 모드 변경은 서버 상태에도 반영
+            if (msg.getContent() != null) {
+                debateService.updateRoomMode(roomId, msg.getContent());
+            }
+        }
+        // ANONYMOUS, END_SESSION 등은 별도 서버 저장 로직 없이 브로드캐스트(Reflect)만 수행
 
         String nickname = (String) (headerAccessor.getSessionAttributes() != null
                 ? headerAccessor.getSessionAttributes().get("sender")
@@ -196,7 +212,8 @@ public class DebateController {
         ChatMessage out = ChatMessage.builder()
                 .type(ChatMessage.MessageType.STATUS)
                 .sender(nickname)
-                .status(msg.getStatus())
+                .status(status)
+                .content(msg.getContent()) // content 포함
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -215,7 +232,6 @@ public class DebateController {
         }
 
         UUID userId = UUID.fromString(auth.getPrincipal().toString());
-
 
         debateService.validateJoin(roomId.toString(), userId);
 

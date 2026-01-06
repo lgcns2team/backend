@@ -6,11 +6,15 @@ import com.lgcns.haibackend.global.Role;
 import com.lgcns.haibackend.user.domain.entity.UserEntity;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRequestDTO {
     @NotBlank(message = "사용자 이름은 필수입니다.")
     private String name;

@@ -450,3 +450,20 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
     (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가')
 );
+
+-- 6.25 전쟁 (Korean War)
+INSERT INTO war (
+    name, description, war_start_date, war_end_date, result, summary,
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
+) VALUES (
+    '6.25 전쟁',
+    '1950년 6월 25일 북한의 기습 남침으로 시작된 전쟁이다. 3일 만에 서울이 함락되고 낙동강까지 밀렸으나, UN군의 참전과 인천 상륙작전으로 반격에 성공했다. 압록강까지 진격했으나 중공군의 개입으로 후퇴했고, 38선 부근에서 치열한 공방전 끝에 1953년 7월 27일 휴전 협정이 체결되었다.',
+    DATE '1950-06-25',
+    DATE '1953-07-27',
+    '휴전',
+    '북한의 남침으로 시작되어 3년간 치열한 공방 끝에 휴전 협정으로 분단이 고착화됨.',
+    (SELECT country_id FROM country WHERE country_name = '북한'),
+    (SELECT country_id FROM country WHERE country_name = '대한민국'),
+    NULL, -- 무승부/휴전
+    NULL
+);
