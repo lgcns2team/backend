@@ -6,6 +6,7 @@
 INSERT INTO ai_person
 (prompt_id, name, era, summary, ex_question, greeting_message, year, death_year, latitude, longitude, voice_id)
 VALUES
+
 -- =========================================================================
 -- [고조선]
 -- =========================================================================
