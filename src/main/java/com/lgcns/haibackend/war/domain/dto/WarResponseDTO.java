@@ -46,8 +46,8 @@ public class WarResponseDTO {
 
         List<BattleResponseDTO> filteredBattles = null;
         if (entity.getBattles() != null) {
-            // 기타/미분류 전쟁인 경우 전투 날짜 기준 ±30년 범위로 필터링
-            if ("기타/미분류 전쟁".equals(entity.getName()) && year != null) {
+            // 연도가 지정된 경우 전투 날짜 기준 ±30년 범위로 필터링 (모든 전쟁에 적용)
+            if (year != null) {
                 filteredBattles = entity.getBattles().stream()
                     .filter(battle -> {
                         if (battle.getBattleDate() == null) return false;

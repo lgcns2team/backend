@@ -57,7 +57,7 @@ INSERT INTO war (
 (
     '백제-고구려 전쟁 (4세기)',
     '백제 근초고왕이 북진 정책을 추진하며 고구려 평양성을 공격한 전쟁이다. 고구려 고국원왕이 전사하고 백제가 한반도 주도권을 장악하였다. [교과서 26쪽]',
-    DATE '0369-01-01', DATE '0371-10-31',
+    DATE '0369-09-01', DATE '0371-10-31',
     '백제 승리',
     '치양 전투와 평양성 전투에서 승리하여 고구려 왕을 전사시킴.',
     (SELECT country_id FROM country WHERE country_name = '백제'),
@@ -65,6 +65,58 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '백제'),
     (SELECT country_id FROM country WHERE country_name = '고구려')
 ),
+-- 2. 마한 정복 전쟁 (남방 확장)
+(
+    '마한 정복전',
+    '근초고왕이 남쪽으로 세력을 확장하여 전라도 지역의 잔여 마한 세력을 모두 복속시킨 전쟁이다. 이로써 백제는 경기, 충청, 전라도를 아우르는 곡창 지대를 확보하였다.',
+    DATE '0366-01-01', DATE '0369-12-31',
+    '백제 승리 (남해안 진출)',
+    '마한의 모든 소국을 병합하여 백제의 영토가 남해안에 이름.',
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '마한'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '마한')
+),
+
+-- 1. 백제 정벌 (광개토대왕)
+(
+    '고구려의 백제 정벌 (아신왕 굴복)',
+    '396년 광개토대왕이 수군을 이끌고 백제를 공격하여 58개 성을 빼앗고, 아신왕에게 "영원히 노객(신하)이 되겠다"는 항복을 받아낸 전쟁. [교과서 23쪽]',
+    DATE '396-07-01', DATE '396-08-30',
+    '고구려 승리 (백제 항복)',
+    '백제 수도를 포위하여 항복을 받고 한강 이북과 경기 북부 지역을 장악함.',
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '백제'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '백제')
+),
+
+-- 2. 후연 정복 (요동 확보)
+(
+    '고구려-후연 전쟁 (요동 정복)',
+    '광개토대왕이 서쪽의 선비족 국가인 후연을 공격하여 숙군성을 함락시키고, 요동 지역 전체를 고구려 영토로 확정한 전쟁. [교과서 23쪽]',
+    DATE '400-01-01', DATE '404-12-31',
+    '고구려 승리 (요동 완전 장악)',
+    '후연을 격파하고 요동성 및 만주 서부 지역을 완전히 차지함.',
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '후연'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '후연')
+),
+
+-- 3. 동부여 정복
+(
+    '동부여 정복전',
+    '410년 광개토대왕이 직접 군대를 이끌고 동부여를 공격하여 64개 성을 격파하고 복속시킨 전쟁. 만주 북부까지 영향력을 확대했다. [교과서 23쪽]',
+    DATE '410-02-01', DATE '410-12-31',
+    '고구려 승리 (동부여 복속)',
+    '동부여가 항복하고 고구려의 영역권으로 들어옴.',
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '동부여'),
+    (SELECT country_id FROM country WHERE country_name = '고구려'),
+    (SELECT country_id FROM country WHERE country_name = '동부여')
+),
+
 (
     '광개토대왕의 신라 구원전',
     '왜와 가야 연합군이 신라를 침공하자, 고구려 광개토대왕이 5만 대군을 파견하여 구원한 전쟁이다. [교과서 23쪽]',
@@ -88,6 +140,17 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '백제')
 ),
 (
+    '신라의 전성기 전쟁',
+    '진흥왕이 백제와 연합하여 고구려를 밀어내고 한강 상류를 차지한 뒤, 나제동맹을 깨고 백제가 차지했던 한강 하류까지 기습 공격하여 독차지한 전쟁이다. [교과서 29쪽]',
+    DATE '0551-01-01', DATE '0553-12-31',
+    '신라 승리, 한강 유역 독점',
+    '한강 유역을 확보하여 당항성을 통해 중국과 직접 교류할 발판을 마련함.',
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '백제'), -- 초기엔 고구려 공격, 후반엔 백제 공격
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '백제')
+),
+(
     '신라-백제 전쟁 (6세기)',
     '신라 진흥왕이 나제동맹을 깨고 한강 유역을 독차지하자 백제 성왕이 총공격을 감행한 전쟁이다. 관산성에서 성왕이 전사하며 신라가 승리했다. [교과서 29쪽]',
     DATE '0554-07-01', DATE '0554-12-01',
@@ -97,6 +160,17 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '신라'),
     (SELECT country_id FROM country WHERE country_name = '신라'),
     (SELECT country_id FROM country WHERE country_name = '백제')
+),
+(
+    '신라-대가야 전쟁',
+    '신라 진흥왕이 낙동강 유역 장악을 위해 대가야를 공격한 전쟁이다. 562년 관산성 전투에서 이사부와 사다함이 대가야를 멸망시켰다. [교과서 29쪽]',
+    DATE '0562-09-01', DATE '0562-09-30',
+    '신라 승리, 대가야 멸망',
+    '이사부와 사다함의 활약으로 대가야가 멸망하고 대가야 연맹이 소멸함.',
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
+    (SELECT country_id FROM country WHERE country_name = '신라'),
+    (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가')
 ),
 
 -- [고구려-수·당 전쟁]
@@ -312,8 +386,19 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '조선'),
     (SELECT country_id FROM country WHERE country_name = '조선'),
     (SELECT country_id FROM country WHERE country_name = '일본')
-);
+),
 
+(
+    '을묘왜변',
+    '1555년(명종 10년) 5월, 왜선 70여 척이 전라남도 영암, 강진, 진도 일대를 대규모로 침공한 사건이다. 왜구는 달량진을 포위하고 전라병사와 장흥부사 등을 전사시켰으나, 도순찰사 이준경 등의 활약으로 격퇴되었다. 이 사건을 계기로 비변사가 상설 기구화되었다.',
+    DATE '1555-05-11', DATE '1555-06-27', -- 음력 기준
+    '조선군 승리 (왜구 격퇴)',
+    '초기 방어 실패로 전라도 해안이 유린당했으나, 관군과 의병의 반격으로 왜구를 축출함.',
+    (SELECT country_id FROM country WHERE country_name = '왜구'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '조선'),
+    (SELECT country_id FROM country WHERE country_name = '왜구')
+);
 ---
 
 INSERT INTO war (
@@ -350,14 +435,10 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '조선'),
     (SELECT country_id FROM country WHERE country_name = '청'),
     (SELECT country_id FROM country WHERE country_name = '조선')
-);
+),
 
 -- 분류용 가상 전쟁: 기타/미분류 전쟁 (날짜 범위를 넓게 설정하여 모든 연도에서 전투 표시)
-INSERT INTO war (
-    name, description, war_start_date, war_end_date,
-    result, summary,
-    attack_country_id, defence_country_id, winner_country_id, loser_country_id
-) VALUES (
+(
     '기타/미분류 전쟁',
     '특정 전쟁에 분류되지 않은 개별 전투들을 포함하는 가상 전쟁 카테고리',
     DATE '0001-01-01',
@@ -368,4 +449,21 @@ INSERT INTO war (
     (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
     (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가'),
     (SELECT country_id FROM country WHERE country_name = '기타/미분류 국가')
+);
+
+-- 6.25 전쟁 (Korean War)
+INSERT INTO war (
+    name, description, war_start_date, war_end_date, result, summary,
+    attack_country_id, defence_country_id, winner_country_id, loser_country_id
+) VALUES (
+    '6.25 전쟁',
+    '1950년 6월 25일 북한의 기습 남침으로 시작된 전쟁이다. 3일 만에 서울이 함락되고 낙동강까지 밀렸으나, UN군의 참전과 인천 상륙작전으로 반격에 성공했다. 압록강까지 진격했으나 중공군의 개입으로 후퇴했고, 38선 부근에서 치열한 공방전 끝에 1953년 7월 27일 휴전 협정이 체결되었다.',
+    DATE '1950-06-25',
+    DATE '1953-07-27',
+    '휴전',
+    '북한의 남침으로 시작되어 3년간 치열한 공방 끝에 휴전 협정으로 분단이 고착화됨.',
+    (SELECT country_id FROM country WHERE country_name = '북한'),
+    (SELECT country_id FROM country WHERE country_name = '대한민국'),
+    NULL, -- 무승부/휴전
+    NULL
 );

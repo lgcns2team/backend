@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lgcns.haibackend.common.redis.RedisChatRepository;
 import com.lgcns.haibackend.user.domain.dto.UserRequestDTO;
 import com.lgcns.haibackend.user.domain.dto.UserResponseDTO;
+import com.lgcns.haibackend.user.domain.entity.UserEntity;
 import com.lgcns.haibackend.user.repository.RefreshTokenRepository;
 import com.lgcns.haibackend.user.service.UserService;
 import com.lgcns.haibackend.util.JwtProvider;
@@ -26,7 +27,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
@@ -95,5 +96,27 @@ public class AuthUserController {
 
         userService.deleteUser(userId);
         return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
+    }
+
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping("/teacher-code")
+    public ResponseEntity<Integer> getTeacherCode() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    
+        try {
+            // 토큰의 sub(UUID)를 가져와서 서비스 호출
+            UUID userId = UUID.fromString(auth.getName());
+            Integer teacherCode = userService.getTeacherCodeByUserId(userId);
+
+            return ResponseEntity.ok(teacherCode);
+
+        } catch (IllegalArgumentException e) {
+            // UUID 형식이 아닐 경우
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (RuntimeException e) {
+            // 사용자가 없거나 선생님이 아닐 경우 (위 서비스에서 던진 에러)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
     }
 }

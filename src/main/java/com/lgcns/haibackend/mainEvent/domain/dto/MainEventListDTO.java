@@ -63,25 +63,6 @@ public class MainEventListDTO {
                 .build();
     }
 
-    // country -> dto (title 이 null x)
-    public static MainEventListDTO fromCountry(CountryEntity country) {
-        if (country == null)
-            return null;
-
-        if (country.getTitle() == null || country.getTitle().isBlank()) {
-            return null;
-        }
-
-        return MainEventListDTO.builder()
-                .eventId(country.getCountryId())
-                .eventName(country.getTitle())
-                .year(country.getFoundationYear())
-                .countryName(country.getCountryName())
-                .summary(country.getSummary())
-                .type("COUNTRY")
-                .build();
-    }
-
     // capital -> dto (title 이 null x)
     public static MainEventListDTO fromCapital(CapitalEntity capital) {
         if (capital == null)
