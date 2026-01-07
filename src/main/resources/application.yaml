@@ -67,3 +67,7 @@ aws:
 
 fastapi:
   base-url: ${FASTAPI_BASE_URL:http://localhost:8000}
+
+moderation:
+  warn-ttl-seconds: 86400
+  mute-seconds: 300
