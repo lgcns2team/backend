@@ -7,6 +7,8 @@ import com.lgcns.haibackend.discussion.domain.dto.DebateRoomResponseDTO;
 import com.lgcns.haibackend.discussion.domain.dto.DebateStatus;
 import com.lgcns.haibackend.discussion.domain.dto.StatusSelectMessage;
 import com.lgcns.haibackend.discussion.service.DebateService;
+import com.lgcns.haibackend.moderation.dto.ModerationResult;
+import com.lgcns.haibackend.moderation.service.ModerationService;
 import com.lgcns.haibackend.util.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -47,6 +49,7 @@ public class DebateController {
     private final DebateService debateService;
     private final SimpMessagingTemplate messagingTemplate;
     private final JwtProvider jwtProvider;
+    private final ModerationService moderationService;
 
     @PostMapping("/room")
     public ResponseEntity<DebateRoomResponseDTO> createRoom(@RequestBody DebateRoomRequestDTO req,
@@ -178,12 +181,28 @@ public class DebateController {
 
         debateService.validateJoin(roomId, userId);
 
-        // status 저장
-        debateService.saveStatus(roomId, userId, msg.getStatus());
+        DebateStatus status = msg.getStatus();
 
-        if (headerAccessor.getSessionAttributes() != null) {
-            headerAccessor.getSessionAttributes().put("status", msg.getStatus().name());
+        // 1. 투표(User Vote) 관련 상태 처리
+        if (status == DebateStatus.PRO || status == DebateStatus.CON || status == DebateStatus.CANCEL) {
+            debateService.saveStatus(roomId, userId, status);
+
+            if (headerAccessor.getSessionAttributes() != null) {
+                if (status == DebateStatus.CANCEL) {
+                    headerAccessor.getSessionAttributes().remove("status");
+                } else {
+                    headerAccessor.getSessionAttributes().put("status", status.name());
+                }
+            }
         }
+        // 2. 시스템/운영(System Command) 관련 상태 처리
+        else if (status == DebateStatus.MODE_CHANGE) {
+            // 모드 변경은 서버 상태에도 반영
+            if (msg.getContent() != null) {
+                debateService.updateRoomMode(roomId, msg.getContent());
+            }
+        }
+        // ANONYMOUS, END_SESSION 등은 별도 서버 저장 로직 없이 브로드캐스트(Reflect)만 수행
 
         String nickname = (String) (headerAccessor.getSessionAttributes() != null
                 ? headerAccessor.getSessionAttributes().get("sender")
@@ -194,7 +213,8 @@ public class DebateController {
         ChatMessage out = ChatMessage.builder()
                 .type(ChatMessage.MessageType.STATUS)
                 .sender(nickname)
-                .status(msg.getStatus())
+                .status(status)
+                .content(msg.getContent()) // content 포함
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -214,19 +234,39 @@ public class DebateController {
 
         UUID userId = UUID.fromString(auth.getPrincipal().toString());
 
-
         debateService.validateJoin(roomId.toString(), userId);
 
         // status 선택 여부 확인
         DebateStatus status = debateService.requireStatusSelected(roomId.toString(), userId, headerAccessor);
         String sender = debateService.resolveNickname(userId, headerAccessor);
 
+        // moderation 체크
+        String content = incoming.getContent();
+        ModerationResult mr = moderationService.check(userId.toString(), content);
+
+        if (!mr.isAllowed()) {
+            // 해당 유저에게만 알림
+            messagingTemplate.convertAndSendToUser(
+                    userId.toString(),
+                    "/queue/moderation",
+                    Map.of(
+                            "type", "blocked",
+                            "notice", mr.getNotice(),
+                            "muteSecondsLeft", mr.getMuteSecondsLeft()
+                    )
+            );
+            return;
+        }
+
+        // 1회라면 마스킹된 content
+        String finalContent = mr.getContent();
+
         ChatMessage out = ChatMessage.builder()
                 .id(UUID.randomUUID().toString())
                 .parentId(incoming.getParentId())
                 .userId(userId)
                 .type(ChatMessage.MessageType.CHAT)
-                .content(incoming.getContent())
+                .content(finalContent)
                 .sender(sender)
                 .status(status)
                 .createdAt(LocalDateTime.now())
@@ -234,6 +274,15 @@ public class DebateController {
 
         debateService.appendMessage(roomId, out);
         messagingTemplate.convertAndSend("/topic/room/" + roomId, out);
+
+        // 개인에게 경고 안내
+        if (mr.getNotice() != null) {
+            messagingTemplate.convertAndSendToUser(
+                    userId.toString(),
+                    "/queue/moderation",
+                    Map.of("type", "warning", "notice", mr.getNotice())
+            );
+        }
     }
 
     @MessageMapping("/room/{roomId}/mode")

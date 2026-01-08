@@ -84,7 +84,7 @@ public class DebateService {
 
         DebateRoomEntity room = debateRoomRepository.findById(roomId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
-    
+
         UUID currentUserId = AuthUtils.getUserId(auth);
         if (!room.getTeacher().getUserId().equals(currentUserId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "방을 생성한 선생님만 삭제할 수 있습니다.");
@@ -147,7 +147,7 @@ public class DebateService {
         if (!debateRoomRepository.existsById(roomId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "room not found");
         }
-        
+
         String key = "debate:room:" + roomId.toString() + ":messages";
         int p = Math.max(0, page);
         int s = Math.max(1, Math.min(size, 200));
@@ -202,9 +202,8 @@ public class DebateService {
         UserClassInfo userInfo = userRepository.findClassInfoByUserId(userId);
         if (userInfo == null) {
             throw new ResponseStatusException(
-                HttpStatus.FORBIDDEN,
-                "Class information required"
-            );
+                    HttpStatus.FORBIDDEN,
+                    "Class information required");
         }
 
         if (userInfo.getTeacherCode() == null) {
@@ -237,7 +236,11 @@ public class DebateService {
 
     public void saveStatus(String roomId, UUID userId, DebateStatus status) {
         String key = "debate:room:" + roomId + ":status";
-        redisTemplate.opsForHash().put(key, userId.toString(), status.name());
+        if (status == DebateStatus.CANCEL) {
+            redisTemplate.opsForHash().delete(key, userId.toString());
+        } else {
+            redisTemplate.opsForHash().put(key, userId.toString(), status.name());
+        }
     }
 
     public DebateStatus requireStatusSelected(String roomId, UUID userId, SimpMessageHeaderAccessor headerAccessor) {

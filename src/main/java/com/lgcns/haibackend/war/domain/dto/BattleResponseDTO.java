@@ -27,6 +27,7 @@ public class BattleResponseDTO {
     private Double longitude;
     private String winnerGeneral;
     private String loserGeneral;
+    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate battleDate;
     private JsonNode markerRoute;  // JSON object
     private String routeColor;  // Route color (hex code)
