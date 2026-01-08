@@ -1,7 +1,6 @@
 package com.lgcns.haibackend.discussion.config;
 
 import com.lgcns.haibackend.common.security.StompAuthChannelInterceptor;
-import com.lgcns.haibackend.util.JwtProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lgcns.haibackend.bedrock.domain.dto.MessageDTO;
+import com.lgcns.haibackend.chatbot.domain.dto.MessageDTO;
 
 import lombok.RequiredArgsConstructor;
 

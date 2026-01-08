@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lgcns.haibackend.capital.domain.entity.CapitalEntity;
 import com.lgcns.haibackend.capital.repository.CapitalRepository;
-import com.lgcns.haibackend.country.repository.CountryRepository;
 import com.lgcns.haibackend.mainEvent.domain.dto.MainEventDetailDTO;
 import com.lgcns.haibackend.mainEvent.domain.dto.MainEventListDTO;
 import com.lgcns.haibackend.mainEvent.domain.entity.MainEventEntity;
@@ -27,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class MainEventService {
     
     private final MainEventRepository mainEventRepository;
-    private final CountryRepository countryRepository;
     private final CapitalRepository capitalRepository;
     private final WarRepository warRepository;
 

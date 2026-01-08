@@ -7,19 +7,19 @@ import com.lgcns.haibackend.discussion.domain.dto.DebateRoomResponseDTO;
 import com.lgcns.haibackend.discussion.domain.dto.DebateStatus;
 import com.lgcns.haibackend.discussion.domain.dto.StatusSelectMessage;
 import com.lgcns.haibackend.discussion.service.DebateService;
+import com.lgcns.haibackend.moderation.dto.ModerationResult;
+import com.lgcns.haibackend.moderation.service.ModerationService;
 import com.lgcns.haibackend.util.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -49,6 +49,7 @@ public class DebateController {
     private final DebateService debateService;
     private final SimpMessagingTemplate messagingTemplate;
     private final JwtProvider jwtProvider;
+    private final ModerationService moderationService;
 
     @PostMapping("/room")
     public ResponseEntity<DebateRoomResponseDTO> createRoom(@RequestBody DebateRoomRequestDTO req,
@@ -239,12 +240,33 @@ public class DebateController {
         DebateStatus status = debateService.requireStatusSelected(roomId.toString(), userId, headerAccessor);
         String sender = debateService.resolveNickname(userId, headerAccessor);
 
+        // moderation 체크
+        String content = incoming.getContent();
+        ModerationResult mr = moderationService.check(userId.toString(), content);
+
+        if (!mr.isAllowed()) {
+            // 해당 유저에게만 알림
+            messagingTemplate.convertAndSendToUser(
+                    userId.toString(),
+                    "/queue/moderation",
+                    Map.of(
+                            "type", "blocked",
+                            "notice", mr.getNotice(),
+                            "muteSecondsLeft", mr.getMuteSecondsLeft()
+                    )
+            );
+            return;
+        }
+
+        // 1회라면 마스킹된 content
+        String finalContent = mr.getContent();
+
         ChatMessage out = ChatMessage.builder()
                 .id(UUID.randomUUID().toString())
                 .parentId(incoming.getParentId())
                 .userId(userId)
                 .type(ChatMessage.MessageType.CHAT)
-                .content(incoming.getContent())
+                .content(finalContent)
                 .sender(sender)
                 .status(status)
                 .createdAt(LocalDateTime.now())
@@ -252,6 +274,15 @@ public class DebateController {
 
         debateService.appendMessage(roomId, out);
         messagingTemplate.convertAndSend("/topic/room/" + roomId, out);
+
+        // 개인에게 경고 안내
+        if (mr.getNotice() != null) {
+            messagingTemplate.convertAndSendToUser(
+                    userId.toString(),
+                    "/queue/moderation",
+                    Map.of("type", "warning", "notice", mr.getNotice())
+            );
+        }
     }
 
     @MessageMapping("/room/{roomId}/mode")
@@ -284,21 +315,4 @@ public class DebateController {
         messagingTemplate.convertAndSend("/topic/room/" + roomId, out);
     }
 
-    /**
-     * 토론 주제 추천 API
-     * AWS Bedrock Prompt를 통해 한국 역사 토론 주제를 추천받습니다.
-     */
-    @PostMapping("/topics/recommend")
-    public ResponseEntity<com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse> recommendTopics(
-            @RequestBody com.lgcns.haibackend.discussion.domain.dto.DebateTopicsRequest request) {
-        com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse response = debateService
-                .getDebateTopicRecommendations(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/room/{roomId}/analyze")
-    public ResponseEntity<com.lgcns.haibackend.discussion.domain.dto.DebateSummaryResponse> analyzeDebate(
-            @org.springframework.web.bind.annotation.PathVariable("roomId") UUID roomId) {
-        return ResponseEntity.ok(debateService.getDebateAnalysis(roomId));
-    }
 }
