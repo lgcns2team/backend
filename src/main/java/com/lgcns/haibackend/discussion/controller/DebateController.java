@@ -14,14 +14,12 @@ import com.lgcns.haibackend.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -317,21 +315,4 @@ public class DebateController {
         messagingTemplate.convertAndSend("/topic/room/" + roomId, out);
     }
 
-    /**
-     * 토론 주제 추천 API
-     * AWS Bedrock Prompt를 통해 한국 역사 토론 주제를 추천받습니다.
-     */
-    @PostMapping("/topics/recommend")
-    public ResponseEntity<com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse> recommendTopics(
-            @RequestBody com.lgcns.haibackend.discussion.domain.dto.DebateTopicsRequest request) {
-        com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse response = debateService
-                .getDebateTopicRecommendations(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/room/{roomId}/analyze")
-    public ResponseEntity<com.lgcns.haibackend.discussion.domain.dto.DebateSummaryResponse> analyzeDebate(
-            @org.springframework.web.bind.annotation.PathVariable("roomId") UUID roomId) {
-        return ResponseEntity.ok(debateService.getDebateAnalysis(roomId));
-    }
 }

@@ -1,12 +1,8 @@
 package com.lgcns.haibackend.user.domain.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.lgcns.haibackend.discussion.domain.entity.DebateRoomEntity;
 import com.lgcns.haibackend.global.Role;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
