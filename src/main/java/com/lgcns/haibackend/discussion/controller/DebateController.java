@@ -74,7 +74,7 @@ public class DebateController {
 
     @GetMapping("/room/{roomId}/messages")
     public ResponseEntity<List<ChatMessage>> getRoomMessages(
-            @PathVariable UUID roomId,
+            @PathVariable("roomId") UUID roomId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             Authentication auth) {
@@ -90,7 +90,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/join")
     public void join(
-            @DestinationVariable String roomId,
+            @DestinationVariable("roomId") String roomId,
             @Payload Map<String, String> payload,
             SimpMessageHeaderAccessor headerAccessor) {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) headerAccessor.getUser();
@@ -151,7 +151,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/status")
     public void selectStatus(
-            @DestinationVariable String roomId,
+            @DestinationVariable("roomId") String roomId,
             @Payload StatusSelectMessage msg,
             SimpMessageHeaderAccessor headerAccessor) {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) headerAccessor.getUser();
@@ -222,7 +222,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/chat")
     public void sendMessage(
-            @DestinationVariable UUID roomId,
+            @DestinationVariable("roomId") UUID roomId,
             @Payload ChatMessage incoming,
             SimpMessageHeaderAccessor headerAccessor) {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) headerAccessor.getUser();
@@ -256,7 +256,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/mode")
     public void updateMode(
-            @DestinationVariable String roomId,
+            @DestinationVariable("roomId") String roomId,
             @Payload Map<String, String> payload,
             SimpMessageHeaderAccessor headerAccessor) {
 
