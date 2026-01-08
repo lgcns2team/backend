@@ -14,14 +14,12 @@ import com.lgcns.haibackend.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -77,7 +75,7 @@ public class DebateController {
 
     @GetMapping("/room/{roomId}/messages")
     public ResponseEntity<List<ChatMessage>> getRoomMessages(
-            @PathVariable UUID roomId,
+            @PathVariable("roomId") UUID roomId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             Authentication auth) {
@@ -93,7 +91,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/join")
     public void join(
-            @DestinationVariable String roomId,
+            @DestinationVariable("roomId") String roomId,
             @Payload Map<String, String> payload,
             SimpMessageHeaderAccessor headerAccessor) {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) headerAccessor.getUser();
@@ -154,7 +152,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/status")
     public void selectStatus(
-            @DestinationVariable String roomId,
+            @DestinationVariable("roomId") String roomId,
             @Payload StatusSelectMessage msg,
             SimpMessageHeaderAccessor headerAccessor) {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) headerAccessor.getUser();
@@ -225,7 +223,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/chat")
     public void sendMessage(
-            @DestinationVariable UUID roomId,
+            @DestinationVariable("roomId") UUID roomId,
             @Payload ChatMessage incoming,
             SimpMessageHeaderAccessor headerAccessor) {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) headerAccessor.getUser();
@@ -289,7 +287,7 @@ public class DebateController {
 
     @MessageMapping("/room/{roomId}/mode")
     public void updateMode(
-            @DestinationVariable String roomId,
+            @DestinationVariable("roomId") String roomId,
             @Payload Map<String, String> payload,
             SimpMessageHeaderAccessor headerAccessor) {
 
@@ -317,21 +315,4 @@ public class DebateController {
         messagingTemplate.convertAndSend("/topic/room/" + roomId, out);
     }
 
-    /**
-     * 토론 주제 추천 API
-     * AWS Bedrock Prompt를 통해 한국 역사 토론 주제를 추천받습니다.
-     */
-    @PostMapping("/topics/recommend")
-    public ResponseEntity<com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse> recommendTopics(
-            @RequestBody com.lgcns.haibackend.discussion.domain.dto.DebateTopicsRequest request) {
-        com.lgcns.haibackend.discussion.domain.dto.DebateTopicsResponse response = debateService
-                .getDebateTopicRecommendations(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/room/{roomId}/analyze")
-    public ResponseEntity<com.lgcns.haibackend.discussion.domain.dto.DebateSummaryResponse> analyzeDebate(
-            @org.springframework.web.bind.annotation.PathVariable("roomId") UUID roomId) {
-        return ResponseEntity.ok(debateService.getDebateAnalysis(roomId));
-    }
 }
