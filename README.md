@@ -1,330 +1,209 @@
-# HAI Backend - 한국사 GeoJSON 시각화 API
+# H.AI Backend (Spring Boot)
 
-> **Spring Boot 기반 한국사 전쟁·전투 데이터 REST API**  
-> GeoJSON 이동경로 데이터를 활용한 역사 시각화 프로젝트 및 AWS Bedrock과 Knowledge Base를 활용한 Spring Boot 기반 AI 챗봇 백엔드 서비스
+본 저장소는 **H.AI (History AI)** 프로젝트의 **Spring Boot 기반 핵심 백엔드 레포지토리**입니다.
 
-## 프로젝트 개요
+H.AI는 한국사 데이터를 중심으로 국가·전쟁·전투·주요사건·무역·수도·인물(왕) 정보를 구조화하여 제공하고, 프론트엔드와 연동해 **지도 기반 역사 시각화**, **회원 관리**, **웹소켓 기반 실시간 토론**, **AI 역사 인물 서비스**를 구현하는 것을 목표로 합니다.
 
-780년~1392년 한국사의 주요 국가, 전쟁, 전투, 주요사건, 무역, 수도 등의 데이터를 제공하는 REST API입니다.
-전투 이동 경로는 GeoJSON LineString/MultiLineString 형식으로 PostgreSQL JSONB에 저장됩니다.
+## (1) 프로젝트 구성 안내
+### 프로젝트 개요
+H.AI는 “살아있는 역사 교과서”를 목표로 하는 역사 정보 플랫폼입니다.
 
-## 기술 스택
+본 백엔드 레포지토리는 다음 역할을 담당합니다.
 
-- **Java 17**
-- **Spring Boot 3.4.12**
-- **Spring Data JPA / Hibernate**
-- **PostgreSQL** (JSONB for GeoJSON)
-- **Lombok**
-- **Gradle 8.14.3**
+- 역사 도메인 데이터 제공 (국가, 전쟁, 전투, 주요 사건, 무역, 수도, 왕)
+- 지도 기반 시각화를 위한 위치 및 경로 데이터 제공
+- 회원 관리
+- 웹소켓 기반 실시간 토론 기능
+- AI 인물 및 챗봇 기능과 연계되는 서버 사이드 로직
 
-## 데이터베이스 구조
-
-### 핵심 엔티티
-
-#### 1. Country (국가)
-```
-- country_id (UUID, PK)
-- country_name (String)
-- foundation_year (Integer)
-- ended_year (Integer)
-```
-
-#### 2. War (전쟁)
-```
-- war_id (UUID, PK)
-- name (String)
-- details (String)
-- war_start_date (LocalDate)
-- war_end_date (LocalDate)
-- result (String)
-- summary (String)
-- attack_country_id (UUID, FK → Country)
-- defence_country_id (UUID, FK → Country)
-```
-
-#### 3. Battle (전투)
-```
-- battle_id (UUID, PK)
-- battle_name (String)
-- details (String)
-- latitude (Double)
-- longitude (Double)
-- winner_general (String)
-- loser_general (String)
-- battle_date (LocalDate)
-- marker_route (String/JSONB) ← GeoJSON 경로
-- war_id (UUID, FK → War)
-```
-
-#### 4. MainEvent (주요사건)
-```
-- event_id (UUID, PK)
-- event_name (String)
-- year (Integer)
-- era (String)
-- description (String/JSONB)
-- country_id (UUID, FK → Country)
-```
-
-#### 5. King (왕)
-```
-- king_id (UUID, PK)
-- king_name (String)
-- reign_start (LocalDate)
-- reign_end (LocalDate)
-- country_id (UUID, FK → Country)
-```
-
-#### 6. Capital (수도)
-```
-- capital_id (UUID, PK)
-- capital_name (String)
-- started_date (LocalDate)
-- ended_date (LocalDate)
-- latitude (Double)
-- longitude (Double)
-- country_id (UUID, FK → Country)
-```
-
-#### 7. Trade (무역)
-```
-- trade_id (UUID, PK)
-- trade_name (String)
-- start_year (Integer)
-- end_year (Integer)
-- start_country_id (UUID, FK → Country)
-- end_country_id (UUID, FK → Country)
-- trade_routes (OneToMany → TradeRoute)
-```
-
-#### 8. TradeRoute (무역경로)
-```
-- route_id (UUID, PK)
-- route_order (Integer)
-- markers (String/JSONB) ← 경유지 좌표
-- trade_id (UUID, FK → Trade)
-```
-
-## 프로젝트 구조
-
-```
-src/main/java/com/lgcns/haibackend/
-├── HaibackendApplication.java
-│
-├── war/ 
-│   ├── controller/
-│   ├── service/
-│   ├── repository/
-│   └── domain/
-│       ├── entity/
-│       └── dto/
-├── country/
-│   ├── controller/
-│   │   └── CountryController.java
-│   ├── ctrl/
-│   │   ├── CountryController.java
-│   │   └── TimelineController.java    ← 타임라인 API
-│   ├── service/
-│   │   └── CountryService.java
-│   ├── repository/
-│   │   └── CountryRepository.java
-│   └── domain/
-│       ├── entity/
-│       └── dto/
-│           ├── CountryRequestDTO.java
-│           └── CountryResponseDTO.java
-│
-├── mainevent/                    ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
-│   └── domain/
-│       └── entity/
-│           └── MainEventEntity.java
-│
-├── capital/                      ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
-│   └── domain/
-│       └── entity/
-│           └── CapitalEntity.java
-│
-├── trade/                        ⚠️ Entity만 존재 (Controller, Service, Repository, DTO 미구현)
-│   └── domain/
-│       └── entity/
-│           └── TradeEntity.java
-│
-├── traderoute/                   ⚠️ DTO만 존재 (Controller, Service, Repository 미구현)
-│   └── domain/
-│       ├── entity/
-│       └── dto/
-└── alliance/
-    └── domain/
-        └── entity/
-```
-
-## 구현 완료 API
-
-### 1. War API (전쟁)
-- `GET /api/wars` - 전쟁 목록 조회
-- `GET /api/wars/{id}` - 전쟁 상세 조회 (전투 목록 포함 가능)
-- `POST /api/wars` - 전쟁 생성
-- `PUT /api/wars/{id}` - 전쟁 수정
-- `DELETE /api/wars/{id}` - 전쟁 삭제
-
-### 2. Battle API (전투)
-- `GET /api/battles` - 전투 목록 조회
-- `GET /api/battles/{id}` - 전투 상세 조회 (GeoJSON 경로 포함)
-- `GET /api/battles/war/{warId}` - 특정 전쟁의 전투 목록
-- `GET /api/battles/search?name={name}` - 전투명 검색
-- `POST /api/battles` - 전투 생성
-- `PUT /api/battles/{id}` - 전투 수정
-- `DELETE /api/battles/{id}` - 전투 삭제
-
-### 3. Country API (국가)
-- `GET /api/countries` - 국가 목록 조회
-- `GET /api/countries/{id}` - 국가 상세 조회
-- `POST /api/countries` - 국가 생성
-- `PUT /api/countries/{id}` - 국가 수정
-- `DELETE /api/countries/{id}` - 국가 삭제
-
-### 4. Timeline API (타임라인)
-- `GET /api/timeline/events` - 전체 타임라인 이벤트 조회 (국가, 왕, 수도, 주요사건 통합)
-
-## 설치 및 실행
-
-### 1. 환경 변수 설정 (.env 파일)
-```env
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/your_db
-SPRING_DATASOURCE_USERNAME=your_username
-SPRING_DATASOURCE_PASSWORD=your_password
-```
-
-### 2. PostgreSQL 데이터베이스 생성
-```sql
-CREATE DATABASE your_db;
-```
-
-### 3. 프로젝트 기본 실행
-```bash
-# Gradle 빌드
-./gradlew clean build
-
-# Spring Boot 실행
-./gradlew bootRun
-```
-
-### 4. 타임라인 JSON 자동 생성
-실행 후 프로젝트 루트에 export/history-timeline.json 자동 생성
-```bash
-gradlew bootRun --args='--spring.profiles.active=timeline-export'
-```
-
-### 5. 초기 데이터 자동 로드
-SQL 파일들이 Spring Boot 시작 시 자동 실행됩니다.
-- `schema.sql`: UUID 기본값 및 스키마 생성
-- `data.sql`: 국가, 주요사건, 왕, 전쟁, 전투 초기 데이터 삽입
-- `update_battles.sql`: 전투 GeoJSON 경로 업데이트
-
-## GeoJSON 데이터 형식
-
-### LineString (단일 경로)
-```json
-{
-  "type": "LineString",
-  "coordinates": [
-    [127.18561, 37.14921],
-    [127.16227, 37.00567],
-    [127.13309, 36.83970]
-  ]
-}
-```
-
-### MultiLineString (복수 경로)
-```json
-{
-  "type": "MultiLineString",
-  "coordinates": [
-    [[126.97, 37.56], [127.19, 37.15]],
-    [[127.19, 37.15], [127.43, 37.08]]
-  ]
-}
-```
-
-## 주요 데이터 (780-1392년)
-
-### 국가
-- 통일신라 (668-935)
-- 발해 (698-926)
-- 후백제 (892-936)
-- 후고구려/태봉 (901-918)
-- 고려 (918-1392)
-- 당, 요, 송, 금, 원, 명
-- 일본, 여진, 홍건적, 왜구
-
-### 전쟁 (예시)
-- 후삼국 통일전쟁 (927-936)
-- 여요전쟁 (993-1019)
-- 여진정벌 (1107-1109)
-- 여몽전쟁(대몽항쟁) (1231-1273)
-- 홍건적의 침입 (1359-1362)
-- 왜구의 침입 (1350-1392)
-
-### 전투 (예시)
-- 공산전투 (927) - 견훤의 신라 왕경 침공
-- 고창전투 (930) - 왕건 vs 견훤
-- 귀주대첩 (1019) - 강감찬의 요군 격퇴
-- 충주성 전투 (1231) - 몽골군의 침공
-- 처인성 전투 (1232) - 살리타 사살
-- 황산대첩 (1380) - 최무선의 화포 활용
-- 진포대첩 (1380) - 최무선 vs 왜구
-
-## 추가 개발 필요 항목
-
-### 1. MainEvent (주요사건)
-- ✅ Entity, DTO 완료
-- ❌ Controller, Service, Repository 미구현
-- API: `/api/events` (예정)
-
-### 2. Capital (수도)
-- ✅ Entity, Repository 완료
-- ❌ Controller, Service, DTO 미구현
-- API: `/api/capitals` (예정)
-- 참고: TimelineService에서 Capital 데이터 조회 가능
-
-### 3. King (왕)
-- ✅ Entity, Repository 완료
-- ❌ Controller, Service, DTO 미구현
-- API: `/api/kings` (예정)
-- 참고: TimelineService에서 King 데이터 조회 가능
-
-### 4. Trade & TradeRoute (무역/무역경로)
-- ✅ Entity, DTO 완료
-- ❌ Controller, Service, Repository 미구현
-- API: `/api/trades`, `/api/trade-routes` (예정)
-
-### 5. Alliance (동맹)
-- 현재 주석 처리됨 - 사용 여부 결정 필요
-
-## 참고 문서
-
-- [API_GUIDE.md](./API_GUIDE.md) - REST API 상세 가이드 (curl 예제 포함)
-- [README_GeoJSON.md](./README_GeoJSON.md) - GeoJSON 데이터 구조 설명
-- [PROJECT_SETUP.md](./PROJECT_SETUP.md) - 프로젝트 완료 보고서
-
-## 🤝 기여
-
-프로젝트에 기여하시려면:
-1. develop 브랜치에서 작업
-2. 미완성 API 구현 (mainevent, capital, trade, king)
-3. 테스트 코드 작성
-4. Pull Request 생성
-
-## 📄 라이선스
-
-This project is licensed under the MIT License.
-
-## 팀
-
-- Repository: [lgcns2team/backend](https://github.com/lgcns2team/backend)
-- Branch: war (현재 작업 브랜치)
-- Main Branch: develop
+### 기술 스택
+- Java 17
+- Spring Boot 3.x
+- Spring Data JPA / Hibernate
+- WebSocket (STOMP)
+- PostgreSQL (JSONB 활용)
+- Redis (채팅, 세션, 제재 관리)
+- Gradle
 
 ---
 
-**마지막 업데이트:** 2025년 12월 4일
+## (2) 프로젝트 설치하는 방법
+### 1. 사전 요구 사항
+- JDK 17 이상
+- PostgreSQL
+- Redis
+- Gradle Wrapper 사용 가능 환경
+
+### 2. 환경 변수 설정
+```env
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/hai_db
+SPRING_DATASOURCE_USERNAME=your_username
+SPRING_DATASOURCE_PASSWORD=your_password
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
+
+### 3. 데이터베이스 생성
+```sql
+CREATE DATABASE hai_db;
+```
+
+### 4. 프로젝트 실행
+```bash
+./gradlew clean build
+./gradlew bootRun
+```
+
+## (3) 프로젝트 사용법
+
+### 기본 동작 방식
+
+- 프론트엔드는 본 API를 호출하여 다음 기능을 수행합니다.
+  - 지도 위에 역사 정보 표시
+  - 타임라인 기반 데이터 탐색
+  - 실시간 토론 참여
+- 인증된 사용자는 토론 참여 및 AI 인물과의 상호작용이 가능합니다.
+
+### 주요 접근 URL
+
+- REST API Base URL: `http://localhost:8081`
+- WebSocket Endpoint: `/ws`
+
+---
+
+## (4) 프로젝트 기능 설명
+
+### 1. 역사 데이터 제공
+
+다음 도메인 데이터를 REST API 형태로 제공합니다.
+
+- 국가 (Country)
+- 전쟁 (War)
+- 전투 (Battle)
+- 주요사건 (MainEvent)
+- 무역 및 무역 경로 (Trade, TradeRoute)
+- 수도 (Capital)
+- 인물 및 왕 (King)
+
+해당 데이터는 프론트엔드에서 지도 및 타임라인 UI와 연동되어 시각화됩니다.
+
+### 2. 지도 기반 시각화 지원
+
+- 전투 및 무역 이동 경로 데이터 제공
+- 좌표 및 경로 기반 정보 조회 지원
+
+### 3. 회원 관리
+
+- 회원 가입 및 로그인
+- 사용자 권한 관리
+
+### 4. 실시간 토론 기능
+
+- WebSocket(STOMP) 기반 실시간 토론
+- 역사 주제별 토론방 운영 가능
+- Redis를 활용한 메시지 처리 및 관리
+- 욕설/비속어 필터링 및 제재
+
+### 5. AI 인물 및 챗봇 연계
+
+- AI 역사 인물(aiPerson) 조회 기능
+- 챗봇(chatbot) 메세지 조회 기능 제공
+
+---
+
+## (5) 저작권 및 사용권 정보
+
+본 프로젝트는 학습 및 연구 목적의 프로젝트입니다.
+
+- 소스 코드는 MIT License를 따릅니다.
+- 역사 데이터의 해석 및 활용에 대한 책임은 사용자에게 있습니다.
+- 상업적 활용 시 출처 표기를 권장합니다.
+
+---
+
+## (6) 버그
+
+현재 알려진 이슈:
+
+- 일부 도메인 기능 고도화 필요
+- 대규모 실시간 토론 시 성능 최적화 필요
+- 지도 시각화 데이터 정합성 검증 강화 필요
+
+버그 제보 및 개선 요청은 GitHub Issues를 통해 관리합니다.
+
+---
+
+## (7) 프로그램 작성자 및 도움을 준 사람
+
+### 작성자
+
+- H.AI 프로젝트 팀
+
+### 참고 및 도움
+
+- 한국사 공개 자료 및 학술 데이터
+- Spring Boot, JPA, WebSocket 공식 문서
+- PostgreSQL 및 Redis 공식 문서
+
+---
+
+## (8) 버전 (업데이트 소식)
+
+### v0.1
+
+- 기본 역사 도메인(Entity) 설계
+- 국가 / 전쟁 / 전투 데이터 제공
+- 지도 기반 시각화 연계 구조 구축
+
+### v0.2
+
+- 회원 관리 기능 추가
+- 실시간 토론(WebSocket) 기능 추가
+- Redis 기반 메시지 및 제재 관리
+
+### v0.3 (예정)
+
+- AI 인물 및 챗봇 기능 고도화
+- 타임라인 및 지도 연계 성능 개선
+- API 문서화(OpenAPI) 추가
+
+---
+
+## (9) FAQ
+
+### Q. 이 레포지토리만으로 서비스가 동작하나요?
+
+A. 본 레포지토리는 핵심 백엔드 서버이며, 프론트엔드 및 AI 서비스와 함께 사용됩니다.
+
+### Q. 지도 시각화는 어디서 처리하나요?
+
+A. 지도 렌더링은 프론트엔드에서 담당하며, 본 서버는 좌표 및 경로 데이터를 제공합니다.
+
+### Q. 실시간 토론은 어떤 방식인가요?
+
+A. WebSocket(STOMP) 기반으로 구현되어 있으며, Redis를 활용해 메시지를 관리합니다.
+
+
+## 프로젝트 구조
+```pgsql
+src/main/java/com/lgcns/haibackend
+├── HaibackendApplication.java
+├── aiPerson
+├── capital
+├── chatbot
+├── common
+│   ├── redis
+├── country
+├── discussion
+├── global
+├── mainEvent
+├── moderation
+├── trade
+├── tradeRoute
+├── user
+├── util
+└── war
+```
+
+마지막 업데이트: 2026-01
