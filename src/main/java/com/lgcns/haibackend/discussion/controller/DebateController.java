@@ -204,6 +204,9 @@ public class DebateController {
                 debateService.updateRoomMode(roomId, msg.getContent());
             }
         }
+        if (status == DebateStatus.SUMMARY) {
+            // SUMMARY는 별도 저장 로직 없이 브로드캐스트
+        }
         // ANONYMOUS, END_SESSION 등은 별도 서버 저장 로직 없이 브로드캐스트(Reflect)만 수행
 
         String nickname = (String) (headerAccessor.getSessionAttributes() != null
@@ -213,7 +216,7 @@ public class DebateController {
             nickname = debateService.getNickName(userId);
 
         ChatMessage out = ChatMessage.builder()
-                .type(ChatMessage.MessageType.STATUS)
+                .type(status == DebateStatus.SUMMARY ? ChatMessage.MessageType.SUMMARY : ChatMessage.MessageType.STATUS)
                 .sender(nickname)
                 .status(status)
                 .content(msg.getContent()) // content 포함
@@ -254,9 +257,7 @@ public class DebateController {
                     Map.of(
                             "type", "blocked",
                             "notice", mr.getNotice(),
-                            "muteSecondsLeft", mr.getMuteSecondsLeft()
-                    )
-            );
+                            "muteSecondsLeft", mr.getMuteSecondsLeft()));
             return;
         }
 
@@ -267,7 +268,8 @@ public class DebateController {
                 .id(UUID.randomUUID().toString())
                 .parentId(incoming.getParentId())
                 .userId(userId)
-                .type(ChatMessage.MessageType.CHAT)
+                .type(incoming.getType() == ChatMessage.MessageType.SUMMARY ? ChatMessage.MessageType.SUMMARY
+                        : ChatMessage.MessageType.CHAT)
                 .content(finalContent)
                 .sender(sender)
                 .status(status)
@@ -282,8 +284,7 @@ public class DebateController {
             messagingTemplate.convertAndSendToUser(
                     userId.toString(),
                     "/queue/moderation",
-                    Map.of("type", "warning", "notice", mr.getNotice())
-            );
+                    Map.of("type", "warning", "notice", mr.getNotice()));
         }
     }
 

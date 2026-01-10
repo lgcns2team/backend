@@ -27,6 +27,6 @@ public class ChatMessage {
         CHAT,
         STATUS,
         JOIN,
-        LEAVE, MODE_CHANGE
+        LEAVE, MODE_CHANGE, SUMMARY
     }
 }
