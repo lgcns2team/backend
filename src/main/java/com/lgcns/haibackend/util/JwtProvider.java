@@ -4,13 +4,13 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.lgcns.haibackend.global.Role;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -21,7 +21,12 @@ public class JwtProvider {
     private static final long ACCESS_TOKEN_EXPIRATION_MS = 1000 * 60 * 60; 
     // Refresh Token 만료 시간 (7일)
     private static final long REFRESH_TOKEN_EXPIRATION_MS = 1000 * 60 * 60 * 24 * 7;
-    
+
+    // 토큰 종류 구분 claim (access / refresh)
+    public static final String CLAIM_TYPE = "type";
+    public static final String TYPE_ACCESS = "access";
+    public static final String TYPE_REFRESH = "refresh";
+
     @Value("${jwt.secret}")
     private String secret;
 
@@ -38,6 +43,7 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(userIdStr)
                 .claim("role", role)
+                .claim(CLAIM_TYPE, TYPE_ACCESS)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getStringKey())
@@ -53,6 +59,7 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(userIdStr)
                 .claim("role", role)
+                .claim(CLAIM_TYPE, TYPE_REFRESH)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getStringKey())
@@ -64,22 +71,30 @@ public class JwtProvider {
     }
 
     public String getUserIdFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getStringKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getSubject();
+        return parseClaims(token).getSubject();
     }
 
     // [추가] role을 추출하는 메서드입니다.
     public String getRoleFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
+        return parseClaims(token).get("role", String.class);
+    }
+
+    // 서명·만료 검증 후 access 토큰의 claims 반환 (refresh 토큰은 거부)
+    // type claim이 없는 기존 토큰은 access로 간주
+    public Claims parseAccessClaims(String token) {
+        Claims claims = parseClaims(token);
+        if (TYPE_REFRESH.equals(claims.get(CLAIM_TYPE, String.class))) {
+            throw new JwtException("Refresh token is not allowed");
+        }
+        return claims;
+    }
+
+    private Claims parseClaims(String token) {
+        return Jwts.parserBuilder()
                 .setSigningKey(getStringKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.get("role", String.class);
     }
 
     // 토큰 유효성 검사 메서드 (RefreshToken 재발급 로직에 필요)
