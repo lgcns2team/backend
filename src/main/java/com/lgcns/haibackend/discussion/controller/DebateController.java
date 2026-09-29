@@ -9,15 +9,15 @@ import com.lgcns.haibackend.discussion.domain.dto.StatusSelectMessage;
 import com.lgcns.haibackend.discussion.service.DebateService;
 import com.lgcns.haibackend.moderation.dto.ModerationResult;
 import com.lgcns.haibackend.moderation.service.ModerationService;
-import com.lgcns.haibackend.util.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,6 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,9 +45,15 @@ import org.springframework.web.server.ResponseStatusException;
 @Slf4j
 public class DebateController {
 
+    // 토론 진행(운영) 명령: 교사만 전송 가능
+    private static final Set<DebateStatus> TEACHER_ONLY_STATUSES = EnumSet.of(
+            DebateStatus.MODE_CHANGE,
+            DebateStatus.ANONYMOUS,
+            DebateStatus.END_SESSION,
+            DebateStatus.SUMMARY);
+
     private final DebateService debateService;
     private final SimpMessagingTemplate messagingTemplate;
-    private final JwtProvider jwtProvider;
     private final ModerationService moderationService;
 
     @PostMapping("/room")
@@ -100,28 +105,6 @@ public class DebateController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication required");
         }
 
-        if (auth == null && payload != null && payload.containsKey("token")) {
-            try {
-                String token = payload.get("token");
-                String userId = jwtProvider.getUserIdFromToken(token);
-                String role = jwtProvider.getRoleFromToken(token);
-
-                auth = new UsernamePasswordAuthenticationToken(
-                        userId,
-                        null,
-                        Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role)));
-
-                headerAccessor.setUser(auth);
-                if (headerAccessor.getSessionAttributes() != null) {
-                    headerAccessor.getSessionAttributes().put("STOMP_AUTH", auth);
-                }
-
-                log.info("임시 인증 처리: userId={}", userId);
-            } catch (Exception e) {
-                log.error("토큰 파싱 실패", e);
-            }
-        }
-
         UUID userId = UUID.fromString(auth.getPrincipal().toString());
 
         debateService.validateJoin(roomId, userId);
@@ -163,25 +146,13 @@ public class DebateController {
 
         UUID userId = UUID.fromString(auth.getPrincipal().toString());
 
-        // Fallback to session attributes
-        if (userId == null) {
-            Map<String, Object> session = headerAccessor.getSessionAttributes();
-            if (session != null && session.containsKey("userId")) {
-                try {
-                    userId = UUID.fromString((String) session.get("userId"));
-                } catch (Exception e) {
-                    // Ignore
-                }
-            }
-        }
-
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User ID not found");
-        }
-
         debateService.validateJoin(roomId, userId);
 
         DebateStatus status = msg.getStatus();
+
+        if (TEACHER_ONLY_STATUSES.contains(status)) {
+            debateService.validateTeacher(userId);
+        }
 
         // 1. 투표(User Vote) 관련 상태 처리
         if (status == DebateStatus.PRO || status == DebateStatus.CON || status == DebateStatus.CANCEL) {
@@ -264,12 +235,15 @@ public class DebateController {
         // 1회라면 마스킹된 content
         String finalContent = mr.getContent();
 
+        // SUMMARY 타입은 교사만 허용, 그 외에는 일반 채팅으로 저장
+        boolean summary = incoming.getType() == ChatMessage.MessageType.SUMMARY
+                && debateService.isTeacher(userId);
+
         ChatMessage out = ChatMessage.builder()
                 .id(UUID.randomUUID().toString())
                 .parentId(incoming.getParentId())
                 .userId(userId)
-                .type(incoming.getType() == ChatMessage.MessageType.SUMMARY ? ChatMessage.MessageType.SUMMARY
-                        : ChatMessage.MessageType.CHAT)
+                .type(summary ? ChatMessage.MessageType.SUMMARY : ChatMessage.MessageType.CHAT)
                 .content(finalContent)
                 .sender(sender)
                 .status(status)
@@ -302,7 +276,9 @@ public class DebateController {
 
         UUID userId = UUID.fromString(auth.getPrincipal().toString());
 
-        // Teacher validation could be added here
+        debateService.validateJoin(roomId, userId);
+        debateService.validateTeacher(userId);
+
         String newMode = payload.get("viewMode");
         if (newMode == null)
             return;
